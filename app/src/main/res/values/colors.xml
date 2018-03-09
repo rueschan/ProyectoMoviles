@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<resources>-->
+    <!--<color name="colorPrimary">#98DBC6</color>-->
+    <!--<color name="colorPrimaryDark">#5bc8ac</color>-->
+    <!--<color name="colorAccent">#E6D72A</color>-->
+    <!--<color name="colorContrast">#f18d9e</color>-->
+<!--</resources>-->
+<!--<resources>-->
+    <!--<color name="colorPrimary">#9A9EAB</color>-->
+    <!--<color name="colorPrimaryDark">#5D535E</color>-->
+    <!--<color name="colorAccent">#DFE166</color>-->
+    <!--<color name="colorContrast">#EC96A4</color>-->
+<!--</resources>-->
+<!--<resources>-->
+    <!--<color name="colorPrimary">#FFEB94</color>-->
+    <!--<color name="colorPrimaryDark">#FDD475</color>-->
+    <!--<color name="colorAccent">#FFCCAC</color>-->
+    <!--<color name="colorContrast">#C1E1DC</color>-->
+<!--</resources>-->
+<!--<resources>-->
+    <!--<color name="colorPrimary">#882D60</color>-->
+    <!--<color name="colorPrimaryDark">#661141</color>-->
+    <!--<color name="colorAccent">#39132F</color>-->
+    <!--<color name="colorContrast">#CC87AE</color>-->
+    <!--<color name="colorBase">#440026</color>-->
+<!--</resources>-->
+<!--<resources>-->
+    <!--<color name="colorPrimary">#882D60</color>-->
+    <!--<color name="colorPrimaryDark">#594D46</color>-->
+    <!--<color name="colorAccent">#D1B280</color>-->
+    <!--<color name="colorContrast">#CC87AE</color>-->
+    <!--<color name="colorBase">#440026</color>-->
+<!--</resources>-->
+<!--<resources>-->
+    <!--<color name="colorPrimary">#A49592</color>-->
+    <!--<color name="colorPrimaryDark">#727077</color>-->
+    <!--<color name="colorAccent">#eed8c9</color>-->
+    <!--<color name="colorContrast">#E99787</color>-->
+<!--</resources>-->
 <resources>
-    <color name="colorPrimary">#98DBC6</color>
-    <color name="colorPrimaryDark">#5BC8AC</color>
-    <color name="colorAccent">#E6D72A</color>
-    <color name="colorContrast">#f18d9e</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#862d63</color>
 </resources>
