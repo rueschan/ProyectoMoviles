@@ -41,6 +41,6 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/favoritos" />
+            app:srcCompat="@drawable/heart" />
     </LinearLayout>
 </FrameLayout>
