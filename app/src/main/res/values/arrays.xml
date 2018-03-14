@@ -9,10 +9,22 @@
     </string-array>
 
     <array name="menupictures">
-        <item>@drawable/closetpic</item>
-        <item>@drawable/jeans</item>
-        <item>@drawable/shoes</item>
         <item>@drawable/shirtshome</item>
+        <item>@drawable/jeans</item>
+        <item>@drawable/closetpic</item>
+        <item>@drawable/shoes</item>
+
+    </array>
+
+    <array name="shirts_pictures">
+        <item>@drawable/shirt1</item>
+        <item>@drawable/shirt2</item>
+        <item>@drawable/shirt3</item>
+        <item>@drawable/shirt4</item>
+        <item>@drawable/shirt5</item>
+        <item>@drawable/shirt6</item>
+        <item>@drawable/shirt7</item>
+        <item>@drawable/shirt8</item>
 
     </array>
 

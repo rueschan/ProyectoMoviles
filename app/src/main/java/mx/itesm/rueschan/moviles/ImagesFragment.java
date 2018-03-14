@@ -1,7 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,21 +14,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClosetFragment extends Fragment {
+public class ImagesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
-        ControllerAdapter adapter = new ControllerAdapter(recyclerView.getContext());
+        ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -44,39 +43,29 @@ public class ClosetFragment extends Fragment {
 
 
         public ImageView imageView;
-        public TextView textView;
+
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.closet_item, parent, false));
-            imageView = itemView.findViewById(R.id.title_img);
-            textView = itemView.findViewById(R.id.ettitle);
+            super(inflater.inflate(R.layout.closet_photos_items, parent, false));
+            imageView = itemView.findViewById(R.id.img);
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ImagesActivity.class);
-                    view.getContext().startActivity(intent);
-                }
-            });
         }
-
 
     }
 
-    public static class ControllerAdapter extends RecyclerView.Adapter<ViewHolder>{
+    public static class ControllerAdapter extends RecyclerView.Adapter<ImagesFragment.ViewHolder>{
 
-        private static final  int SIZE = 4;
-        private final String[] arrayTexto;
-        private final Drawable[] arrayPictures;
+        private final int SIZE;
+        private final Drawable[] arrayPicturesofClothes;
 
         public ControllerAdapter(Context context){
 
             Resources resources = context.getResources();
-            arrayTexto = resources.getStringArray(R.array.types);
-            TypedArray typedArray = resources.obtainTypedArray(R.array.menupictures);
-            arrayPictures = new Drawable[typedArray.length()];
-            for (int i = 0; i < arrayPictures.length; i++) {
-                arrayPictures[i] = typedArray.getDrawable(i);
+            TypedArray typedArray = resources.obtainTypedArray(R.array.shirts_pictures);
+            SIZE = typedArray.length();
+            arrayPicturesofClothes = new Drawable[typedArray.length()];
+            for (int i = 0; i < arrayPicturesofClothes.length; i++) {
+                arrayPicturesofClothes[i] = typedArray.getDrawable(i);
             }
             typedArray.recycle();
 
@@ -84,14 +73,13 @@ public class ClosetFragment extends Fragment {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        public ImagesFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ImagesFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.imageView.setImageDrawable(arrayPictures[position%arrayPictures.length]);
-            holder.textView.setText(arrayTexto[position%arrayTexto.length]);
+        public void onBindViewHolder(@NonNull ImagesFragment.ViewHolder holder, int position) {
+            holder.imageView.setImageDrawable(arrayPicturesofClothes[position%arrayPicturesofClothes.length]);
 
         }
 

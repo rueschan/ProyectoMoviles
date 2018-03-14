@@ -8,16 +8,14 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
-        >
+        android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +26,8 @@
         <activity
             android:name=".LoginActiv"
             android:label="@string/title_activity_login" />
-        <activity android:name=".PreferencesAct"></activity>
+        <activity android:name=".PreferencesAct" />
+        <activity android:name=".ImagesActivity"></activity>
     </application>
 
 </manifest>

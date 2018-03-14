@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -63,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Hello Snackbar!",
-                        Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(v.getContext(), ImagesActivity.class);
+                startActivity(intent);
+
             }
         });
     }
@@ -72,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new ClosetFragment(), "Closet");
+        adapter.addFragment(new ListaFrag(), "Favoritos");
+        adapter.addFragment(new ListaFrag(), "Sugeridos");
+
         viewPager.setAdapter(adapter);
 
     }
