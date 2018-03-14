@@ -41,5 +41,6 @@
     <color name="colorPrimary">#862d63</color>
     <color name="colorPrimaryDark">#862d63</color>
     <color name="colorAccent">#862d63</color>
+    <color name="colorCard">#ec96a4</color>
     <color name="mask">#424242</color>
 </resources>
