@@ -30,7 +30,7 @@ public class ImagesActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-//
+
 
 
     }
