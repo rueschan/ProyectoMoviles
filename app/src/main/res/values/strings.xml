@@ -27,4 +27,5 @@
     <string name="birth_Date_str">Birth Date</string>
     <string name="str_continue">Continue</string>
     <string name="str_favorite_outfits">Favorite Outfits</string>
+    <string name="outfit_name">Outfit Name</string>
 </resources>
