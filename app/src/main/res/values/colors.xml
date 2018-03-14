@@ -41,4 +41,6 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#862d63</color>
+    <color name="colorAccentLight">#c986af</color>
+    <color name="colorAccentDark">#430029</color>
 </resources>

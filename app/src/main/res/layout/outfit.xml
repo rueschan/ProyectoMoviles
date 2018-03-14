@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/colorAccent"
+    app:cardBackgroundColor="@color/colorAccentLight"
     app:cardCornerRadius="5dp"
     app:contentPadding="5dp">
 
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/cardTitle"
+            android:id="@+id/outfitName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Outfit Name"
@@ -26,7 +26,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView12"
+                android:id="@+id/coatImg"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
                 app:srcCompat="@drawable/ic_jacket" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/upperImg"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -42,7 +42,7 @@
                 app:srcCompat="@drawable/ic_blouse" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/bottomImg"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -50,7 +50,7 @@
                 app:srcCompat="@drawable/ic_big_skirt" />
 
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/shoesImg"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
