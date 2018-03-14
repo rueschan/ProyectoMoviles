@@ -3,6 +3,7 @@ package mx.itesm.rueschan.moviles;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -92,6 +93,16 @@ public class LoginActiv extends AppCompatActivity implements LoaderCallbacks<Cur
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void changeLogin(View v) {
+        Intent init = new Intent(this, MainActivity.class);
+        startActivity(init);
+    }
+
+    public void changeSignUp(View v) {
+        Intent init = new Intent(this, SignUpActiv.class);
+        startActivity(init);
     }
 
     private void populateAutoComplete() {

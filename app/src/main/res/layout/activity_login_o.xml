@@ -94,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@color/colorAccent"
+                    android:onClick="changeLogin"
                     android:text="@string/str_login"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="18sp"
@@ -104,6 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:onClick="changeSignUp"
                     android:text="@string/action_sign_in_short" />
 
             </LinearLayout>

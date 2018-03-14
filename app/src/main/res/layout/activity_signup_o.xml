@@ -122,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@color/colorAccent"
+                    android:onClick="changePref"
                     android:text="@string/title_activity_login"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
