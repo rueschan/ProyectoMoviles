@@ -38,7 +38,7 @@
     <!--<color name="colorContrast">#E99787</color>-->
 <!--</resources>-->
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#862d63</color>
 </resources>
