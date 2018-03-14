@@ -38,9 +38,8 @@
     <!--<color name="colorContrast">#E99787</color>-->
 <!--</resources>-->
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorPrimary">#862d63</color>
+    <color name="colorPrimaryDark">#862d63</color>
     <color name="colorAccent">#862d63</color>
-    <color name="colorAccentLight">#c986af</color>
-    <color name="colorAccentDark">#430029</color>
+    <color name="mask">#424242</color>
 </resources>

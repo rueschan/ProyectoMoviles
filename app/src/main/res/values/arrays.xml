@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="types">
+        <item>Top</item>
+        <item>Bottom</item>
+        <item>Coats</item>
+        <item>Shoes</item>
+    </string-array>
+
+    <array name="menupictures">
+        <item>@drawable/closetpic</item>
+        <item>@drawable/jeans</item>
+        <item>@drawable/shoes</item>
+        <item>@drawable/shirtshome</item>
+
+    </array>
+
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/title_img"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/closetpic" />
+
+    <ImageView
+        android:id="@+id/img_background"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:alpha="0.3"
+        android:background="@color/mask" />
+
+    <TextView
+        android:id="@+id/ettitle"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Closet"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+</RelativeLayout>
