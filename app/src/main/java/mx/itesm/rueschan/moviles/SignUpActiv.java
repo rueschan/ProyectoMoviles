@@ -93,6 +93,7 @@ public class SignUpActiv extends AppCompatActivity implements LoaderCallbacks<Cu
         mProgressView = findViewById(R.id.login_progress);
     }
 
+
     public void changePref(View v) {
         Intent init = new Intent(this, PreferencesAct.class);
         startActivity(init);
