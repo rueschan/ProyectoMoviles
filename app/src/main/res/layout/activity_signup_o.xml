@@ -124,7 +124,7 @@
                     android:background="@color/colorAccent"
                     android:onClick="changePref"
                     android:text="@string/title_activity_login"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/cardview_light_background"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

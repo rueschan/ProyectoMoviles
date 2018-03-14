@@ -343,12 +343,16 @@ public class LoginActiv extends AppCompatActivity implements LoaderCallbacks<Cur
             mAuthTask = null;
             showProgress(false);
 
+            Intent init = new Intent(LoginActiv.this, MainActivity.class);
+            startActivity(init);
+
             if (success) {
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override

@@ -99,6 +99,11 @@ public class SignUpActiv extends AppCompatActivity implements LoaderCallbacks<Cu
         startActivity(init);
     }
 
+    public void changeMain(View v) {
+        Intent init = new Intent(this, MainActivity.class);
+        startActivity(init);
+    }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

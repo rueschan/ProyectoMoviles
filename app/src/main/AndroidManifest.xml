@@ -25,6 +25,8 @@
         </activity>
 
         <activity android:name=".PreferencesAct" />
+        <activity android:name=".SignUpActiv" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".ImagesActivity"></activity>
     </application>
 
