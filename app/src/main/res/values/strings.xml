@@ -28,4 +28,5 @@
     <string name="str_continue">Continue</string>
     <string name="str_favorite_outfits">Favorite Outfits</string>
     <string name="outfit_name">Outfit Name</string>
+    <string name="str_name">Name</string>
 </resources>
