@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,7 +32,7 @@ public class SignUpAct extends AppCompatActivity {
     private RadioGroup rgGenderGroup;
     private RadioButton rbGender;
     private String email, name, password, gender;
-    //private int age;
+    private int age;
     private Date birth;
 
 
@@ -42,22 +43,76 @@ public class SignUpAct extends AppCompatActivity {
 
         edEmail = findViewById(R.id.email);
         edName = findViewById(R.id.name);
-        edPassword = findViewById(R.id.password);
+        edPassword = findViewById(R.id.password1);
         edBirth = findViewById(R.id.birth_date);
         rgGenderGroup = findViewById(R.id.genderGroup);
         rbGender = findViewById(R.id.btn_male);
+    }
+
+    /*private boolean isDateValid(Date date){
+        return
+    }*/
+
+    public void changeMain(View v) {
+        email = edEmail.getText().toString();
+        name = edName.getText().toString();
+        password = edPassword.getText().toString();
+        gender = selectGender();
+        getBirthDate();
+        //age =
+        //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age + "\n" + birth);
+
+        if (attemptRegister(name, email, password, gender))
+            new DBTarea().execute();
+        //Intent init = new Intent(this, MainActivity.class);
+        //startActivity(init);
+    }
+
+    private void saveUser(){
+        Database db = Database.getInstance(this);
+        int countUsers = db.userDAO().countUsersByEmail(email);
+        if (countUsers <= 0) {
+            User user = new User();
+            user.setName(edName.getText().toString());
+            user.setEmail(edEmail.getText().toString());
+            user.setAge(getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900));
+            user.setBirth(edBirth.getText().toString());
+            user.setPassword(edPassword.getText().toString());
+            user.setGender(selectGender());
+
+            //Database
+            db.userDAO().insertUsers(user);
+
+            Log.i("onResume", "Registros: " + db.userDAO().countUsers());
+            //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900) + "\n" + birth.toString());
+            //Log.i("Año", "Registros: " + db.userDAO().countUsers());
+            Database.destroyInstance();
+
+            Intent init = new Intent(this, LoginAct.class);
+            startActivity(init);
+        }
+        else{
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    edEmail.setError(getString(R.string.error_email_duplicate));
+                    //Toast error = Toast.makeText(getBaseContext(), "Email already registered in database", Toast.LENGTH_LONG);
+                    //error.show();
+                }
+            });
+
+        }
     }
 
     private boolean attemptRegister(String name, String email, String password, String gender) {
         // Reset errors.
         edEmail.setError(null);
         edPassword.setError(null);
-        edPassword.setError(null);
+        edName.setError(null);
         edBirth.setError(null);
         rbGender.setError(null);
 
         // Check for a valid password
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if ((!TextUtils.isEmpty(password) && !isPasswordValid(password)) || password.equals("")) {
             edPassword.setError(getString(R.string.error_invalid_password));
             return false;
         }
@@ -77,9 +132,9 @@ public class SignUpAct extends AppCompatActivity {
         }
 
         if (!getBirthDate()) {
-            edBirth.setError(getString(R.string.error_field_required));
-            Toast error = Toast.makeText(getBaseContext(), "Invalid date format: dd/MM-yyyy", Toast.LENGTH_LONG);
-            error.show();
+            edBirth.setError(getString(R.string.error_invalid_date));
+            //Toast error = Toast.makeText(getBaseContext(), "Invalid date format: dd/MM-yyyy", Toast.LENGTH_LONG);
+            //error.show();
             return false;
         }
 
@@ -98,53 +153,21 @@ public class SignUpAct extends AppCompatActivity {
         return password.length() > 4;
     }
 
-    /*private boolean isDateValid(Date date){
-        return
-    }*/
+    private int getAge(int day, int month, int year){
+        Calendar dob = Calendar.getInstance();
+        Calendar actualDate = Calendar.getInstance();
 
-    public void changeMain(View v) {
-        email = edEmail.getText().toString();
-        name = edName.getText().toString();
-        password = edPassword.getText().toString();
-        gender = selectGender();
+        dob.set(year, month, day);
 
-        if (attemptRegister(name, email, password, gender))
-            new DBTarea().execute();
-        //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age);
-        //Intent init = new Intent(this, MainActivity.class);
-        //startActivity(init);
-    }
+        int age = actualDate.get(Calendar.YEAR) - (dob.get(Calendar.YEAR));
 
-    private void saveUser(){
-        Database db = Database.getInstance(this);
-        int countUsers = db.userDAO().countUsersByEmail(email);
-        if (countUsers <= 0) {
-            User user = new User();
-            user.setName(edName.getText().toString());
-            user.setEmail(edEmail.getText().toString());
-            //user.setAge(getRealAge());
-            user.setPassword(edPassword.getText().toString());
-            user.setGender(selectGender());
-
-            //Database
-            db.userDAO().insertUsers(user);
-
-            Log.i("onResume", "Registros: " + db.userDAO().countUsers());
-            Database.destroyInstance();
-
-            Intent init = new Intent(this, LoginAct.class);
-            startActivity(init);
+        if (actualDate.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
         }
-        else{
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    edEmail.setError("Email already registered");
-                    Toast error = Toast.makeText(getBaseContext(), "Email already registered in database", Toast.LENGTH_LONG);
-                    error.show();
-                }
-            });
 
-        }
+        Integer realAge = new Integer(age);
+
+        return realAge;
     }
 
     private boolean getBirthDate(){
@@ -161,8 +184,6 @@ public class SignUpAct extends AppCompatActivity {
             //Log.i("fecha", birthDate.toString());
         }
     }
-
-
 
     public String selectGender(){
         int selectedGender = rgGenderGroup.getCheckedRadioButtonId();

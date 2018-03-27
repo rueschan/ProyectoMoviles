@@ -17,14 +17,19 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_email_exist">Email not registered in database</string>
+    <string name="error_password_incorrect">Incorrect password</string>
+    <string name="error_invalid_date">Invalid date format: dd/mm/yyyy</string>
+    <string name="error_email_duplicate">This email address is already registered</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_gender">Gender must be selected</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="str_login">Log In</string>
     <string name="str_password">password</string>
     <string name="title_activity_sign_log">SignLogActivity</string>
-    <string name="birth_Date_str">Birth Date</string>
+    <string name="birth_Date_str">Birth Date: dd/mm/yyyy</string>
     <string name="str_continue">Continue</string>
     <string name="str_favorite_outfits">Favorite Outfits</string>
     <string name="outfit_name">Outfit Name</string>

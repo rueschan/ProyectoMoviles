@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,11 +33,12 @@ public class User {
     @ColumnInfo(name = "password")
     private String password;
 
+
     @ColumnInfo(name = "birth")
-    private Date birth;
+    private String birth;
 
     @ColumnInfo(name = "age")
-    private int age = age = getAge(birth.getYear() + 1900 , birth.getMonth(), birth.getDay());
+    private int age;
 
 
     @ColumnInfo(name = "gender")
@@ -86,16 +90,15 @@ public class User {
         this.password = password;
     }
 
-    public Date getBirth() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
     public int getAge() {
-        age = getAge(birth.getYear() + 1900 , birth.getMonth(), birth.getDay());
         return age;
     }
 
@@ -111,20 +114,5 @@ public class User {
         this.gender = gender;
     }
 
-    private int getAge(int year, int month, int day){
-        Calendar dob = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
 
-        dob.set(year, month, day);
-
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
-            age--;
-        }
-
-        Integer ageInt = new Integer(age);
-
-        return ageInt;
-    }
 }

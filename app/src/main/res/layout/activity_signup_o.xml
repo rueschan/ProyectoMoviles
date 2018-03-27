@@ -80,18 +80,17 @@
                     android:layout_height="match_parent">
 
                     <EditText
-                        android:id="@+id/password"
+                        android:id="@+id/password1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autofillHints="..."
-                        android:hint="@string/action_sign_in_short"
+                        android:hint="@string/str_password"
                         android:imeActionId="6"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="Password" />
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 

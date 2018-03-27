@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -46,12 +47,15 @@ public class LoginAct extends AppCompatActivity {
 
     private void checkUser(String email, String password) {
         Database db = Database.getInstance(getApplicationContext());
+        //User user1 = db.userDAO().searchByEmail("tata@gmail.com");
+       // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());
         int countUsers = db.userDAO().countUsersByEmail(email);
             if (countUsers <= 0) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast error = Toast.makeText(getBaseContext(), "Email not registered in database", Toast.LENGTH_LONG);
-                        error.show();
+                        edEmail.setError(getString(R.string.error_email_exist));
+                        //Toast error = Toast.makeText(getBaseContext(), "Email not registered in database", Toast.LENGTH_LONG);
+                        //error.show();
                     }
                 });
 
@@ -71,8 +75,9 @@ public class LoginAct extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast errorPass = Toast.makeText(getBaseContext(), "Password entered is incorrect", Toast.LENGTH_LONG);
-                            errorPass.show();
+                            edPassword.setError(getString(R.string.error_incorrect_password));
+                            //Toast errorPass = Toast.makeText(getBaseContext(), "Password entered is incorrect", Toast.LENGTH_LONG);
+                            //errorPass.show();
                         }
                     });
                 }
