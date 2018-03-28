@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -23,11 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".PreferencesAct" />
         <activity android:name=".SignUpAct" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ImagesActivity"></activity>
+        <activity android:name=".ImagesActivity" />
+        <activity android:name=".TakePhoto"></activity>
     </application>
 
 </manifest>

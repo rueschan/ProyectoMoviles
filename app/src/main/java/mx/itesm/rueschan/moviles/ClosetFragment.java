@@ -24,6 +24,9 @@ import android.widget.TextView;
  */
 public class ClosetFragment extends Fragment {
 
+
+    public static String clicked;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class ClosetFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ImagesActivity.class);
+                    clicked = textView.getText().toString();
+                    System.out.println(textView.getText().toString());
                     view.getContext().startActivity(intent);
                 }
             });

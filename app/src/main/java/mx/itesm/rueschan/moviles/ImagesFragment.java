@@ -5,17 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.List;
+
+import mx.itesm.rueschan.moviles.Entidades.TopBD;
 
 
 /**
@@ -23,12 +34,21 @@ import android.widget.TextView;
  */
 public class ImagesFragment extends Fragment {
 
+    private Bitmap[] arrPhotos;
+    private RecyclerView recyclerView;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+        //RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
-        ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(recyclerView.getContext());
+        View v = inflater.inflate(R.layout.recycler_view, container, false);
+
+
+       recyclerView = v.findViewById(R.id.my_recycler_view);
+
+        ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(new Bitmap[]{});
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -36,14 +56,56 @@ public class ImagesFragment extends Fragment {
         recyclerView.setPadding(paddingInBetween, paddingInBetween, paddingInBetween, paddingInBetween);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        return recyclerView;
+        return v;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public void onStart() {
+        super.onStart();
+        new BDTarea().execute();
+
+    }
+
+    private Bitmap[] grabarDatos() {
+
+        DataBase db = DataBase.getInstance(getContext());
+        int numImages = db.topDAO().countByType(ClosetFragment.clicked);
+        System.out.println(numImages);
+        List<TopBD> clothes = db.topDAO().getAllPhotosByType(ClosetFragment.clicked);
+        arrPhotos = new Bitmap[numImages];
+        for (int i = 0; i < numImages; i++) {
+            TopBD tt = clothes.get(i);
+            arrPhotos[i] = decodificarImagen(tt);
+        }
+
+        return arrPhotos;
+
+    }
+
+    @NonNull
+    private Bitmap decodificarImagen(TopBD a) {
+        Bitmap bm = null;
+        try {
+            InputStream ent = getResources().getAssets().open("temp.png");
+            bm = BitmapFactory.decodeStream(ent);
+        } catch (IOException e) {
+            Log.i("cargaBD", "Error: " + e.getMessage());
+        }
+        int width = 128;
+        int height = 128;
+        Bitmap.Config configBmp = Bitmap.Config.valueOf(bm.getConfig().name());
+        Bitmap bitmap_tmp = Bitmap.createBitmap(width, height, configBmp);
+        ByteBuffer buffer = ByteBuffer.wrap(a.getFoto());
+        bitmap_tmp.copyPixelsFromBuffer(buffer);
+        return bitmap_tmp;
+    }
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
 
         public ImageView imageView;
-
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.closet_photos_items, parent, false));
@@ -53,23 +115,21 @@ public class ImagesFragment extends Fragment {
 
     }
 
-    public static class ControllerAdapter extends RecyclerView.Adapter<ImagesFragment.ViewHolder>{
 
-        private final int SIZE;
-        private final Drawable[] arrayPicturesofClothes;
+    public static class ControllerAdapter extends RecyclerView.Adapter<ImagesFragment.ViewHolder> {
 
-        public ControllerAdapter(Context context){
+        private static int SIZE;
+        private Bitmap[] arrPictures;
 
-            Resources resources = context.getResources();
-            TypedArray typedArray = resources.obtainTypedArray(R.array.shirts_pictures);
-            SIZE = typedArray.length();
-            arrayPicturesofClothes = new Drawable[typedArray.length()];
-            for (int i = 0; i < arrayPicturesofClothes.length; i++) {
-                arrayPicturesofClothes[i] = typedArray.getDrawable(i);
-            }
-            typedArray.recycle();
-
+        public ControllerAdapter(Bitmap[] arrPhotos) {
+            arrPictures = arrPhotos;
         }
+
+        public void setDatos(Bitmap[] arrPhotos){
+            arrPictures = arrPhotos;
+            SIZE = arrPhotos.length;
+        }
+
 
         @NonNull
         @Override
@@ -79,7 +139,12 @@ public class ImagesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ImagesFragment.ViewHolder holder, int position) {
-            holder.imageView.setImageDrawable(arrayPicturesofClothes[position%arrayPicturesofClothes.length]);
+
+            if(arrPictures.length==0){
+                holder.imageView.setImageResource(R.drawable.nocloset);
+            }else {
+                holder.imageView.setImageBitmap(arrPictures[position % arrPictures.length]);
+            }
 
         }
 
@@ -88,4 +153,26 @@ public class ImagesFragment extends Fragment {
             return SIZE;
         }
     }
+
+
+    class BDTarea extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            arrPhotos = grabarDatos();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            ImagesFragment.ControllerAdapter adapt = (ImagesFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrPhotos);
+            adapt.notifyDataSetChanged();
+
+        }
+    }
+
+
+
 }

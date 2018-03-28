@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.arch.persistence.room.Database;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import mx.itesm.rueschan.moviles.Entidades.User;
 
 
 /**
@@ -46,7 +49,9 @@ public class LoginAct extends AppCompatActivity {
     }
 
     private void checkUser(String email, String password) {
-        Database db = Database.getInstance(getApplicationContext());
+
+
+        DataBase db = DataBase.getInstance(getApplicationContext());
         //User user1 = db.userDAO().searchByEmail("tata@gmail.com");
        // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());
         int countUsers = db.userDAO().countUsersByEmail(email);

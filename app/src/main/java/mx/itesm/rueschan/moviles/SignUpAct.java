@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import mx.itesm.rueschan.moviles.Entidades.User;
+
 /**
  * Created by yusomalo on 26/03/18.
  */
@@ -69,7 +71,7 @@ public class SignUpAct extends AppCompatActivity {
     }
 
     private void saveUser(){
-        Database db = Database.getInstance(this);
+        DataBase db = DataBase.getInstance(this);
         int countUsers = db.userDAO().countUsersByEmail(email);
         if (countUsers <= 0) {
             User user = new User();
@@ -86,7 +88,7 @@ public class SignUpAct extends AppCompatActivity {
             Log.i("onResume", "Registros: " + db.userDAO().countUsers());
             //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900) + "\n" + birth.toString());
             //Log.i("Año", "Registros: " + db.userDAO().countUsers());
-            Database.destroyInstance();
+            DataBase.destroyInstance();
 
             Intent init = new Intent(this, LoginAct.class);
             startActivity(init);

@@ -22,17 +22,25 @@ public class ImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_images);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Top");
+        toolbar.setTitle(ClosetFragment.clicked);
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = findViewById(R.id.viewPagerPhotos);
         setUpView(viewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), TakePhoto.class));
+            }
+        });
 
-//
+    }
 
-
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
     private void setUpView(ViewPager viewPager) {
