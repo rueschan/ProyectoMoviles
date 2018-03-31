@@ -2,6 +2,7 @@ package mx.itesm.rueschan.moviles;
 
 import android.arch.persistence.room.Database;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,22 @@ public class LoginAct extends AppCompatActivity {
 
         edEmail = findViewById(R.id.email);
         edPassword = findViewById(R.id.password);
+
+        if (!primeraVez()) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    private boolean primeraVez(){
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean primeraVez = preferences.getBoolean("primera", false);
+        if (!primeraVez) {
+            // primera vez
+            SharedPreferences.Editor pref = preferences.edit();
+            pref.putBoolean("primera", true);
+            pref.commit();
+        }
+        return !primeraVez;
     }
 
     public void changeSignUp(View v) {
