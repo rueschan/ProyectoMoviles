@@ -1,4 +1,4 @@
-package mx.itesm.rueschan.moviles.Entidades;
+package mx.itesm.rueschan.moviles.EntidadesBD;
 
 
 
@@ -10,8 +10,8 @@ import android.arch.persistence.room.PrimaryKey;
  */
 
 
-@Entity(tableName = "Top")
-public class TopBD {
+@Entity(tableName = "Item")
+public class Item {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

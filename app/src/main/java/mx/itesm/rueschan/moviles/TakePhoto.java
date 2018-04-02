@@ -2,7 +2,6 @@ package mx.itesm.rueschan.moviles;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,8 @@ import android.widget.ImageView;
 
 import java.nio.ByteBuffer;
 
-import mx.itesm.rueschan.moviles.Entidades.TopBD;
+import mx.itesm.rueschan.moviles.EntidadesBD.Item;
+import mx.itesm.rueschan.moviles.BD.DataBase;
 
 public class TakePhoto extends AppCompatActivity {
 
@@ -67,15 +67,15 @@ public class TakePhoto extends AppCompatActivity {
 
     private void grabarDatos() {
 
-        TopBD bd = new TopBD();
+        Item bd = new Item();
         bd.setFoto(codificarImagen());
         bd.setColor("Azul");
         bd.setTipo(ClosetFragment.clicked);
 
         DataBase dataBase = DataBase.getInstance(this);
-        dataBase.topDAO().insertar(bd);
+        dataBase.itemDAO().insertar(bd);
 
-        System.out.println(dataBase.topDAO().countByType(ClosetFragment.clicked));
+        System.out.println(dataBase.itemDAO().countByType(ClosetFragment.clicked));
         DataBase.destroyInstance();
 
     }

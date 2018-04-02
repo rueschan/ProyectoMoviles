@@ -45,7 +45,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ImagesFragment(), "Top");
+        adapter.addFragment(new ImagesFragment(), "Item");
         viewPager.setAdapter(adapter);
 
     }

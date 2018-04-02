@@ -11,7 +11,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import mx.itesm.rueschan.moviles.Entidades.User;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
+import mx.itesm.rueschan.moviles.BD.DataBase;
 
 /**
  * Created by yusomalo on 26/03/18.

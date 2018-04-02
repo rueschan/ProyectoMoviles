@@ -1,4 +1,4 @@
-package mx.itesm.rueschan.moviles.Entidades;
+package mx.itesm.rueschan.moviles.EntidadesBD;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

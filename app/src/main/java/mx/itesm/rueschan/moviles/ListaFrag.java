@@ -20,14 +20,12 @@ public class ListaFrag extends Fragment
 {
     private RecyclerView rvOutfits;
     // Arreglos para el adaptador
-    private String[] outfitName;
-    private String[] username;
-    private String[] password;
-    private String[] arrNombres;
-    private String[] arrNacimientos;
-    private String[] arrApellidos;
-    private String[] color;
-    private Bitmap[] arrFotos;
+    private String[] arrIDs;
+    private String[] arrNames;
+    private Bitmap[] arrCoats;
+    private Bitmap[] arrUppers;
+    private Bitmap[] arrBottoms;
+    private Bitmap[] arrShoes;
 
 
     public ListaFrag() {
@@ -42,7 +40,7 @@ public class ListaFrag extends Fragment
         View v =  inflater.inflate(R.layout.fragment_lista, container, false);
         // Adaptador de prueba vacío
         rvOutfits = v.findViewById(R.id.rvOutfits);
-        AdaptadorRV adaptador = new AdaptadorRV(new String[]{}, new String[]{}, new String[]{}, new String[]{}, new String[]{}, null);
+        AdaptadorRV adaptador = new AdaptadorRV(new String[]{}, new String[]{}, null,null, null, null);
         rvOutfits.setAdapter(adaptador);
         rvOutfits.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -60,7 +58,7 @@ public class ListaFrag extends Fragment
 
 //    private void cargarDatos() {
 //        // BD
-//        BaseDatos bd = BaseDatos.getInstance(getContext());
+//        DataBase bd = DataBase.getInstance(getContext());
 //        int numAlumnos = bd.userDAO().contarUsuarios();
 //        Log.i("cragarDatos", "Registros: " + numAlumnos);
 //        List<User> users = bd.userDAO().leerTodos();
@@ -115,7 +113,7 @@ public class ListaFrag extends Fragment
         Log.i("cragarDatos", "Registros: " + numOutfits);
         // Crea los arreglos para el adaptador
         String[] names = {"Outfit Uno", "Outfit Dos", "Outfit Tres"};
-        outfitName = names;
+        arrNames = names;
     }
 
     // Para cargar los datos en segundo plano
@@ -132,7 +130,7 @@ public class ListaFrag extends Fragment
             super.onPostExecute(aVoid);
             // Nuevos datos para el adaptador
             AdaptadorRV adaptador = (AdaptadorRV) rvOutfits.getAdapter();
-            adaptador.setDatos(outfitName);
+            adaptador.setDatos(arrIDs);
             adaptador.notifyDataSetChanged();
         }
     }

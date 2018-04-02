@@ -6,7 +6,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import mx.itesm.rueschan.moviles.Entidades.User;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 /**
  * Created by yusomalo on 26/03/18.

@@ -1,13 +1,8 @@
 package mx.itesm.rueschan.moviles;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,14 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import mx.itesm.rueschan.moviles.Entidades.TopBD;
+import mx.itesm.rueschan.moviles.EntidadesBD.Item;
+import mx.itesm.rueschan.moviles.BD.DataBase;
 
 
 /**
@@ -69,12 +64,12 @@ public class ImagesFragment extends Fragment {
     private Bitmap[] grabarDatos() {
 
         DataBase db = DataBase.getInstance(getContext());
-        int numImages = db.topDAO().countByType(ClosetFragment.clicked);
+        int numImages = db.itemDAO().countByType(ClosetFragment.clicked);
         System.out.println(numImages);
-        List<TopBD> clothes = db.topDAO().getAllPhotosByType(ClosetFragment.clicked);
+        List<Item> clothes = db.itemDAO().getAllItemsByType(ClosetFragment.clicked);
         arrPhotos = new Bitmap[numImages];
         for (int i = 0; i < numImages; i++) {
-            TopBD tt = clothes.get(i);
+            Item tt = clothes.get(i);
             arrPhotos[i] = decodificarImagen(tt);
         }
 
@@ -83,7 +78,7 @@ public class ImagesFragment extends Fragment {
     }
 
     @NonNull
-    private Bitmap decodificarImagen(TopBD a) {
+    private Bitmap decodificarImagen(Item a) {
         Bitmap bm = null;
         try {
             InputStream ent = getResources().getAssets().open("temp.png");
