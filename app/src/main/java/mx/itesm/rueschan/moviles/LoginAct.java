@@ -37,9 +37,16 @@ public class LoginAct extends AppCompatActivity {
 
 
         if (!primeraVez()) {
-            startActivity(new Intent(this, MainActivity.class));
+            if(sesionIniciada())
+                startActivity(new Intent(this, MainActivity.class));
             //startActivity(new Intent(this, PreferencesAct.class));
         }
+    }
+
+    private boolean sesionIniciada() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean sesionInicida = preferences.getBoolean("sesion", false);
+        return sesionInicida;
     }
 
     @Override
@@ -107,6 +114,9 @@ public class LoginAct extends AppCompatActivity {
                             showProgress(true);
                         }
                     });*/
+
+                // registrar que se inicio la sesion
+
                 Intent init = new Intent(this, PreferencesAct.class);
                 startActivity(init);
             } else {
