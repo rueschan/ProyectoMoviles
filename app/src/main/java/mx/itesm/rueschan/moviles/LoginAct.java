@@ -36,6 +36,7 @@ public class LoginAct extends AppCompatActivity {
         edPassword.setText("");
 
 
+        System.out.println(primeraVez() + " " + sesionIniciada());
         if (!primeraVez()) {
             if(sesionIniciada())
                 startActivity(new Intent(this, MainActivity.class));
@@ -115,9 +116,14 @@ public class LoginAct extends AppCompatActivity {
                         }
                     });*/
 
-                // registrar que se inicio la sesion
+                //iniciar sesion
+                SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor pref = preferences.edit();
+                pref.putBoolean("sesion", true);
+                pref.commit();
 
-                Intent init = new Intent(this, PreferencesAct.class);
+                Intent init = new Intent(this, MainActivity.class);
+                init.putExtra("user",  user);
                 startActivity(init);
             } else {
                 runOnUiThread(new Runnable() {

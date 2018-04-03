@@ -81,7 +81,7 @@ public class SignUpAct extends AppCompatActivity {
             user.setBirth(edBirth.getText().toString());
             user.setPassword(edPassword.getText().toString());
             user.setGender(selectGender());
-            System.out.println(user.getColor() + " color");
+            //System.out.println(user.getColor() + " color");
             //Database
             db.userDAO().insertUsers(user);
 
