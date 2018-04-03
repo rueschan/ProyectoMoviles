@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Moviles.iml" filepath="$PROJECT_DIR$/Moviles.iml" />
       <module fileurl="file://C:\Users\Julio\StudioProjects\ProyectoMoviles\Moviles.iml" filepath="C:\Users\Julio\StudioProjects\ProyectoMoviles\Moviles.iml" />
-      <module fileurl="file://D:\Programas\AndroidProjects\Moviles\.idea\ProyectoMoviles.iml" filepath="D:\Programas\AndroidProjects\Moviles\.idea\ProyectoMoviles.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProyectoMoviles.iml" filepath="$PROJECT_DIR$/ProyectoMoviles.iml" />
       <module fileurl="file://D:\Programas\AndroidProjects\Moviles\ProyectoMoviles.iml" filepath="D:\Programas\AndroidProjects\Moviles\ProyectoMoviles.iml" />
+      <module fileurl="file://D:\Programas\AndroidProjects\Moviles\.idea\ProyectoMoviles.iml" filepath="D:\Programas\AndroidProjects\Moviles\.idea\ProyectoMoviles.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\Julio\StudioProjects\ProyectoMoviles\.idea\nuevoproyectos.iml" filepath="C:\Users\Julio\StudioProjects\ProyectoMoviles\.idea\nuevoproyectos.iml" />
     </modules>
