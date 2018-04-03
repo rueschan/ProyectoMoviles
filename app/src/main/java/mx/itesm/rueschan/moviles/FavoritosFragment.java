@@ -282,7 +282,12 @@ public class FavoritosFragment extends Fragment
             this.arrBottoms = bottomIDs;
             this.arrShoes = shoesIDs;
 
-            SIZE = arrIDs.length;
+            try {
+                SIZE = arrIDs.length;
+            } catch (NullPointerException e) {
+                Log.i("FavoritosFragment", "ControllerAdapter: Not existant data");
+                SIZE = 0;
+            }
         }
 
         @NonNull
@@ -328,7 +333,9 @@ public class FavoritosFragment extends Fragment
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
             adapt.notifyDataSetChanged();
 
-            ivT.setImageBitmap(arrBottoms[0]);
+            if (ControllerAdapter.SIZE > 0) {
+                ivT.setImageBitmap(arrBottoms[0]);
+            }
         }
     }
 }
