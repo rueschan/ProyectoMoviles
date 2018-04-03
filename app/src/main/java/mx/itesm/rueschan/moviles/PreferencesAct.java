@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -132,12 +133,12 @@ public class PreferencesAct extends AppCompatActivity {
         user.setColor(getColor());
         //System.out.println(user.getName() + " " + user.getColor());
         //iniciar sesion
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor pref = preferences.edit();
+        /*SharedPreferences prefs = getSharedPreferences("sesion", Context.MODE_PRIVATE);
+        SharedPreferences.Editor pref = prefs.edit();
         pref.putBoolean("sesion", true);
-        pref.commit();
+        pref.commit();*/
 
-        Intent init = new Intent(this, MainActivity.class);
+        Intent init = new Intent(this, LoginAct.class);
         startActivity(init);
     }
 

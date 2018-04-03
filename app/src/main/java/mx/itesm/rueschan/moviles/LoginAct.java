@@ -35,8 +35,7 @@ public class LoginAct extends AppCompatActivity {
         edEmail.setText("");
         edPassword.setText("");
 
-
-        System.out.println(primeraVez() + " " + sesionIniciada());
+        //System.out.println(primeraVez() + " *********** " + sesionIniciada());
         if (!primeraVez()) {
             if(sesionIniciada())
                 startActivity(new Intent(this, MainActivity.class));
