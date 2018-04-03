@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import mx.itesm.rueschan.moviles.EntidadesBD.User;
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 /**
  * Created by yusomalo on 26/03/18.
@@ -81,7 +81,7 @@ public class SignUpAct extends AppCompatActivity {
             user.setBirth(edBirth.getText().toString());
             user.setPassword(edPassword.getText().toString());
             user.setGender(selectGender());
-
+            System.out.println(user.getColor() + " color");
             //Database
             db.userDAO().insertUsers(user);
 
@@ -90,7 +90,10 @@ public class SignUpAct extends AppCompatActivity {
             //Log.i("Año", "Registros: " + db.userDAO().countUsers());
             DataBase.destroyInstance();
 
-            Intent init = new Intent(this, LoginAct.class);
+            Intent init = new Intent(this, PreferencesAct.class);
+            //startActivity(init);
+            init.putExtra("user",  user);
+            //startActivityForResult(init, REQUEST);
             startActivity(init);
         }
         else{
@@ -199,6 +202,10 @@ public class SignUpAct extends AppCompatActivity {
         return gender1;
     }
 
+    public void onBackPressed() {
+        finish();
+    }
+
     public void setBirth(Date birth) {
         this.birth = birth;
     }
@@ -217,6 +224,7 @@ public class SignUpAct extends AppCompatActivity {
             Log.i("onPost", "Dato grabado ********************");
         }
     }
+
 }
 
 

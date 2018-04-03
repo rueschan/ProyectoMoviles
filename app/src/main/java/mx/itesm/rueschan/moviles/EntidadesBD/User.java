@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,9 +17,9 @@ import java.util.Date;
  */
 
 @Entity(tableName = "User", indices = @Index(value = "email", unique = true))
-public class User {
+public class User implements Serializable {
 
-   @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     private int idUser;
 
     @ColumnInfo(name = "name")
@@ -27,8 +28,8 @@ public class User {
     @ColumnInfo(name = "email")
     private String email;
 
-    /*@ColumnInfo(name = "fColor")
-    private String fColor;*/
+    @ColumnInfo(name = "color")
+    private String color;
 
     @ColumnInfo(name = "password")
     private String password;
@@ -50,7 +51,7 @@ public class User {
 
     // Getter && Setter
 
-   public int getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
@@ -65,15 +66,15 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-/*
-    public String getfColor() {
-        return fColor;
+
+    public String getColor() {
+        return color;
     }
 
-    public void setfColor(String fColor) {
-        this.fColor = fColor;
+    public void setColor(String fColor) {
+        this.color = fColor;
     }
-*/
+
     public String getEmail() {
         return email;
     }
@@ -113,5 +114,6 @@ public class User {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
 
 }

@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import mx.itesm.rueschan.moviles.EntidadesBD.User;
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 
 /**
@@ -32,9 +32,24 @@ public class LoginAct extends AppCompatActivity {
         edEmail = findViewById(R.id.email);
         edPassword = findViewById(R.id.password);
 
+        edEmail.setText("");
+        edPassword.setText("");
+
+
         if (!primeraVez()) {
             startActivity(new Intent(this, MainActivity.class));
+            //startActivity(new Intent(this, PreferencesAct.class));
         }
+    }
+
+    @Override
+    protected void onResume() {
+
+        edEmail.setText("");
+        edPassword.setText("");
+
+        super.onResume();
+
     }
 
     private boolean primeraVez(){
@@ -51,8 +66,10 @@ public class LoginAct extends AppCompatActivity {
 
     public void changeSignUp(View v) {
         Intent init = new Intent(this, SignUpAct.class);
+        //super.onRestart();
         startActivity(init);
     }
+
 
     public void changeMain(View v) {
         email = edEmail.getText().toString();
@@ -68,40 +85,40 @@ public class LoginAct extends AppCompatActivity {
 
         DataBase db = DataBase.getInstance(getApplicationContext());
         //User user1 = db.userDAO().searchByEmail("tata@gmail.com");
-       // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());
+        // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());
         int countUsers = db.userDAO().countUsersByEmail(email);
-            if (countUsers <= 0) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        edEmail.setError(getString(R.string.error_email_exist));
-                        //Toast error = Toast.makeText(getBaseContext(), "Email not registered in database", Toast.LENGTH_LONG);
-                        //error.show();
-                    }
-                });
+        if (countUsers <= 0) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    edEmail.setError(getString(R.string.error_email_exist));
+                    //Toast error = Toast.makeText(getBaseContext(), "Email not registered in database", Toast.LENGTH_LONG);
+                    //error.show();
+                }
+            });
 
-            } else {
-                User user = new User();
-                user.setEmail(email);
-                user.setPassword(password);
-                String pass = db.userDAO().searchPasswordByEmail(email);
-                if (password.equals(pass)) {
+        } else {
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            String pass = db.userDAO().searchPasswordByEmail(email);
+            if (password.equals(pass)) {
                     /*runOnUiThread(new Runnable() {
                         public void run() {
                             showProgress(true);
                         }
                     });*/
-                    Intent init = new Intent(this, MainActivity.class);
-                    startActivity(init);
-                } else {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            edPassword.setError(getString(R.string.error_incorrect_password));
-                            //Toast errorPass = Toast.makeText(getBaseContext(), "Password entered is incorrect", Toast.LENGTH_LONG);
-                            //errorPass.show();
-                        }
-                    });
-                }
+                Intent init = new Intent(this, PreferencesAct.class);
+                startActivity(init);
+            } else {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        edPassword.setError(getString(R.string.error_incorrect_password));
+                        //Toast errorPass = Toast.makeText(getBaseContext(), "Password entered is incorrect", Toast.LENGTH_LONG);
+                        //errorPass.show();
+                    }
+                });
             }
+        }
     }
 
     private boolean attemptLogin(String email, String password) {
