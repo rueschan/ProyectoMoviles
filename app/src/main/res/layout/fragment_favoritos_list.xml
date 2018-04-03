@@ -12,27 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/edFavorite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/str_favorite_outfits"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvFavOutfit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
-
-        <ImageView
-            android:id="@+id/ivTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_launcher_background" />
 
     </LinearLayout>
 

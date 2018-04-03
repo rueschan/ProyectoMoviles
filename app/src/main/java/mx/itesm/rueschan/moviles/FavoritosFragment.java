@@ -45,8 +45,6 @@ public class FavoritosFragment extends Fragment
     private int shoeID;
     private Bitmap[] arrShoes;
 
-    ImageView ivT;
-
     public FavoritosFragment() {
         // Required empty public constructor
     }
@@ -72,8 +70,6 @@ public class FavoritosFragment extends Fragment
                 );
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        ivT = v.findViewById(R.id.ivTest);
 
         return v;
     }
@@ -332,10 +328,6 @@ public class FavoritosFragment extends Fragment
             FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
             adapt.notifyDataSetChanged();
-
-            if (ControllerAdapter.SIZE > 0) {
-                ivT.setImageBitmap(arrBottoms[0]);
-            }
         }
     }
 }
