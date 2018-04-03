@@ -16,7 +16,7 @@ import mx.itesm.rueschan.moviles.EntidadesBD.User;
 /**
  * Created by IRV1 on 26/03/18.
  */
-@Database(entities = {Item.class, User.class, Outfit.class}, version = 4)
+@Database(entities = {Item.class, User.class, Outfit.class}, version = 5)
 public abstract class DataBase extends RoomDatabase{
 
     private static DataBase INSTANCE;
@@ -28,6 +28,7 @@ public abstract class DataBase extends RoomDatabase{
     public abstract UserDAO userDAO();
 
     public static DataBase getInstance(Context contexto) {
+        Log.i("DB","Get Instance");
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(contexto.getApplicationContext(),
                     DataBase.class ,
@@ -38,14 +39,17 @@ public abstract class DataBase extends RoomDatabase{
     }
 
     public static DataBase getInstance() {
+        Log.i("DB","Get Instance");
         if (INSTANCE == null) {
-            Log.i("Obtener instancia BD", "No existe la instancia BD.");
+            Log.e("BD", "Instance Doesn't Exist");
             return null;
         }
         return INSTANCE;
     }
 
     public static void destroyInstance() {
+        Log.i("DB","Destroy Instance");
+//        INSTANCE.close();
         INSTANCE = null;
     }
 

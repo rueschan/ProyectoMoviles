@@ -20,7 +20,7 @@ public class ListaFrag extends Fragment
 {
     private RecyclerView rvOutfits;
     // Arreglos para el adaptador
-    private String[] arrIDs;
+    private int[] arrIDs;
     private String[] arrNames;
     private Bitmap[] arrCoats;
     private Bitmap[] arrUppers;
@@ -36,11 +36,12 @@ public class ListaFrag extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("ListFrag", "Enter");
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_lista, container, false);
         // Adaptador de prueba vacío
         rvOutfits = v.findViewById(R.id.rvOutfits);
-        AdaptadorRV adaptador = new AdaptadorRV(new String[]{}, new String[]{}, null,null, null, null);
+        AdaptadorRV adaptador = new AdaptadorRV(new int[]{}, new String[]{}, null,null, null, null);
         rvOutfits.setAdapter(adaptador);
         rvOutfits.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -110,7 +111,7 @@ public class ListaFrag extends Fragment
     // Método de prueba
     private void cargarDatosTest() {
         int numOutfits = 3;
-        Log.i("cragarDatos", "Registros: " + numOutfits);
+        Log.i("ListaFrag", "Cargar Datos(Test) :: Registros: " + numOutfits);
         // Crea los arreglos para el adaptador
         String[] names = {"Outfit Uno", "Outfit Dos", "Outfit Tres"};
         arrNames = names;
@@ -130,7 +131,7 @@ public class ListaFrag extends Fragment
             super.onPostExecute(aVoid);
             // Nuevos datos para el adaptador
             AdaptadorRV adaptador = (AdaptadorRV) rvOutfits.getAdapter();
-            adaptador.setDatos(arrIDs);
+            adaptador.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
             adaptador.notifyDataSetChanged();
         }
     }

@@ -36,12 +36,11 @@ public class ImagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+        Log.i("ImagesFragment", "Enter");
 
         View v = inflater.inflate(R.layout.recycler_view, container, false);
 
-
-       recyclerView = v.findViewById(R.id.my_recycler_view);
+        recyclerView = v.findViewById(R.id.my_recycler_view);
 
         ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(new Bitmap[]{});
         recyclerView.setAdapter(adapter);
@@ -65,7 +64,7 @@ public class ImagesFragment extends Fragment {
 
         DataBase db = DataBase.getInstance(getContext());
         int numImages = db.itemDAO().countByType(ClosetFragment.clicked);
-        System.out.println(numImages);
+        Log.i("ImagesFragment", "Quantity of " + ClosetFragment.clicked + ">> " + numImages);
         List<Item> clothes = db.itemDAO().getAllItemsByType(ClosetFragment.clicked);
         arrPhotos = new Bitmap[numImages];
         for (int i = 0; i < numImages; i++) {
@@ -80,36 +79,35 @@ public class ImagesFragment extends Fragment {
     @NonNull
     private Bitmap decodificarImagen(Item a) {
         Bitmap bm = null;
+
         try {
             InputStream ent = getResources().getAssets().open("temp.png");
             bm = BitmapFactory.decodeStream(ent);
         } catch (IOException e) {
-            Log.i("cargaBD", "Error: " + e.getMessage());
+            Log.i("BD (ImagesFragment)", "Error: " + e.getMessage());
         }
         int width = 128;
         int height = 128;
         Bitmap.Config configBmp = Bitmap.Config.valueOf(bm.getConfig().name());
         Bitmap bitmap_tmp = Bitmap.createBitmap(width, height, configBmp);
+
         ByteBuffer buffer = ByteBuffer.wrap(a.getFoto());
+
         bitmap_tmp.copyPixelsFromBuffer(buffer);
+        Log.i("ImagesFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
     }
 
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
 
         public ImageView imageView;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.closet_photos_items, parent, false));
             imageView = itemView.findViewById(R.id.img);
-
         }
 
     }
-
 
     public static class ControllerAdapter extends RecyclerView.Adapter<ImagesFragment.ViewHolder> {
 
@@ -123,6 +121,10 @@ public class ImagesFragment extends Fragment {
         public void setDatos(Bitmap[] arrPhotos){
             arrPictures = arrPhotos;
             SIZE = arrPhotos.length;
+
+            for (int i = 0; i < SIZE; i++) {
+                System.out.println(arrPictures[i].toString());
+            }
         }
 
 
@@ -135,7 +137,7 @@ public class ImagesFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ImagesFragment.ViewHolder holder, int position) {
 
-            if(arrPictures.length==0){
+            if(arrPictures.length == 0){
                 holder.imageView.setImageResource(R.drawable.nocloset);
             }else {
                 holder.imageView.setImageBitmap(arrPictures[position % arrPictures.length]);

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class ClosetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("ClosetFragment", "Enter");
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
         ControllerAdapter adapter = new ControllerAdapter(recyclerView.getContext());
@@ -57,7 +59,7 @@ public class ClosetFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ImagesActivity.class);
                     clicked = textView.getText().toString();
-                    System.out.println(textView.getText().toString());
+                    Log.i("ClosetFragment", "Clicked on: " + textView.getText().toString());
                     view.getContext().startActivity(intent);
                 }
             });

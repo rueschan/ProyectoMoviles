@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +32,9 @@ import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
  */
 public class FavoritosFragment extends Fragment
 {
-    private RecyclerView favOutfitList;
+    private RecyclerView recyclerView;
     // Arreglos para el adaptador
-    private String[] arrIDs;
+    private int[] arrIDs;
     private String[] arrNames;
     private int coatID;
     private Bitmap[] arrCoats;
@@ -41,7 +44,8 @@ public class FavoritosFragment extends Fragment
     private Bitmap[] arrBottoms;
     private int shoeID;
     private Bitmap[] arrShoes;
-    private Item itemTemp;
+
+    ImageView ivT;
 
     public FavoritosFragment() {
         // Required empty public constructor
@@ -50,14 +54,26 @@ public class FavoritosFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Log.i("FavoritosFragment", "Enter");
+
         View v =  inflater.inflate(R.layout.fragment_favoritos_list, container, false);
-        // Adaptador de prueba vacío
-        favOutfitList = v.findViewById(R.id.rvFavOutfit);
-        AdaptadorRV adaptador = new AdaptadorRV(new String[]{}, new String[]{}, null,null, null, null);
-        System.out.println(">>> " + favOutfitList.toString());
-        favOutfitList.setAdapter(adaptador);
-        favOutfitList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerView = v.findViewById(R.id.rvFavOutfit);
+//        AdaptadorRV adaptador = new AdaptadorRV(new int[]{}, new String[]{}, null,null, null, null);
+//        System.out.println(">>> " + recyclerView.toString());
+//        recyclerView.setAdapter(adaptador);
+        FavoritosFragment.ControllerAdapter adapter = new FavoritosFragment.ControllerAdapter(
+                new int[]{},
+                new String[]{},
+                new Bitmap[]{},
+                new Bitmap[]{},
+                new Bitmap[]{},
+                new Bitmap[]{}
+                );
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ivT = v.findViewById(R.id.ivTest);
 
         return v;
     }
@@ -66,8 +82,7 @@ public class FavoritosFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-
-        new mx.itesm.rueschan.moviles.FavoritosFragment.BDOutfit().execute();
+        new BDOutfit().execute();
     }
 
 
@@ -75,25 +90,30 @@ public class FavoritosFragment extends Fragment
         // BD
         DataBase bd = DataBase.getInstance(getContext());
         int numOutfits = bd.outfitDAO().countOutfits();
-        Log.i("cargarDatos", "Registros: " + numOutfits);
+        Log.i("FavoritosFragment", "Cargar Datos :: Registros: " + numOutfits);
         List<Outfit> outfits = bd.outfitDAO().readAll();
+
         // Crea los arreglos para el adaptador
-        arrIDs = new String[numOutfits];
+        arrIDs = new int[numOutfits];
         arrNames = new String[numOutfits];
         arrCoats = new Bitmap[numOutfits];
-
         arrUppers = new Bitmap[numOutfits];
         arrBottoms = new Bitmap[numOutfits];
         arrShoes = new Bitmap[numOutfits];
+
+        Outfit temp;
+        Item itemTemp;
         // Procesa cada registro
         for (int i = 0; i< outfits.size(); i++) {
-            Outfit temp = outfits.get(i);
-            arrNames[i] = temp.getName()+"";
+            temp = outfits.get(i);
+
+            arrIDs[i] = temp.getId();
+            arrNames[i] = temp.getName();
 
             // Leer id y buscar foto de coat
             coatID = temp.getCoatID();
-            itemTemp = bd.itemDAO().getItemById(upperID).get(0);
-            arrUppers[i] = decodificarImagen(itemTemp);
+            itemTemp = bd.itemDAO().getItemById(coatID).get(0);
+            arrCoats[i] = decodificarImagen(itemTemp);
 
             // Leer id y buscar foto de coat
             upperID = temp.getUpperID();
@@ -102,16 +122,75 @@ public class FavoritosFragment extends Fragment
 
             // Leer id y buscar foto de coat
             bottomId = temp.getBottomID();
-            itemTemp = bd.itemDAO().getItemById(upperID).get(0);
-            arrUppers[i] = decodificarImagen(itemTemp);
+            itemTemp = bd.itemDAO().getItemById(bottomId).get(0);
+            arrBottoms[i] = decodificarImagen(itemTemp);
 
             // Leer id y buscar foto de coat
             shoeID = temp.getShoesID();
-            itemTemp = bd.itemDAO().getItemById(upperID).get(0);
-            arrUppers[i] = decodificarImagen(itemTemp);
+            itemTemp = bd.itemDAO().getItemById(shoeID).get(0);
+            arrShoes[i] = decodificarImagen(itemTemp);
 
-            Log.i("BD", temp.toString());
+            Log.i("BD (FavoritosFragment)", temp.toString());
         }
+
+        DataBase.destroyInstance();
+    }
+
+    // Método de prueba
+    private void cargarDatosTest() {
+        // BD
+        DataBase bd = DataBase.getInstance(getContext());
+
+        // Ver en consola los items que existen
+        List<Item> items = bd.itemDAO().getAllItems();
+
+        if (items.size() < 4) return;
+
+        for (Item i: items) {
+            System.out.println("Image: " + i.getFoto());
+        }
+
+        int numOutfits = 1;
+        Log.i("FavoritosFragment", "Cargar Datos(Test) :: Registros: " + numOutfits);
+        Outfit temp = new Outfit("Test", 1, 2, 3, 4);
+
+        // Crea los arreglos para el adaptador
+        arrIDs = new int[numOutfits];
+        arrNames = new String[numOutfits];
+        arrCoats = new Bitmap[numOutfits];
+        arrUppers = new Bitmap[numOutfits];
+        arrBottoms = new Bitmap[numOutfits];
+        arrShoes = new Bitmap[numOutfits];
+
+        arrIDs[0] = temp.getId();
+        arrNames[0] = temp.getName();
+
+        Item itemTemp;
+        // Leer id y buscar foto de coat
+        coatID = temp.getCoatID();
+        itemTemp = bd.itemDAO().getItemById(coatID).get(0);
+        System.out.println(itemTemp.toString());
+        arrCoats[0] = decodificarImagen(itemTemp);
+
+        // Leer id y buscar foto de coat
+        upperID = temp.getUpperID();
+        itemTemp = bd.itemDAO().getItemById(upperID).get(0);
+        System.out.println(itemTemp.toString());
+        arrUppers[0] = decodificarImagen(itemTemp);
+
+        // Leer id y buscar foto de coat
+        bottomId = temp.getBottomID();
+        itemTemp = bd.itemDAO().getItemById(bottomId).get(0);
+        System.out.println(itemTemp.toString());
+        arrBottoms[0] = decodificarImagen(itemTemp);
+
+        // Leer id y buscar foto de coat
+        shoeID = temp.getShoesID();
+        itemTemp = bd.itemDAO().getItemById(shoeID).get(0);
+        System.out.println(itemTemp.toString());
+        arrShoes[0] = decodificarImagen(itemTemp);
+
+        Log.i("BD (FavoritosFragment)", temp.toString());
 
         DataBase.destroyInstance();
     }
@@ -119,13 +198,13 @@ public class FavoritosFragment extends Fragment
 //     Crea el bitmap a partir del arreglo de bytes
     @NonNull
     private Bitmap decodificarImagen(Item item) {
-
         Bitmap bm = null;
+
         try {
-            InputStream ent = getActivity().getResources().getAssets().open("temp.png");
+            InputStream ent = getResources().getAssets().open("temp.png");
             bm = BitmapFactory.decodeStream(ent);
         } catch (IOException e) {
-            Log.i("cargaBD", "Error: " + e.getMessage());
+            Log.i("BD (FavoritosFragment)", "Error: " + e.getMessage());
         }
         int width = 128;
         int height = 128;
@@ -135,25 +214,109 @@ public class FavoritosFragment extends Fragment
         ByteBuffer buffer = ByteBuffer.wrap(item.getFoto());
 
         bitmap_tmp.copyPixelsFromBuffer(buffer);
+        Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
     }
 
-    // Método de prueba
-//    private void cargarDatosTest() {
-//        int numOutfits = 3;
-//        Log.i("cargarDatos", "Registros: " + numOutfits);
-//        // Crea los arreglos para el adaptador
-//        String[] names = {"Outfit Uno", "Outfit Dos", "Outfit Tres"};
-//        arrNames = names;
-//    }
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private FloatingActionButton btn;
+
+        private TextView outfitName;
+
+        private ImageView coatIv;
+        private ImageView upperIv;
+        private ImageView bottomIv;
+        private ImageView shoesIv;
+
+        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.outfit_card, parent, false));
+
+            outfitName = itemView.findViewById(R.id.outfitName);
+
+            coatIv = itemView.findViewById(R.id.coatImg);
+            upperIv = itemView.findViewById(R.id.upperImg);
+            bottomIv = itemView.findViewById(R.id.bottomImg);
+            shoesIv = itemView.findViewById(R.id.shoesImg);
+
+            btn = itemView.findViewById(R.id.favBtn);
+
+//            holder.btn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    coatToSave = arrCoats[position];
+//                    upperToSave = arrUppers[position];
+//                    bottomToSave = arrBottoms[position];
+//                    shoesToSave = arrShoes[position];
+//
+//                    new BDOutfit().execute();
+//                }
+//            });
+        }
+
+    }
+
+    public static class ControllerAdapter extends RecyclerView.Adapter<FavoritosFragment.ViewHolder> {
+
+        private static int SIZE;
+        private int[] arrIDs;
+        private String[] arrNames;
+        private Bitmap[] arrCoats;
+        private Bitmap[] arrUppers;
+        private Bitmap[] arrBottoms;
+        private Bitmap[] arrShoes;
+
+        public ControllerAdapter(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+            this.arrIDs = ids;
+            this.arrNames = names;
+            this.arrCoats = coatIDs;
+            this.arrUppers = upperIDs;
+            this.arrBottoms = bottomIDs;
+            this.arrShoes = shoesIDs;
+        }
+
+        public void setDatos(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+            this.arrIDs = ids;
+            this.arrNames = names;
+            this.arrCoats = coatIDs;
+            this.arrUppers = upperIDs;
+            this.arrBottoms = bottomIDs;
+            this.arrShoes = shoesIDs;
+
+            SIZE = arrIDs.length;
+        }
+
+        @NonNull
+        @Override
+        public FavoritosFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new FavoritosFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull FavoritosFragment.ViewHolder holder, int position) {
+
+            if(arrNames.length > 0) {
+                holder.outfitName.setText(arrNames[position]);
+
+                holder.coatIv.setImageBitmap(arrCoats[position]);
+                holder.upperIv.setImageBitmap(arrUppers[position]);
+                holder.bottomIv.setImageBitmap(arrBottoms[position]);
+                holder.shoesIv.setImageBitmap(arrShoes[position]);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return SIZE;
+        }
+    }
 
     // Para cargar los datos en segundo plano
     class BDOutfit extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected Void doInBackground(Void... voids) {
-//            cargarDatosTest();
-            cargarDatos();
+            cargarDatosTest();
+//            cargarDatos();
             return null;
         }
 
@@ -161,9 +324,11 @@ public class FavoritosFragment extends Fragment
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             // Nuevos datos para el adaptador
-            AdaptadorRV adaptador = (AdaptadorRV) favOutfitList.getAdapter();
-            adaptador.setDatos(arrIDs);
-            adaptador.notifyDataSetChanged();
+            FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
+            adapt.notifyDataSetChanged();
+
+            ivT.setImageBitmap(arrBottoms[0]);
         }
     }
 }

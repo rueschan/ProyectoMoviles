@@ -6,6 +6,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 /**
  * Created by Rubén Escalante on 13/03/2018.
@@ -44,6 +45,19 @@ public class Outfit {
             childColumns = "shoesID")
     @ColumnInfo(name = "shoes")
     private int shoesID;
+
+    public Outfit(){
+        Log.i("Outfit", "Success on creation");
+    }
+
+    public Outfit(String name, int coatID, int upperID, int bottomID, int shoesID) {
+        this.name = name;
+        this.coatID = coatID;
+        this.upperID = upperID;
+        this.bottomID = bottomID;
+        this.shoesID = shoesID;
+        Log.i("Outfit", "Success on creation");
+    }
 
     @NonNull
     public int getId() {
@@ -96,7 +110,7 @@ public class Outfit {
 
     @Override
     public String toString() {
-        return name + " (" + id + ") : Coat-" + coatID + ", Upper-" + upperID + ", Bottom-" +
-                bottomID + ", Shoes-" + shoesID;
+        return name + " (" + id + ") : Coat> " + coatID + ", Upper> " + upperID + ", Bottom> " +
+                bottomID + ", Shoes> " + shoesID;
     }
 }

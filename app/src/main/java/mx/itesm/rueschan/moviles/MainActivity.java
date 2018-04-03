@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
         adapter.addFragment(new FavoritosFragment(), "Favoritos");
-        adapter.addFragment(new ListaFrag(), "Sugeridos");
+        adapter.addFragment(new FavoritosFragment(), "Sugeridos");
 
         viewPager.setAdapter(adapter);
 

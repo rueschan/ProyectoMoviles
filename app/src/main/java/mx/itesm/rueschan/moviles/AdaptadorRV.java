@@ -29,7 +29,7 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
     ViewGroup vista;
 
     // DATOS
-    private String[] arrIDs;
+    private int[] arrIDs;
     private String[] arrNames;
     private Bitmap[] arrCoats;
     private Bitmap[] arrUppers;
@@ -41,56 +41,53 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
     private Bitmap bottomToSave;
     private Bitmap shoesToSave;
 
-    public AdaptadorRV(String[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+    public AdaptadorRV(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
         arrIDs = ids;
         arrNames = names;
         arrCoats = coatIDs;
         arrUppers = upperIDs;
         arrBottoms = bottomIDs;
         arrShoes = shoesIDs;
+
+        System.out.println(" +++++++++++++++++++++ Crear clase");
+        for (int i = 0; i < ids.length; i++) {
+            System.out.println("ADAPTADOR >>>>> " + arrIDs[i] + " " + arrNames[i] + " " + arrCoats[i] + " " + arrUppers[i] + " " + arrBottoms[i] + " " + arrShoes[i]);
+        }
     }
 
-    public AdaptadorRV(String[] outfitIDs) {
-        arrIDs = outfitIDs;
-    }
-
-    public void setDatos(String[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+    public void setDatos(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
         arrIDs = ids;
         arrNames = names;
         arrCoats = coatIDs;
         arrUppers = upperIDs;
         arrBottoms = bottomIDs;
         arrShoes = shoesIDs;
-    }
 
-    public void setDatos(String[] outfitIDs) {
-        arrIDs = outfitIDs;
+        System.out.println("++++++++++++++++++++++ setDatos");
+        System.out.println(arrIDs.length);
+        System.out.println(arrNames.length);
+        System.out.println(arrCoats.length);
+        System.out.println(arrUppers.length);
+
+        for (int i = 0; i < ids.length; i++) {
+            System.out.println("ADAPTADOR >>>>> " + arrIDs[i] + " " + arrNames[i] + " " + arrCoats[i] + " " + arrUppers[i] + " " + arrBottoms[i] + " " + arrShoes[i]);
+        }
     }
 
     @Override
     public Vista onCreateViewHolder(ViewGroup parent, int viewType) {
-        vista = parent;
-        CardView tarjeta = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.outfit_card, parent, false);
-
-        return new Vista(tarjeta);  // Un renglón de la lista
+        return new Vista(LayoutInflater.from(parent.getContext()), parent);
     }
 
     @Override
     public void onBindViewHolder(Vista holder, final int position) {
-        CardView card = holder.tarjeta;
-        TextView outfitName = card.findViewById(R.id.outfitName);
-        ImageView coat = card.findViewById(R.id.coatImg);
-        ImageView upper = card.findViewById(R.id.upperImg);
-        ImageView bottom = card.findViewById(R.id.bottomImg);
-        ImageView shoes = card.findViewById(R.id.shoesImg);
 
-        coat.setImageBitmap(arrCoats[position]);
-        upper.setImageBitmap(arrUppers[position]);
-        bottom.setImageBitmap(arrBottoms[position]);
-        shoes.setImageBitmap(arrShoes[position]);
+        holder.outfitName.setText(arrNames[position]);
 
-        outfitName.setText(arrNames[position]);
+        holder.coatIv.setImageBitmap(arrCoats[position]);
+        holder.upperIv.setImageBitmap(arrUppers[position]);
+        holder.bottomIv.setImageBitmap(arrBottoms[position]);
+        holder.shoesIv.setImageBitmap(arrShoes[position]);
 
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +111,26 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
     }
 
     public class Vista extends RecyclerView.ViewHolder {
-        private CardView tarjeta;
         private FloatingActionButton btn;
 
-        public Vista(CardView v) {
-            super(v);
-            this.tarjeta = v;
-            btn = v.findViewById(R.id.favBtn);
+        private TextView outfitName;
+
+        private ImageView coatIv;
+        private ImageView upperIv;
+        private ImageView bottomIv;
+        private ImageView shoesIv;
+
+        public Vista(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.outfit_card, parent, false));
+
+            outfitName = itemView.findViewById(R.id.outfitName);
+
+            coatIv = itemView.findViewById(R.id.coatImg);
+            upperIv = itemView.findViewById(R.id.upperImg);
+            bottomIv = itemView.findViewById(R.id.bottomImg);
+            shoesIv = itemView.findViewById(R.id.shoesImg);
+
+            btn = itemView.findViewById(R.id.favBtn);
         }
     }
 
@@ -134,6 +144,8 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
         Item bottom = dataBase.itemDAO().getItemByPhoto(codificarImagen(bottomToSave)).get(0);
         Item shoe = dataBase.itemDAO().getItemByPhoto(codificarImagen(shoesToSave)).get(0);
 
+        outfit.setName("Outfit");
+
         outfit.setCoatID(coat.getId());
         outfit.setUpperID(upper.getId());
         outfit.setBottomID(bottom.getId());
@@ -142,10 +154,11 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
         if (dataBase != null) {
             dataBase.outfitDAO().insertOutfits(outfit);
 
-            System.out.println(dataBase.outfitDAO().countOutfits());
+            System.out.println("Quantity of outfits: " + dataBase.outfitDAO().countOutfits());
+            Log.i("DB", "Saved Data: " + outfit.toString());
             DataBase.destroyInstance();
         } else {
-            Log.i("ERROR SAVING INTO DB", "DB points null");
+            Log.e("DB", "DB points null");
         }
 
     }
