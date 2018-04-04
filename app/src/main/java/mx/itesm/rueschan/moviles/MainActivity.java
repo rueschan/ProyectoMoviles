@@ -49,11 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        fab.animate()
-                                .translationY(fab.getHeight())
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
+
+                        fab.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
                         fab.animate()
@@ -63,11 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         fab.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        fab.animate()
-                                .translationY(fab.getHeight())
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
+
+                        fab.setVisibility(View.INVISIBLE);
                         break;
                 }
 
@@ -142,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FavoritosFragment(), "Sugeridos");
 
         viewPager.setAdapter(adapter);
+
 
     }
 
