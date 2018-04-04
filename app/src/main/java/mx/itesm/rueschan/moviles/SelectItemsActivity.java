@@ -1,18 +1,23 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -23,14 +28,16 @@ import android.view.animation.Animation;
 import java.util.ArrayList;
 import java.util.List;
 
+import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
 
-public class MainActivity extends AppCompatActivity {
+
+public class SelectItemsActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    private ViewPager viewPager;
     private Toolbar toolbar;
+    private ViewPager viewPager;
     private FloatingActionButton fab;
-    private int currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,47 +48,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-            public void onPageSelected(int position) {
-
-                switch (position) {
-                    case 0:
-                        fab.animate()
-                                .translationY(fab.getHeight())
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
-                        break;
-                    case 1:
-                        fab.animate()
-                                .translationY(0)
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
-                        break;
-                    case 2:
-                        fab.animate()
-                                .translationY(fab.getHeight())
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
-                        break;
-                }
-
-            }
-        });
-
-
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBar supportActionBar = getSupportActionBar();
 
-        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
+        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
 
         // Set behavior of Navigation drawer
         navigationView.setNavigationItemSelectedListener(
@@ -92,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                         // Set item in checked state
                         menuItem.setChecked(true);
 
-                        // TODO: handle navigation
-
                         // Closing drawer on item click
                         mDrawerLayout.closeDrawers();
                         return true;
@@ -103,44 +73,64 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setAlpha(1.0f);
 
-        currentFragment = viewPager.getCurrentItem();
-
         fab.animate()
                 .translationY(fab.getHeight())
                 .alpha(1.0f)
                 .setListener(null);
-        fab.setVisibility(View.INVISIBLE);
+        fab.setVisibility(View.VISIBLE);
+        fab.setImageDrawable(ContextCompat.getDrawable(SelectItemsActivity.this, R.drawable.ic_save));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int currentFragment = viewPager.getCurrentItem();
+                if (ClosetFragment.tempOutfit != null && ClosetFragment.tempOutfit.isFull()) {
 
-                Intent intent;
-                switch (currentFragment) {
-                    case 0:
-                        intent = new Intent(v.getContext(), ImagesActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
-                        intent = new Intent(v.getContext(), SelectItemsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        break;
+                    new AlertDialog.Builder(SelectItemsActivity.this)
+                        .setMessage("Are you sure you want to save these clothes?")
+                        .setTitle("Ready to save")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK button
+                                new BDTarea().execute();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK button
+                            }
+                        })
+                        .create().show();
+
+                } else {
+
+                    new AlertDialog.Builder(SelectItemsActivity.this)
+                        .setMessage("You are still missing some clothes!")
+                        .setTitle("Wait!")
+                        .create().show();
+
                 }
 
             }
         });
     }
 
+    private void guardarOutfit(){
+        Outfit guardable = ClosetFragment.tempOutfit;
+
+        DataBase dataBase = DataBase.getInstance(this);
+        dataBase.outfitDAO().insertOutfits(guardable);
+
+        Log.i("SelectItemsActivity", "...................Guardado en BD: " + guardable.toString());
+
+        ClosetFragment.tempOutfit = null;
+        DataBase.destroyInstance();
+
+    }
+
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new FavoritosFragment(), "Favoritos");
-        adapter.addFragment(new FavoritosFragment(), "Sugeridos");
+        adapter.addFragment(new ClosetFragment(), "Select your clothes");
 
         viewPager.setAdapter(adapter);
 
@@ -193,9 +183,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        finish();
+    }
+
+    class BDTarea extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            guardarOutfit();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            onBackPressed();
+        }
     }
 }

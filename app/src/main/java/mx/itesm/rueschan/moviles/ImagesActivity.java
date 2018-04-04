@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,10 +30,33 @@ public class ImagesActivity extends AppCompatActivity {
         setUpView(viewPager);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+            fab.setImageDrawable(ContextCompat.getDrawable(ImagesActivity.this, R.drawable.ic_save));
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), TakePhoto.class));
+                if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                    String selected = ClosetFragment.clicked;
+                    int id = ImagesFragment.selectedID;
+
+                    String[] types = getApplicationContext().getResources().getStringArray(R.array.types);
+
+                    if (selected.equals(types[0])) {
+                        ClosetFragment.tempOutfit.setUpperID(id);
+                    } else if (selected.equals(types[1])) {
+                        ClosetFragment.tempOutfit.setBottomID(id);
+                    } else if (selected.equals(types[2])) {
+                        ClosetFragment.tempOutfit.setCoatID(id);
+                    } else if (selected.equals(types[3])) {
+                        ClosetFragment.tempOutfit.setShoesID(id);
+                    }
+                    onBackPressed();
+
+                } else {
+                    startActivity(new Intent(view.getContext(), TakePhoto.class));
+                }
             }
         });
 
@@ -44,6 +68,7 @@ public class ImagesActivity extends AppCompatActivity {
     }
 
     private void setUpView(ViewPager viewPager) {
+
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ImagesFragment(), "Item");
         viewPager.setAdapter(adapter);

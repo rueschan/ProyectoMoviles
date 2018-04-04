@@ -316,8 +316,8 @@ public class FavoritosFragment extends Fragment
     {
         @Override
         protected Void doInBackground(Void... voids) {
-            cargarDatosTest();
-//            cargarDatos();
+//            cargarDatosTest();
+            cargarDatos();
             return null;
         }
 

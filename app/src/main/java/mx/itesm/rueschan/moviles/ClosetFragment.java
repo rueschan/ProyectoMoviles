@@ -18,13 +18,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ClosetFragment extends Fragment {
 
-
+    public static Origin origen;
     public static String clicked;
+    public static Outfit tempOutfit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +42,10 @@ public class ClosetFragment extends Fragment {
         int paddingInBetween = getResources().getDimensionPixelSize(R.dimen.sizes);
         recyclerView.setPadding(paddingInBetween, paddingInBetween, paddingInBetween, paddingInBetween);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        if (origen == Origin.FAVORITOS) {
+            tempOutfit = new Outfit("favOutfit", -1, -1, -1, -1);
+        }
 
         return recyclerView;
     }
@@ -104,5 +111,10 @@ public class ClosetFragment extends Fragment {
         public int getItemCount() {
             return SIZE;
         }
+    }
+
+    public enum Origin {
+        MAIN,
+        FAVORITOS
     }
 }

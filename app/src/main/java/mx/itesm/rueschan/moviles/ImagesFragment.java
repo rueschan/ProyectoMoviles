@@ -3,6 +3,7 @@ package mx.itesm.rueschan.moviles;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,9 +30,10 @@ import mx.itesm.rueschan.moviles.BD.DataBase;
  */
 public class ImagesFragment extends Fragment {
 
+    public static int selectedID;
+    private int[] arrIDs;
     private Bitmap[] arrPhotos;
     private RecyclerView recyclerView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +44,7 @@ public class ImagesFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.my_recycler_view);
 
-        ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(new Bitmap[]{});
+        ImagesFragment.ControllerAdapter adapter = new ImagesFragment.ControllerAdapter(new int[]{}, new Bitmap[]{});
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -60,19 +62,19 @@ public class ImagesFragment extends Fragment {
 
     }
 
-    private Bitmap[] grabarDatos() {
+    private void grabarDatos() {
 
         DataBase db = DataBase.getInstance(getContext());
         int numImages = db.itemDAO().countByType(ClosetFragment.clicked);
         Log.i("ImagesFragment", "Quantity of " + ClosetFragment.clicked + ">> " + numImages);
         List<Item> clothes = db.itemDAO().getAllItemsByType(ClosetFragment.clicked);
         arrPhotos = new Bitmap[numImages];
+        arrIDs = new int[numImages];
         for (int i = 0; i < numImages; i++) {
             Item tt = clothes.get(i);
+            arrIDs[i] = tt.getId();
             arrPhotos[i] = decodificarImagen(tt);
         }
-
-        return arrPhotos;
 
     }
 
@@ -100,25 +102,42 @@ public class ImagesFragment extends Fragment {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public int id;
         public ImageView imageView;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.closet_photos_items, parent, false));
             imageView = itemView.findViewById(R.id.img);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                        selectedID = id;
+
+                    }
+                }
+            });
         }
+
+
 
     }
 
     public static class ControllerAdapter extends RecyclerView.Adapter<ImagesFragment.ViewHolder> {
 
         private static int SIZE;
+        private int[] arrIDs;
         private Bitmap[] arrPictures;
 
-        public ControllerAdapter(Bitmap[] arrPhotos) {
+        public ControllerAdapter(int[] IDs, Bitmap[] arrPhotos) {
+            arrIDs = IDs;
             arrPictures = arrPhotos;
         }
 
-        public void setDatos(Bitmap[] arrPhotos){
+        public void setDatos(int[] IDs, Bitmap[] arrPhotos){
+            arrIDs = IDs;
             arrPictures = arrPhotos;
             SIZE = arrPhotos.length;
 
@@ -127,7 +146,6 @@ public class ImagesFragment extends Fragment {
             }
         }
 
-
         @NonNull
         @Override
         public ImagesFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -135,12 +153,34 @@ public class ImagesFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ImagesFragment.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ImagesFragment.ViewHolder holder, int position) {
 
-            if(arrPictures.length == 0){
+            if (arrPictures.length == 0){
                 holder.imageView.setImageResource(R.drawable.nocloset);
-            }else {
+            } else {
+                holder.id = arrIDs[position];
                 holder.imageView.setImageBitmap(arrPictures[position % arrPictures.length]);
+            }
+
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                        selectedID = holder.id;
+                        notifyDataSetChanged();
+
+                    }
+                }
+            });
+
+            if (selectedID == holder.id) {
+                int border = 10;
+                holder.imageView.setPadding(border, border, border, border);
+                holder.imageView.setBackgroundColor(Color.DKGRAY);
+            } else {
+                holder.imageView.setPadding(0, 0, 0, 0);
+                holder.imageView.setBackgroundColor(Color.WHITE);
             }
 
         }
@@ -156,7 +196,7 @@ public class ImagesFragment extends Fragment {
     {
         @Override
         protected Void doInBackground(Void... voids) {
-            arrPhotos = grabarDatos();
+            grabarDatos();
             return null;
         }
 
@@ -164,7 +204,7 @@ public class ImagesFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             ImagesFragment.ControllerAdapter adapt = (ImagesFragment.ControllerAdapter)recyclerView.getAdapter();
-            adapt.setDatos(arrPhotos);
+            adapt.setDatos(arrIDs, arrPhotos);
             adapt.notifyDataSetChanged();
 
         }
