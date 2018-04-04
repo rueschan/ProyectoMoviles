@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
 
+
     }
 
     static class Adapter extends FragmentPagerAdapter {
