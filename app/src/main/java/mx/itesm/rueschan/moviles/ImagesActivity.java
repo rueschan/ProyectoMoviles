@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +44,26 @@ public class ImagesActivity extends AppCompatActivity {
 
                     String[] types = getApplicationContext().getResources().getStringArray(R.array.types);
 
-                    if (selected.equals(types[0])) {
-                        ClosetFragment.tempOutfit.setUpperID(id);
-                    } else if (selected.equals(types[1])) {
-                        ClosetFragment.tempOutfit.setBottomID(id);
-                    } else if (selected.equals(types[2])) {
-                        ClosetFragment.tempOutfit.setCoatID(id);
-                    } else if (selected.equals(types[3])) {
-                        ClosetFragment.tempOutfit.setShoesID(id);
+                    if (id == -1) {
+                        Toast.makeText(ImagesActivity.this, "Select an item before saving.", Toast.LENGTH_LONG);
+                    } else {
+
+                        if (selected.equals(types[0])) {
+                            ClosetFragment.tempOutfit.setUpperID(id);
+                            ImagesFragment.selectedID = -1;
+                        } else if (selected.equals(types[1])) {
+                            ClosetFragment.tempOutfit.setBottomID(id);
+                            ImagesFragment.selectedID = -1;
+                        } else if (selected.equals(types[2])) {
+                            ClosetFragment.tempOutfit.setCoatID(id);
+                            ImagesFragment.selectedID = -1;
+                        } else if (selected.equals(types[3])) {
+                            ClosetFragment.tempOutfit.setShoesID(id);
+                            ImagesFragment.selectedID = -1;
+                        }
+                        onBackPressed();
+
                     }
-                    onBackPressed();
 
                 } else {
                     startActivity(new Intent(view.getContext(), TakePhoto.class));

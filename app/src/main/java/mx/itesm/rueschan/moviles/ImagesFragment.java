@@ -30,7 +30,7 @@ import mx.itesm.rueschan.moviles.BD.DataBase;
  */
 public class ImagesFragment extends Fragment {
 
-    public static int selectedID;
+    public static int selectedID = -1;
     private int[] arrIDs;
     private Bitmap[] arrPhotos;
     private RecyclerView recyclerView;

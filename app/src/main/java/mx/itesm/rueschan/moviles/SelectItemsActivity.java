@@ -183,6 +183,7 @@ public class SelectItemsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
         finish();
     }
 
