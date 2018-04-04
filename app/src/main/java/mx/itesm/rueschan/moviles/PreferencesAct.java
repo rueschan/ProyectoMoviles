@@ -44,7 +44,7 @@ public class PreferencesAct extends AppCompatActivity {
         String color = "";
         ImageView iv = findViewById(v.getId());
 
-        System.out.println(iv.getScaleX());
+        //System.out.println(iv.getScaleX());
 
 
         ImageView old_iv = findViewById(getOld_iv());

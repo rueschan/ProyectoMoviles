@@ -7,22 +7,27 @@
     tools:context="mx.itesm.rueschan.moviles.PreferencesAct">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif"
                 android:text="Select your favorite color"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,18 +35,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_negro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_morado_osc"
                     app:layout_constraintStart_toStartOf="parent"
@@ -50,13 +55,13 @@
 
                 <ImageView
                     android:id="@+id/iv_gris"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_morado"
                     app:layout_constraintEnd_toStartOf="@+id/iv_blanco"
@@ -66,12 +71,12 @@
 
                 <ImageView
                     android:id="@+id/iv_blanco"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_morado_claro"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -82,284 +87,280 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_morado_osc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/morado_osc"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_rojo_osc"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_negro"
-                    app:srcCompat="@drawable/morado_osc" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_negro" />
 
                 <ImageView
                     android:id="@+id/iv_morado"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/morado"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_rojo"
                     app:layout_constraintEnd_toStartOf="@+id/iv_morado_claro"
                     app:layout_constraintStart_toEndOf="@+id/iv_morado_osc"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_gris"
-                    app:srcCompat="@drawable/morado" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_gris" />
 
                 <ImageView
                     android:id="@+id/iv_morado_claro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/morado_claro"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_rojo_claro"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_blanco"
-                    app:srcCompat="@drawable/morado_claro" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_blanco" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_azul_osc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/azul_osc"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_verde_osc"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/azul_osc" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
                     android:id="@+id/iv_azul"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/azul"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintEnd_toStartOf="@+id/iv_azul_claro"
                     app:layout_constraintHorizontal_bias="0.469"
                     app:layout_constraintStart_toEndOf="@+id/iv_azul_osc"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_verde"
-                    app:srcCompat="@drawable/azul" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_verde" />
 
                 <ImageView
                     android:id="@+id/iv_azul_claro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/azul_claro"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_verde_claro"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/azul_claro" />
+                    app:layout_constraintVertical_bias="0.0" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_verde_osc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/verde_osc"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_azul_osc"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_ama_osc"
-                    app:srcCompat="@drawable/verde_osc" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_ama_osc" />
 
                 <ImageView
                     android:id="@+id/iv_verde"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/verde"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_azul"
                     app:layout_constraintEnd_toStartOf="@+id/iv_verde_claro"
                     app:layout_constraintStart_toEndOf="@+id/iv_verde_osc"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_amarillo"
-                    app:srcCompat="@drawable/verde" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_amarillo" />
 
                 <ImageView
                     android:id="@+id/iv_verde_claro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/verde_claro"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_azul_claro"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_ama_claro"
-                    app:srcCompat="@drawable/verde_claro" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_ama_claro" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_rojo_osc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/rojo_osc"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_ama_osc"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_morado_osc"
-                    app:srcCompat="@drawable/rojo_osc" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_morado_osc" />
 
                 <ImageView
                     android:id="@+id/iv_rojo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/rojo"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_amarillo"
                     app:layout_constraintEnd_toStartOf="@+id/iv_rojo_claro"
                     app:layout_constraintStart_toEndOf="@+id/iv_rojo_osc"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_morado"
-                    app:srcCompat="@drawable/rojo" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_morado" />
 
                 <ImageView
                     android:id="@+id/iv_rojo_claro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:onClick="selectColor"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_ama_claro"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_morado_claro"
-                    app:srcCompat="@drawable/rojo_claro" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iv_ama_osc"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="44dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:onClick="selectColor"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_verde_osc"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo_osc"
-                    app:srcCompat="@drawable/amarillo_osc" />
-
-                <ImageView
-                    android:id="@+id/iv_amarillo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/rojo_claro"
+                    android:onClick="selectColor"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_ama_claro"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_morado_claro" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_ama_osc"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/amarillo_osc"
+                    android:onClick="selectColor"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_verde_osc"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo_osc" />
+
+                <ImageView
+                    android:id="@+id/iv_amarillo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/amarillo"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_verde"
                     app:layout_constraintEnd_toStartOf="@+id/iv_ama_claro"
                     app:layout_constraintStart_toEndOf="@+id/iv_ama_osc"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo"
-                    app:srcCompat="@drawable/amarillo" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo" />
 
                 <ImageView
                     android:id="@+id/iv_ama_claro"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/amarillo_claro"
                     android:onClick="selectColor"
                     app:layout_constraintBottom_toTopOf="@+id/iv_verde_claro"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo_claro"
-                    app:srcCompat="@drawable/amarillo_claro" />
+                    app:layout_constraintTop_toBottomOf="@+id/iv_rojo_claro" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:onClick="changeMain"
-                android:text="@string/str_continue"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0"
+                    android:background="@color/colorAccent"
+                    android:onClick="changeMain"
+                    android:text="@string/str_continue"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     #8D08B5
