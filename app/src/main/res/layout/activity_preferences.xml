@@ -81,7 +81,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/iv_morado_claro"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
-                    app:srcCompat="@android:color/background_light" />
+                    android:background="@drawable/background" />
 
             </LinearLayout>
 
