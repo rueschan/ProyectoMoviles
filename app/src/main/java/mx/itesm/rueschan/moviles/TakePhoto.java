@@ -2,11 +2,13 @@ package mx.itesm.rueschan.moviles;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,7 +54,17 @@ public class TakePhoto extends AppCompatActivity {
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //eventsList.setPrompt("Dress Code");
         eventsList.setAdapter(adapter);
+        eventsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) view).setTextColor(getResources().getColor(R.color.colorPrimary)); //Change selected text color
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         /*Button btn = findViewById(R.id.tomarFoto);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +90,7 @@ public class TakePhoto extends AppCompatActivity {
         });
     }
 
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SOLICITA_CAMARA && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -85,7 +98,6 @@ public class TakePhoto extends AppCompatActivity {
             bmNew = Bitmap.createScaledBitmap(bm,128,128,false);
             imageView.setImageBitmap(bm);
             tvType.setText(ClosetFragment.clicked);
-
         }else if(requestCode == SOLICITA_CAMARA && resultCode ==  RESULT_CANCELED){
             finish();
         }
