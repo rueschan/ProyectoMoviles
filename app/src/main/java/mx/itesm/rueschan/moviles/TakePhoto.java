@@ -47,7 +47,8 @@ public class TakePhoto extends AppCompatActivity {
         //lista tipo de prenda
 
         eventsList = findViewById(R.id.list_use);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,events);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,events);
+        adapter.setDropDownViewResource(R.layout.spinner);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //eventsList.setPrompt("Dress Code");
         eventsList.setAdapter(adapter);
