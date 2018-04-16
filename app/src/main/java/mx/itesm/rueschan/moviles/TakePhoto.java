@@ -8,8 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import java.nio.ByteBuffer;
 
@@ -21,17 +26,34 @@ public class TakePhoto extends AppCompatActivity {
     public static final int SOLICITA_CAMARA = 500;
 
     private Bitmap bmNew;
-
+    private TextView tvType;
     private ImageView imageView;
 
+    private Spinner eventsList;
+    String events[]= {"Sports","Streetwear","Casual","Business Casual","Business","Black Tie"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
 
-        imageView = findViewById(R.id.imgtaken);
+        Intent intFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intFoto.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intFoto, SOLICITA_CAMARA);
+        }
 
-        Button btn = findViewById(R.id.tomarFoto);
+        imageView = findViewById(R.id.imgtaken);
+        tvType = findViewById(R.id.tv_tipo);
+
+        //lista tipo de prenda
+
+        eventsList = findViewById(R.id.list_use);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,events);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //eventsList.setPrompt("Dress Code");
+        eventsList.setAdapter(adapter);
+
+
+        /*Button btn = findViewById(R.id.tomarFoto);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +64,7 @@ public class TakePhoto extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
         Button btnSave = findViewById(R.id.guardarButton);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +83,10 @@ public class TakePhoto extends AppCompatActivity {
             Bitmap bm = (Bitmap) extras.get("data");
             bmNew = Bitmap.createScaledBitmap(bm,128,128,false);
             imageView.setImageBitmap(bm);
+            tvType.setText(ClosetFragment.clicked);
 
+        }else if(requestCode == SOLICITA_CAMARA && resultCode ==  RESULT_CANCELED){
+            finish();
         }
     }
 
@@ -71,7 +96,7 @@ public class TakePhoto extends AppCompatActivity {
         bd.setFoto(codificarImagen());
         bd.setColor("Azul");
         bd.setTipo(ClosetFragment.clicked);
-
+        bd.setEvento(eventsList.getSelectedItem().toString());
         DataBase dataBase = DataBase.getInstance(this);
         dataBase.itemDAO().insertar(bd);
 
@@ -87,6 +112,12 @@ public class TakePhoto extends AppCompatActivity {
         bm.copyPixelsToBuffer(byteBuffer);
         byte[] byteArray = byteBuffer.array();
         return byteArray;
+    }
+
+    public void onBackPressed() {
+        /*Intent intent = new Intent(this, ImagesActivity.class);
+       startActivity(intent);*/
+        finish();
     }
 
     class BDTarea extends AsyncTask<Void, Void, Void>

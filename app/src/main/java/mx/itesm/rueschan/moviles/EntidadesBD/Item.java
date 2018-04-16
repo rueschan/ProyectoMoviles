@@ -25,6 +25,9 @@ public class Item {
     @ColumnInfo(name = "tipo")
     private String tipo;
 
+    @ColumnInfo(name = "evento")
+    private String evento;
+
     public int getId() {
         return id;
     }
@@ -59,6 +62,14 @@ public class Item {
 
     @Override
     public String toString() {
-        return "(" + id + ") Foto: " + foto + " Color: " + color + " Tipo: " + tipo;
+        return "(" + id + ") Foto: " + foto + " Color: " + color + " Tipo: " + tipo + " Evento: " + evento;
+    }
+
+    public String getEvento() {
+        return evento;
+    }
+
+    public void setEvento(String evento) {
+        this.evento = evento;
     }
 }
