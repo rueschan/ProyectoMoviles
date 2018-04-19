@@ -6,8 +6,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginAct" android:windowSoftInputMode="adjustPan|adjustResize">
+        <activity
+            android:name=".LoginAct"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +34,8 @@
         <activity android:name=".SelectItemsActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ImagesActivity" />
-        <activity android:name=".TakePhoto"></activity>
+        <activity android:name=".TakePhoto" />
+        <activity android:name=".SugeridosActivity"></activity>
     </application>
 
 </manifest>

@@ -115,6 +115,7 @@ public class ClosetFragment extends Fragment {
 
     public enum Origin {
         MAIN,
-        SUGERIDOS, FAVORITOS
+        SUGERIDOS,
+        FAVORITOS
     }
 }

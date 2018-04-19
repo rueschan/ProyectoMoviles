@@ -1,18 +1,20 @@
 package mx.itesm.rueschan.moviles;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,15 +25,6 @@ import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SugeridosFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SugeridosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SugeridosFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -46,35 +39,54 @@ public class SugeridosFragment extends Fragment {
     private Bitmap[] arrBottoms;
     private int shoeID;
     private Bitmap[] arrShoes;
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
+
+    private final int OUTFITS = 1;
+
+    //verificar cantidad datos
+    private String errorMsg = "";
+    private int tipoItems[] = {0,0,0,0};
+    String item[] = {"Shoes", "Bottom","Top","Coats"};
 
     public SugeridosFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SugeridosFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SugeridosFragment newInstance(String param1, String param2) {
-        SugeridosFragment fragment = new SugeridosFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            System.out.println("******** FAVORITOS");
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.i("SugeridosFragment", "Enter");
+
+        View v =  inflater.inflate(R.layout.fragment_sugeridos_list, container, false);
+        recyclerView = v.findViewById(R.id.rvSugeridosOutfit);
+
+        SugeridosFragment.ControllerAdapter adapter = new SugeridosFragment.ControllerAdapter(
+                new int[]{},
+                new String[]{},
+                new Bitmap[]{},
+                new Bitmap[]{},
+                new Bitmap[]{},
+                new Bitmap[]{}
+        );
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return v;
+
     }
+
+        /*new AlertDialog.Builder(SugeridosFragment.this.getContext())
+                .setMessage(errorMsg + "items")
+                .setTitle("Sorry")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                })
+                .create().show();*/
+        //System.out.println("********* " + tipoItems[i])
+
 
     @Override
     public void onStart() {
@@ -82,57 +94,92 @@ public class SugeridosFragment extends Fragment {
         new BDOutfit().execute();
     }
 
+    /* negro = #000000
+        blanco = #FFFFFF
+        gris = #C3C3C3
+        amarillo claro = #FFE600
+        amarillo osc = #FFB300
+        amarillo = #FFCE00
+        rojo osc = #FA1037
+        rojo claro = #FF8300
+        rojo = #FF4701
+        verde osc = #00952D
+        verde = #00BC4A
+        verde claro = #81F000
+        azul_osc = #1046C7
+        azu_claro = #0088E1
+        azul = #00B9FF
+        morado osc = #8D08B5
+        morado = #C415C9
+        morado claro = #D971FF*/
 
     private void cargarDatos() {
         // BD
         DataBase bd = DataBase.getInstance(getContext());
-        int numOutfits = bd.outfitDAO().countOutfits();
+        List<Item> items = bd.itemDAO().getAllItems();
+
+        System.out.println("*********" + items.size());
+        for (int i = 0; i < items.size(); i++) {
+            if(items.get(i).getTipo().equalsIgnoreCase("Shoes")) {
+                tipoItems[0]++;
+            }if(items.get(i).getTipo().equalsIgnoreCase("Bottom")) {
+                tipoItems[1]++;
+            }if(items.get(i).getTipo().equalsIgnoreCase("Top")) {
+                tipoItems[2]++;
+            }if(items.get(i).getTipo().equalsIgnoreCase("Coats")) {
+                tipoItems[3]++;
+            }
+        }
+
+        // Crea los arreglos para el adaptador
+        arrIDs = new int[OUTFITS];
+        arrNames = new String[OUTFITS];
+        arrCoats = new Bitmap[OUTFITS];
+        arrUppers = new Bitmap[OUTFITS];
+        arrBottoms = new Bitmap[OUTFITS];
+        arrShoes = new Bitmap[OUTFITS];
+
+        if(tipoItems[0] > 0 && tipoItems[1] > 0 && tipoItems[2] > 0 && tipoItems[3] > 0){
+            // Procesa cada registro
+            for (int i = 0; i< OUTFITS; i++) {
+                arrIDs[i] = i;
+                arrNames[i] = "outfit " + i;
+
+                for (int j = 0; j < items.size(); j++) {
+                    Item itemTemp = items.get(j);
+                    if (itemTemp.getTipo().equalsIgnoreCase("Shoes")) {
+                        // Leer id y buscar foto de shoes
+                        /*shoeID = itemTemp.getId();
+                        itemTemp = bd.itemDAO().getItemById(shoeID).get(0);*/
+                        arrShoes[i] = decodificarImagen(itemTemp);
+                    }
+                    if (itemTemp.getTipo().equalsIgnoreCase("Bottom")) {
+                        // Leer id y buscar foto de bottom
+                        /*bottomId = itemTemp.getId();
+                        itemTemp = bd.itemDAO().getItemById(bottomId).get(0);*/
+                        arrBottoms[i] = decodificarImagen(itemTemp);
+                    }
+                    if (itemTemp.getTipo().equalsIgnoreCase("Top")) {
+                        // Leer id y buscar foto de upper
+                        /*upperID = itemTemp.getId();
+                        itemTemp = bd.itemDAO().getItemById(upperID).get(0);*/
+                        arrUppers[i] = decodificarImagen(itemTemp);
+                    }
+                    if (itemTemp.getTipo().equalsIgnoreCase("Coats")) {
+                        // Leer id y buscar foto de coat
+                        /*coatID = itemTemp.getId();
+                        itemTemp = bd.itemDAO().getItemById(coatID).get(0);*/
+                        arrCoats[i] = decodificarImagen(itemTemp);
+                    }
+                }
+            }
+        }
+
         int numToap;
         int numBottom;
         int numCoats;
         int numShoes;
-        Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + numOutfits);
-        List<Outfit> outfits = bd.outfitDAO().readAll();
-
-        // Crea los arreglos para el adaptador
-        arrIDs = new int[numOutfits];
-        arrNames = new String[numOutfits];
-        arrCoats = new Bitmap[numOutfits];
-        arrUppers = new Bitmap[numOutfits];
-        arrBottoms = new Bitmap[numOutfits];
-        arrShoes = new Bitmap[numOutfits];
-
-        Outfit temp;
-        Item itemTemp;
-        // Procesa cada registro
-        for (int i = 0; i< outfits.size(); i++) {
-            temp = outfits.get(i);
-
-            arrIDs[i] = temp.getId();
-            arrNames[i] = temp.getName();
-
-            // Leer id y buscar foto de coat
-            coatID = temp.getCoatID();
-            itemTemp = bd.itemDAO().getItemById(coatID).get(0);
-            arrCoats[i] = decodificarImagen(itemTemp);
-
-            // Leer id y buscar foto de coat
-            upperID = temp.getUpperID();
-            itemTemp = bd.itemDAO().getItemById(upperID).get(0);
-            arrUppers[i] = decodificarImagen(itemTemp);
-
-            // Leer id y buscar foto de coat
-            bottomId = temp.getBottomID();
-            itemTemp = bd.itemDAO().getItemById(bottomId).get(0);
-            arrBottoms[i] = decodificarImagen(itemTemp);
-
-            // Leer id y buscar foto de coat
-            shoeID = temp.getShoesID();
-            itemTemp = bd.itemDAO().getItemById(shoeID).get(0);
-            arrShoes[i] = decodificarImagen(itemTemp);
-
-            Log.i("BD (FavoritosFragment)", temp.toString());
-        }
+        Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
 
         DataBase.destroyInstance();
     }
@@ -146,7 +193,7 @@ public class SugeridosFragment extends Fragment {
             InputStream ent = getResources().getAssets().open("temp.png");
             bm = BitmapFactory.decodeStream(ent);
         } catch (IOException e) {
-            Log.i("BD (FavoritosFragment)", "Error: " + e.getMessage());
+            Log.i("BD (SugeridosFragment)", "Error: " + e.getMessage());
         }
         int width = 128;
         int height = 128;
@@ -156,11 +203,93 @@ public class SugeridosFragment extends Fragment {
         ByteBuffer buffer = ByteBuffer.wrap(item.getFoto());
 
         bitmap_tmp.copyPixelsFromBuffer(buffer);
-        Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
+        Log.i("SugeridosFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private FloatingActionButton btn;
 
+        private TextView outfitName;
+
+        private ImageView coatIv;
+        private ImageView upperIv;
+        private ImageView bottomIv;
+        private ImageView shoesIv;
+
+        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.outfit_card, parent, false));
+
+            outfitName = itemView.findViewById(R.id.outfitName);
+            coatIv = itemView.findViewById(R.id.coatImg);
+            upperIv = itemView.findViewById(R.id.upperImg);
+            bottomIv = itemView.findViewById(R.id.bottomImg);
+            shoesIv = itemView.findViewById(R.id.shoesImg);
+
+            btn = itemView.findViewById(R.id.favBtn);
+        }
+
+    }
+
+    public static class ControllerAdapter extends RecyclerView.Adapter<SugeridosFragment.ViewHolder> {
+
+        private static int SIZE;
+        private int[] arrIDs;
+        private String[] arrNames;
+        private Bitmap[] arrCoats;
+        private Bitmap[] arrUppers;
+        private Bitmap[] arrBottoms;
+        private Bitmap[] arrShoes;
+
+        public ControllerAdapter(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+            this.arrIDs = ids;
+            this.arrNames = names;
+            this.arrCoats = coatIDs;
+            this.arrUppers = upperIDs;
+            this.arrBottoms = bottomIDs;
+            this.arrShoes = shoesIDs;
+        }
+
+        public void setDatos(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+            this.arrIDs = ids;
+            this.arrNames = names;
+            this.arrCoats = coatIDs;
+            this.arrUppers = upperIDs;
+            this.arrBottoms = bottomIDs;
+            this.arrShoes = shoesIDs;
+
+            try {
+                SIZE = arrIDs.length;
+            } catch (NullPointerException e) {
+                Log.i("SugeridosFragment", "ControllerAdapter: Not existant data");
+                SIZE = 0;
+            }
+        }
+
+        @NonNull
+        @Override
+        public SugeridosFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new SugeridosFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull SugeridosFragment.ViewHolder holder, int position) {
+
+            if(arrNames.length > 0) {
+                holder.outfitName.setText(arrNames[position]);
+
+                holder.coatIv.setImageBitmap(arrCoats[position]);
+                holder.upperIv.setImageBitmap(arrUppers[position]);
+                holder.bottomIv.setImageBitmap(arrBottoms[position]);
+                holder.shoesIv.setImageBitmap(arrShoes[position]);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return SIZE;
+        }
+    }
     // Para cargar los datos en segundo plano
     class BDOutfit extends AsyncTask<Void, Void, Void>
     {
@@ -175,44 +304,10 @@ public class SugeridosFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             // Nuevos datos para el adaptador
-            //FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
-            //adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
-            //adapt.notifyDataSetChanged();
+            SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
+            adapt.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sugeridos, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
+

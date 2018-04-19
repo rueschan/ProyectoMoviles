@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -109,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 int currentFragment = viewPager.getCurrentItem();
-
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
@@ -123,10 +123,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
-                        intent = new Intent(v.getContext(), SelectItemsActivity.class);
+                        intent = new Intent(v.getContext(), SugeridosActivity.class);
                         startActivity(intent);
-                        break;
-                    case  3:
                         break;
                 }
 
