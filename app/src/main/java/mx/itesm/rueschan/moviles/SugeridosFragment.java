@@ -175,10 +175,10 @@ public class SugeridosFragment extends Fragment {
             }
         }
 
-        int numToap;
+       /* int numToap;
         int numBottom;
         int numCoats;
-        int numShoes;
+        int numShoes;*/
         Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
 
         DataBase.destroyInstance();
