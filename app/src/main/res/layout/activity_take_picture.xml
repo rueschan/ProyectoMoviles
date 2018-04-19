@@ -7,19 +7,20 @@
     tools:context="mx.itesm.rueschan.moviles.TakePhoto">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-       >
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_tipo"
@@ -55,31 +56,298 @@
             <Spinner
                 android:id="@+id/list_use"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/guardarButton"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="0"
-                android:text="Save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgtaken"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <Button
-                android:id="@+id/tomarFoto"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tomar Foto"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="477dp" />
+                android:text="@string/color"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_negro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:clickable="true"
+                        android:onClick="selectColor"
+                        app:srcCompat="@android:color/black" />
+
+                    <ImageView
+                        android:id="@+id/iv_gris"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:clickable="true"
+                        android:onClick="selectColor"
+                        app:srcCompat="@android:color/darker_gray" />
+
+                    <ImageView
+                        android:id="@+id/iv_blanco"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/background"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_morado_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/morado_osc"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_morado"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/morado"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_morado_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/morado_claro"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_azul_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/azul_osc"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_azul"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/azul"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_azul_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/azul_claro"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_verde_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/verde_osc"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_verde"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/verde"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_verde_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/verde_claro"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_rojo_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rojo_osc"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_rojo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rojo"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_rojo_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rojo_claro"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_ama_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/amarillo_osc"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_amarillo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/amarillo"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_ama_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/amarillo_claro"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imgPhoto"
+                        android:layout_width="0px"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/colorPrimaryDark"
+                        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <ImageButton
+                        android:id="@+id/imgSave"
+                        android:layout_width="0px"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/colorPrimaryDark"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

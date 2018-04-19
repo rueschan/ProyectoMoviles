@@ -122,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 2:
+                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
+                        intent = new Intent(v.getContext(), SelectItemsActivity.class);
+                        startActivity(intent);
+                        break;
+                    case  3:
                         break;
                 }
 
@@ -133,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
         adapter.addFragment(new FavoritosFragment(), "Favoritos");
-        adapter.addFragment(new FavoritosFragment(), "Sugeridos");
+        adapter.addFragment(new SugeridosFragment(), "Sugeridos");
 
         viewPager.setAdapter(adapter);
 
