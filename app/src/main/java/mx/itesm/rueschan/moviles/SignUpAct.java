@@ -83,7 +83,7 @@ public class SignUpAct extends AppCompatActivity {
             user.setGender(selectGender());
             //System.out.println(user.getColor() + " color");
             //Database
-            db.userDAO().insertUsers(user);
+            //db.userDAO().insertUsers(user);
 
             Log.i("onResume", "Registros: " + db.userDAO().countUsers());
             //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900) + "\n" + birth.toString());
@@ -91,9 +91,7 @@ public class SignUpAct extends AppCompatActivity {
             DataBase.destroyInstance();
 
             Intent init = new Intent(this, PreferencesAct.class);
-            //startActivity(init);
             init.putExtra("user",  user);
-            //startActivityForResult(init, REQUEST);
             startActivity(init);
         }
         else{

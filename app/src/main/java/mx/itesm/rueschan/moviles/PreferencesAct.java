@@ -1,13 +1,18 @@
 package mx.itesm.rueschan.moviles;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 public class PreferencesAct extends AppCompatActivity {
@@ -100,6 +105,18 @@ public class PreferencesAct extends AppCompatActivity {
 
         setOld_iv(v.getId());
         setColor(color);
+    }
+
+    private void saveUser(){
+
+        DataBase db = DataBase.getInstance(this);
+
+        //Database
+        db.userDAO().insertUsers(user);
+        DataBase.destroyInstance();
+
+        Intent init = new Intent(this, LoginAct.class);
+        startActivity(init);
 
     }
 
@@ -128,6 +145,22 @@ public class PreferencesAct extends AppCompatActivity {
 
     public void changeMain(View v) {
         user.setColor(getColor());
+
+        if(user.getColor() != null)
+            new DBTarea().execute();
+        else{
+            new AlertDialog.Builder(this)
+                    .setMessage("Please select a color.")
+                    .setTitle("Sorry")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK button
+                        }
+                    })
+                    .create().show();
+        }
+
+
         //System.out.println(user.getName() + " " + user.getColor());
         //iniciar sesion
         /*SharedPreferences prefs = getSharedPreferences("sesion", Context.MODE_PRIVATE);
@@ -135,9 +168,21 @@ public class PreferencesAct extends AppCompatActivity {
         pref.putBoolean("sesion", true);
         pref.commit();*/
 
-        Intent init = new Intent(this, LoginAct.class);
-        startActivity(init);
     }
 
+    class DBTarea extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            saveUser();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.i("onPost", "Dato grabado ********************");
+        }
+    }
 
 }
