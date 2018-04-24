@@ -2,18 +2,14 @@ package mx.itesm.rueschan.moviles.Servicios;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 /**
  * Created by Rubén Escalante on 23/04/2018.
@@ -54,7 +50,7 @@ public class Clima {
 
         String newURL = generateURL(lat, lon);
 
-        new Clima.DescargaClima().execute();
+        new Clima.DescargaClima().execute(newURL);
     }
 
     private String generateURL(double lat, double lon) {
