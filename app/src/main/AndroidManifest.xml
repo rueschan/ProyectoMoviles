@@ -35,7 +35,6 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ImagesActivity" />
         <activity android:name=".TakePhoto" />
-        <activity android:name=".SugeridosActivity"></activity>
     </application>
 
 </manifest>

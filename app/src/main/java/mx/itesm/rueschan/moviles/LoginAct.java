@@ -34,12 +34,12 @@ public class LoginAct extends AppCompatActivity {
 
         edEmail.setText("");
         edPassword.setText("");
-        //startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         //System.out.println(primeraVez() + " *********** " + sesionIniciada());
-        if (!primeraVez()) {
+        /*if (!primeraVez()) {
             if(sesionIniciada())
                 startActivity(new Intent(this, MainActivity.class));
-        }
+        }*/
     }
 
     private boolean sesionIniciada() {

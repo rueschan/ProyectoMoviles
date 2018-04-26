@@ -130,8 +130,9 @@ public class SelectItemsActivity extends AppCompatActivity {
 
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ClosetFragment(), "Select your clothes");
-
+        adapter.addFragment(new ClosetFragment(), "Closet");
+        adapter.addFragment(new FavoritosFragment(), "Favoritos");
+        adapter.addFragment(new SugeridosFragment(), "Sugeridos");
         viewPager.setAdapter(adapter);
 
     }

@@ -176,6 +176,7 @@ public class TakePhoto extends AppCompatActivity {
 
         setOld_iv(v.getId());
 
+        /*
         if(v.getId() == (R.id.iv_negro)){
             color = "#000000";
         }else if(v.getId() == (R.id.iv_blanco)){
@@ -212,7 +213,46 @@ public class TakePhoto extends AppCompatActivity {
             color = "#C415C9";
         }else if(v.getId() == (R.id.iv_morado_claro)){
             color = "#D971FF";
+        }*/
+
+        if(v.getId() == (R.id.iv_negro)){
+            color = "negro";
+        }else if(v.getId() == (R.id.iv_blanco)){
+            color = "blanco";
+        }else if(v.getId() == (R.id.iv_gris)){
+            color = "gris";
+        }else if(v.getId() == (R.id.iv_ama_claro)){
+            color = "amarillo_claro";
+        }else if(v.getId() == (R.id.iv_ama_osc)){
+            color = "amarillo_osc";
+        }else if(v.getId() == (R.id.iv_amarillo)){
+            color = "amarillo";
+        }else if(v.getId() == (R.id.iv_rojo_osc)){
+            color = "rojo_osc";
+        }else if(v.getId() == (R.id.iv_rojo_claro)){
+            color = "rojo_claro";
+        }else if(v.getId() == (R.id.iv_rojo)){
+            color = "rojo";
+        }else if(v.getId() == (R.id.iv_verde_osc)){
+            color = "verde_osc";
+        }else if(v.getId() == (R.id.iv_verde)){
+            color = "verde";
+        }else if(v.getId() == (R.id.iv_verde_claro)){
+            color = "verde_claro";
+        }else if(v.getId() == (R.id.iv_azul_osc)){
+            color = "azul_osc";
+        }else if(v.getId() == (R.id.iv_azul_claro)){
+            color = "azul_claro";
+        }else if(v.getId() == (R.id.iv_azul)){
+            color = "azul";
+        }else if(v.getId() == (R.id.iv_morado_osc)){
+            color = "morado_osc";
+        }else if(v.getId() == (R.id.iv_morado)){
+            color = "morado";
+        }else if(v.getId() == (R.id.iv_morado_claro)) {
+            color = "morado_claro";
         }
+
 
         setOld_iv(v.getId());
         setColor(color);

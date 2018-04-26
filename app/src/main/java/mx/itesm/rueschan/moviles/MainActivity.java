@@ -45,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
             public void onPageSelected(int position) {
 
                 switch (position) {
                     case 0:
-
                         fab.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
@@ -61,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
                         fab.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-
                         fab.setVisibility(View.INVISIBLE);
                         break;
                 }
-
             }
         });
 
@@ -108,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int currentFragment = viewPager.getCurrentItem();
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
@@ -122,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 2:
-                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
-                        intent = new Intent(v.getContext(), SugeridosActivity.class);
-                        startActivity(intent);
                         break;
                 }
 

@@ -26,7 +26,6 @@ import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 public class SugeridosActivity extends AppCompatActivity {
 
     //verificar cantidad datos
-    private String errorMsg = "";
     private int tipoItems[] = {0,0,0,0};
     String item[] = {"Shoes", "Bottom","Top","Coats"};
 
@@ -34,6 +33,17 @@ public class SugeridosActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
     private ViewPager viewPager;
+
+    //Verificar cantidad de datos
+    private String camafeo[]; //colores cercanos
+    //combinar prendas de colores cercanos en el círculo cromático, como por ejemplo el beige y el marrón.
+
+    private String circuloCromatico[] = {"#FFE600", "#FFCE00", "#FFB300", "#FF8300", "#FF4701", "#FA1037", "#81F000", "#00BC4A"
+            , "#00952D", "#0088E1", "#00B9FF", "#1046C7", "#D971FF", "#C415C9", "#8D08B5"};
+    //amarillo, rojo, rojo osc, morado, azul osc, azul calro, verde osc;
+    private String contraste[]; //colores opuestos
+    private String universales[] = {"#000000", "#FFFFFF", "#C3C3C3"};
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +81,7 @@ public class SugeridosActivity extends AppCompatActivity {
         DataBase bd = DataBase.getInstance(this);
         List<Item> items = bd.itemDAO().getAllItems();
 
-        System.out.println("*********" + items.size());
+        //System.out.println("*********" + items.size());
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getTipo().equalsIgnoreCase("Shoes"))
                 tipoItems[0]++;
@@ -83,7 +93,35 @@ public class SugeridosActivity extends AppCompatActivity {
                 tipoItems[3]++;
         }
 
+    }
+
+    private ArrayList calcularCombinaciones(String color, int index) {
+
+        for (int i = 0; i < universales.length; i++) {
+            if (color.equalsIgnoreCase(universales[i]))
+                return null;
         }
+        ArrayList<String> combinacionesArray = new ArrayList<>(5);
+        for (int i = 0; i < circuloCromatico.length; i++) {
+            if (i >= index - 2 && i <= index + 2) {
+                combinacionesArray.add(circuloCromatico[i]);
+            }
+        }
+
+        return combinacionesArray;
+    }
+
+    private int getIndex(String color) {
+        for (int i = 0; i < circuloCromatico.length; i++) {
+            if (circuloCromatico[i].equalsIgnoreCase(color))
+                return i;
+        }
+
+        return -1;
+    }
+
+
+
 
     private void setUpView(ViewPager viewPager) {
         SelectItemsActivity.Adapter adapter = new SelectItemsActivity.Adapter(getSupportFragmentManager());
