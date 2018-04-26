@@ -3,6 +3,7 @@ package mx.itesm.rueschan.moviles.DAO;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -24,12 +25,19 @@ public interface UserDAO {
     @Query("SELECT * FROM User WHERE email = :email")
     User searchByEmail(String email);
 
+    @Query("SELECT * FROM User WHERE idUser = :idUser")
+    User searchById(int idUser);
+
+    @Query("UPDATE User SET color= :color WHERE idUser = :idUser")
+    void updateColor(String color, int idUser);
+
     @Query("SELECT password FROM User WHERE email = :email")
     String searchPasswordByEmail(String email);
 
     @Query("SELECT COUNT(*) FROM User")
     int countUsers();
 
+    //@Query("INSERT into User")
     @Query("SELECT COUNT(*) FROM User WHERE email = :email")
     int countUsersByEmail(String email);
 

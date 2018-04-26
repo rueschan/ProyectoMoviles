@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class LoginAct extends AppCompatActivity {
     private AutoCompleteTextView edEmail;
     private EditText edPassword;
     String email, password;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class LoginAct extends AppCompatActivity {
     }
 
     private boolean sesionIniciada() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
         boolean sesionInicida = preferences.getBoolean("sesion", false);
         return sesionInicida;
     }
@@ -59,7 +61,7 @@ public class LoginAct extends AppCompatActivity {
     }
 
     private boolean primeraVez(){
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
         boolean primeraVez = preferences.getBoolean("primera", false);
         if (!primeraVez) {
             // primera vez
@@ -103,7 +105,7 @@ public class LoginAct extends AppCompatActivity {
             });
 
         } else {
-            User user = new User();
+            user = new User();
             user.setEmail(email);
             user.setPassword(password);
             String pass = db.userDAO().searchPasswordByEmail(email);
@@ -115,13 +117,24 @@ public class LoginAct extends AppCompatActivity {
                     });*/
 
                 //iniciar sesion
-                SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
                 SharedPreferences.Editor pref = preferences.edit();
                 pref.putBoolean("sesion", true);
                 pref.commit();
 
+                User user12 = db.userDAO().searchByEmail(email);
+
                 Intent init = new Intent(this, MainActivity.class);
-                init.putExtra("user",  user);
+                init.putExtra("userCurrent",  user12);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                SharedPreferences.Editor shared = sharedPreferences.edit();
+                shared.putString("currentUser", user12.getEmail().toString());
+                shared.commit();
+
+                //Log.i("User", "Values: " + db.userDAO().countUsers());
+                Log.i("Preferences", sharedPreferences.getString("currentUser", "User"));
+                //Log.i("hola",email +"\n" + user12.getName() + "\n" + password + "\n" + user12.getGender() + "\n" + user12.getAge() + "\n" + user12.getBirth());
                 startActivity(init);
             } else {
                 runOnUiThread(new Runnable() {

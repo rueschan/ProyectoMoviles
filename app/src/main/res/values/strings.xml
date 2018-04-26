@@ -34,5 +34,12 @@
     <string name="str_favorite_outfits">Favorite Outfits</string>
     <string name="outfit_name">Outfit Name</string>
     <string name="str_name">Name</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="color">Select the items color</string>
+    <string name="Developers">Ivan Rangel Varela\nGuillermo Pérez Trueba\nJosé Antonio Malo de la Peña\nRuben Escalante Chan\n </string>
+    <string name="ContactMail">mylooksapp@outlook.com</string>
+    <string name="ChangeColor">Change Color</string>
+    <string name="LogOut">Log Out</string>
+    <string name="About">About</string>
 </resources>
