@@ -151,7 +151,6 @@
 
                 </TableRow>
 
-
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -190,7 +189,6 @@
                         android:clickable="true"
                         android:onClick="selectColor" />
                 </TableRow>
-
 
                 <TableRow
                     android:layout_height="wrap_content"
@@ -237,35 +235,75 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/iv_rojo_osc"
+                        android:id="@+id/iv_ama_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/rojo_osc"
+                        android:background="#d4af37"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
                     <ImageView
-                        android:id="@+id/iv_rojo"
+                        android:id="@+id/iv_amarillo"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/rojo"
+                        android:background="#ffe001"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
                     <ImageView
-                        android:id="@+id/iv_rojo_claro"
+                        android:id="@+id/iv_ama_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/rojo_claro"
+                        android:background="#f3ff00"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_cafe_claro"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#4b3621"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+                    <ImageView
+                        android:id="@+id/iv_cafe"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#804000"
+                        android:clickable="true"
+                        android:onClick="selectColor" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_cafe_osc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#d2b48c"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
@@ -277,37 +315,35 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/iv_ama_osc"
+                        android:id="@+id/iv_rojo_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/amarillo_osc"
-                        android:clickable="true"
+                        android:background="#b50030"
                         android:onClick="selectColor" />
 
                     <ImageView
-                        android:id="@+id/iv_amarillo"
+                        android:id="@+id/iv_rojo"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/amarillo"
-                        android:clickable="true"
+                        android:background="#e20202"
                         android:onClick="selectColor" />
 
                     <ImageView
-                        android:id="@+id/iv_ama_claro"
+                        android:id="@+id/iv_rojo_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/amarillo_claro"
-                        android:clickable="true"
-                        android:onClick="selectColor" />
+                        android:onClick="selectColor"
+                        app:srcCompat="@android:color/holo_red_light" />
+
                 </TableRow>
 
             </TableLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,11 @@ public class SugeridosFragment extends Fragment {
     private Bitmap[] arrBottoms;
     private int shoeID;
     private Bitmap[] arrShoes;
+    private ArrayList<Item> shoes = new ArrayList<>();
+    private ArrayList<Item> top = new ArrayList<>();
+    private ArrayList<Item> bottom = new ArrayList<>();
+    private ArrayList<Item> coats = new ArrayList<>();
+    private String colors[];
     //private OnFragmentInteractionListener mListener;
 
     private final int OUTFITS = 5;
@@ -124,6 +130,45 @@ public class SugeridosFragment extends Fragment {
         super.onStart();
         new BDItem().execute();
     }
+
+    private void crearOutfit(DataBase bd) {
+
+        if (shoes.size() > 0 && bottom.size() > 0 && top.size() > 0 && coats.size() > 0) {
+            HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste = crearCombinacionesContraste(shoes, bottom, top, coats);
+            HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats);
+
+
+            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, bd);
+        } else {
+            String errorMsg = "You don't have these items:\n";
+            if (shoes.size() == 0) {
+                errorMsg += "- Shoes\n";
+            }
+
+            if (bottom.size() == 0) {
+                errorMsg += "- Bottom\n";
+            }
+
+            if (top.size() == 0) {
+                errorMsg += "- Top\n";
+            }
+
+            if (coats.size() == 0) {
+                errorMsg += "- Coats";
+            }
+                /*
+                for (int i = 0; i < tipoItems.length; i++) {
+                    if (tipoItems[i] < 1)
+                        errorMsg += "- " + item[i] + "\n";
+                }*/
+
+                MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                dialog.show(getActivity().getFragmentManager(), "Sample Fragment");
+        }
+
+
+    }
+
 
     private void seleccionarOutfitContraste(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, DataBase bd) {
 
@@ -273,76 +318,33 @@ public class SugeridosFragment extends Fragment {
     }
 
     private void cargarDatos() {
-        // BD
-        DataBase bd = DataBase.getInstance(getContext());
-        List<Item> items = bd.itemDAO().getAllItems();
-        Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
-        //String colors[] = seleccionarColor();
+            // BD
+            DataBase bd = DataBase.getInstance(getContext());
+            List<Item> items = bd.itemDAO().getAllItems();
+            Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
+                colors = new String[items.size()];
 
-        //if (items.size() > 0) {
-            //int tipoItems[] = {0, 0, 0, 0};
-            String colors[] = new String[items.size()];
-            ArrayList<Item> shoes = new ArrayList<>();
-            ArrayList<Item> top = new ArrayList<>();
-            ArrayList<Item> bottom = new ArrayList<>();
-            ArrayList<Item> coats = new ArrayList<>();
-
-            for (int i = 0; i < items.size(); i++) {
+                for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getTipo().equalsIgnoreCase("Shoes")) {
-                    //tipoItems[0]++;
                     shoes.add(items.get(i));
                 }
                 if (items.get(i).getTipo().equalsIgnoreCase("Bottom")) {
-                    //tipoItems[1]++;
                     bottom.add(items.get(i));
                 }
                 if (items.get(i).getTipo().equalsIgnoreCase("Top")) {
-                    //tipoItems[2]++;
                     top.add(items.get(i));
                 }
                 if (items.get(i).getTipo().equalsIgnoreCase("Coats")) {
-                    //tipoItems[3]++;
                     coats.add(items.get(i));
                 }
 
                 //Seleccionar Color
                 colors[i] = items.get(i).getColor();
             }
-            //if (tipoItems[0] > 0 && tipoItems[1] > 0 && tipoItems[2] > 0 && tipoItems[3] > 0) {
-            if (shoes.size() > 0 && bottom.size() > 0 && top.size() > 0 && coats.size() > 0) {
-                HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste = crearCombinacionesContraste(shoes, bottom, top, coats);
-                HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats);
 
-
-                seleccionarOutfit(combinacionesContraste, combinacionesContinuo, bd);
-            } else {
-                String errorMsg = "You don't have enough some items:\n";
-                if (shoes.size() < 0) {
-                    errorMsg += "- Shoes\n";
-                }
-
-                if (bottom.size() < 0) {
-                    errorMsg += "- Bottom\n";
-                }
-
-                if (top.size() < 0) {
-                    errorMsg += "- Top\n";
-                }
-
-                if (coats.size() < 0) {
-                    errorMsg += "- Coats";
-                }
-                /*
-                for (int i = 0; i < tipoItems.length; i++) {
-                    if (tipoItems[i] < 1)
-                        errorMsg += "- " + item[i] + "\n";
-                }*/
-                MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                dialog.show(getActivity().getFragmentManager(), "Sample Fragment");
-            }
+            crearOutfit(bd);
 
         DataBase.destroyInstance();
-        //}
 
         }
 

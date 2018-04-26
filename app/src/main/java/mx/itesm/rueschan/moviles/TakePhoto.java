@@ -40,7 +40,8 @@ public class TakePhoto extends AppCompatActivity {
     private ImageView imageView;
 
     private Spinner eventsList;
-    String events[]= {"Sports","Streetwear","Casual","Business Casual","Business","Black Tie"};
+    String events[] = {"Sports", "Streetwear", "Casual", "Business Casual", "Business", "Black Tie"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,7 @@ public class TakePhoto extends AppCompatActivity {
         //lista tipo de prenda
 
         eventsList = findViewById(R.id.list_use);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,events);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, events);
         adapter.setDropDownViewResource(R.layout.spinner);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //eventsList.setPrompt("Dress Code");
@@ -74,7 +75,7 @@ public class TakePhoto extends AppCompatActivity {
             }
         });
 
-       // Button btn = findViewById(R.id.tomarFoto);
+        // Button btn = findViewById(R.id.tomarFoto);
         ImageView btn = findViewById(R.id.imgPhoto);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,37 +93,37 @@ public class TakePhoto extends AppCompatActivity {
         //Button btnSave = findViewById(R.id.guardarButton);
         ImageButton btnSave = findViewById(R.id.imgSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(getColor() != null){
-                        new AlertDialog.Builder(TakePhoto.this)
-                                .setMessage("Are you sure you want to save this item?")
-                                .setTitle("Ready to save")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User clicked OK button
-                                        new BDTarea().execute();
-                                        finish();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User clicked OK button
-                                    }
-                                })
-                                .create().show();
-                    }else  {
-                        new AlertDialog.Builder(TakePhoto.this)
-                                .setMessage("Some data is missing")
-                                .setTitle("Sorry")
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User clicked OK button
-                                    }
-                                })
-                                .create().show();
-                    }
+            @Override
+            public void onClick(View view) {
+                if (getColor() != null) {
+                    new AlertDialog.Builder(TakePhoto.this)
+                            .setMessage("Are you sure you want to save this item?")
+                            .setTitle("Ready to save")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                    new BDTarea().execute();
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                }
+                            })
+                            .create().show();
+                } else {
+                    new AlertDialog.Builder(TakePhoto.this)
+                            .setMessage("Please select a color.")
+                            .setTitle("Sorry")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                }
+                            })
+                            .create().show();
                 }
+            }
         });
     }
 
@@ -131,10 +132,10 @@ public class TakePhoto extends AppCompatActivity {
         if (requestCode == SOLICITA_CAMARA && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap bm = (Bitmap) extras.get("data");
-            bmNew = Bitmap.createScaledBitmap(bm,128,128,false);
+            bmNew = Bitmap.createScaledBitmap(bm, 128, 128, false);
             imageView.setImageBitmap(bm);
             tvType.setText(ClosetFragment.clicked);
-        }else if(requestCode == SOLICITA_CAMARA && resultCode ==  RESULT_CANCELED){
+        } else if (requestCode == SOLICITA_CAMARA && resultCode == RESULT_CANCELED) {
             finish();
         }
     }
@@ -163,13 +164,13 @@ public class TakePhoto extends AppCompatActivity {
         ImageView old_iv = findViewById(getOld_iv());
 
         if (old_iv != null) {
-            if(old_iv.getScaleY() > 1.0f && old_iv.getScaleX() > 1.0f){
+            if (old_iv.getScaleY() > 1.0f && old_iv.getScaleX() > 1.0f) {
                 old_iv.setScaleX(1.0f);
                 old_iv.setScaleY(1.0f);
             }
         }
 
-        if(iv.getScaleX() <= 1.0f && iv.getScaleY() <= 1.0f) {
+        if (iv.getScaleX() <= 1.0f && iv.getScaleY() <= 1.0f) {
             iv.setScaleX(iv.getScaleX() + 0.2f);
             iv.setScaleY(iv.getScaleY() + 0.2f);
         }
@@ -215,44 +216,71 @@ public class TakePhoto extends AppCompatActivity {
             color = "#D971FF";
         }*/
 
-        if(v.getId() == (R.id.iv_negro)){
-            color = "negro";
-        }else if(v.getId() == (R.id.iv_blanco)){
-            color = "blanco";
-        }else if(v.getId() == (R.id.iv_gris)){
-            color = "gris";
-        }else if(v.getId() == (R.id.iv_ama_claro)){
-            color = "amarillo_claro";
-        }else if(v.getId() == (R.id.iv_ama_osc)){
-            color = "amarillo_osc";
-        }else if(v.getId() == (R.id.iv_amarillo)){
-            color = "amarillo";
-        }else if(v.getId() == (R.id.iv_rojo_osc)){
-            color = "rojo_osc";
-        }else if(v.getId() == (R.id.iv_rojo_claro)){
-            color = "rojo_claro";
-        }else if(v.getId() == (R.id.iv_rojo)){
-            color = "rojo";
-        }else if(v.getId() == (R.id.iv_verde_osc)){
-            color = "verde_osc";
-        }else if(v.getId() == (R.id.iv_verde)){
-            color = "verde";
-        }else if(v.getId() == (R.id.iv_verde_claro)){
-            color = "verde_claro";
-        }else if(v.getId() == (R.id.iv_azul_osc)){
-            color = "azul_osc";
-        }else if(v.getId() == (R.id.iv_azul_claro)){
-            color = "azul_claro";
-        }else if(v.getId() == (R.id.iv_azul)){
-            color = "azul";
-        }else if(v.getId() == (R.id.iv_morado_osc)){
-            color = "morado_osc";
-        }else if(v.getId() == (R.id.iv_morado)){
-            color = "morado";
-        }else if(v.getId() == (R.id.iv_morado_claro)) {
-            color = "morado_claro";
+        switch (v.getId()) {
+            case R.id.iv_negro:
+                color = "negro";
+                break;
+            case R.id.iv_blanco:
+                color = "blanco";
+                break;
+            case R.id.iv_gris:
+                color = "gris";
+                break;
+            case R.id.iv_ama_claro:
+                color = "amarillo_claro";
+                break;
+            case R.id.iv_ama_osc:
+                color = "amarillo_osc";
+                break;
+            case R.id.iv_amarillo:
+                color = "amarillo";
+                break;
+            case R.id.iv_rojo_osc:
+                color = "rojo_osc";
+                break;
+            case R.id.iv_rojo_claro:
+                color = "rojo_claro";
+                break;
+            case R.id.iv_rojo:
+                color = "rojo";
+                break;
+            case R.id.iv_verde_osc:
+                color = "verde_osc";
+                break;
+            case R.id.iv_verde:
+                color = "verde";
+                break;
+            case R.id.iv_verde_claro:
+                color = "verde_claro";
+                break;
+            case R.id.iv_azul_osc:
+                color = "azul_osc";
+                break;
+            case R.id.iv_azul_claro:
+                color = "azul_claro";
+                break;
+            case R.id.iv_azul:
+                color = "azul";
+                break;
+            case R.id.iv_morado_osc:
+                color = "morado_osc";
+                break;
+            case R.id.iv_morado:
+                color = "morado";
+                break;
+            case R.id.iv_morado_claro:
+                color = "morado_claro";
+                break;
+            case R.id.iv_cafe_osc:
+                color = "cafe_osc";
+                break;
+            case R.id.iv_cafe:
+                color = "cafe";
+                break;
+            case R.id.iv_cafe_claro:
+                color = "cafe_claro";
+                break;
         }
-
 
         setOld_iv(v.getId());
         setColor(color);
@@ -289,8 +317,7 @@ public class TakePhoto extends AppCompatActivity {
         finish();
     }
 
-    class BDTarea extends AsyncTask<Void, Void, Void>
-    {
+    class BDTarea extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             grabarDatos();
