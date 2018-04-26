@@ -63,7 +63,6 @@ public class SugeridosFragment extends Fragment {
     /*private String circuloCromatico[] = {"#FFE600", "#FFCE00", "#FFB300", "#FF8300", "#FF4701", "#FA1037", "#81F000", "#00BC4A"
             , "#00952D", "#0088E1", "#00B9FF", "#1046C7", "#D971FF", "#C415C9", "#8D08B5"};*/
 
-
     private String circuloCromatico[] = {"amarillo_claro","amarillo","amarillo_osc","naranja_claro",
             "naranja", "naranja_osc","rojo_claro","rojo","rojo_osc",
             "morado_claro","morado", "morado_osc","azul_claro","azul","azul_osc",
