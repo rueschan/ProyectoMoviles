@@ -208,7 +208,6 @@ public class SugeridosFragment extends Fragment {
         //Selecciona una de las combinaciones al azar
         Random rnd = new Random();
         int indexShoes, indexBottom, indexCoats;
-
         //for (int i = 0; i < OUTFITS; i++) {
 
         int i = 0;
