@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/colorCard"
-    app:cardCornerRadius="5dp"
-    app:contentPadding="5dp">
+    app:cardBackgroundColor="@android:color/background_light"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="5dp"
+    app:contentPadding="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,70 +17,85 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/outfitName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical|start"
-                android:text="@string/outfit_name"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/cardview_light_background" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/favBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:tint="@color/colorCard"
-                app:backgroundTint="@color/cardview_light_background"
-                app:elevation="0dp"
-                app:srcCompat="@drawable/heart" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="120dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/coatImg"
                 android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_jacket" />
 
             <ImageView
                 android:id="@+id/upperImg"
                 android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_blouse" />
 
             <ImageView
                 android:id="@+id/bottomImg"
                 android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_big_skirt" />
 
             <ImageView
                 android:id="@+id/shoesImg"
                 android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_high_heels" />
         </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/outfitName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="8"
+                android:gravity="center_vertical|start"
+                android:text="@string/outfit_name"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/favBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:tint="@android:color/background_light"
+                app:backgroundTint="@color/colorPrimary"
+                app:elevation="0dp"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/heart" />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

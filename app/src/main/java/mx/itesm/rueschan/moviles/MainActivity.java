@@ -40,16 +40,33 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Adding Floating Action Button to bottom right of main view
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.animate()
+                .translationY(160)
+                .alpha(1.0f)
+                .setListener(null);
+        fab.setVisibility(View.VISIBLE);
+        fab.setClickable(false);
+
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
             public void onPageSelected(int position) {
 
                 switch (position) {
                     case 0:
-                        fab.setVisibility(View.INVISIBLE);
+                        fab.animate()
+                                .translationY(fab.getHeight())
+                                .alpha(1.0f)
+                                .setListener(null);
+                        fab.setVisibility(View.VISIBLE);
+                        fab.setClickable(false);
                         break;
                     case 1:
                         fab.animate()
@@ -57,11 +74,18 @@ public class MainActivity extends AppCompatActivity {
                                 .alpha(1.0f)
                                 .setListener(null);
                         fab.setVisibility(View.VISIBLE);
+                        fab.setClickable(true);
                         break;
                     case 2:
-                        fab.setVisibility(View.INVISIBLE);
+                        fab.animate()
+                                .translationY(fab.getHeight())
+                                .alpha(1.0f)
+                                .setListener(null);
+                        fab.setVisibility(View.VISIBLE);
+                        fab.setClickable(false);
                         break;
                 }
+
             }
         });
 
@@ -89,21 +113,14 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-        // Adding Floating Action Button to bottom right of main view
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setAlpha(1.0f);
 
         currentFragment = viewPager.getCurrentItem();
-
-        fab.animate()
-                .translationY(fab.getHeight())
-                .alpha(1.0f)
-                .setListener(null);
-        fab.setVisibility(View.INVISIBLE);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                int currentFragment = viewPager.getCurrentItem();
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
@@ -116,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 2:
+                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
+                        intent = new Intent(v.getContext(), SugeridosActivity.class);
+                        startActivity(intent);
                         break;
                 }
 
