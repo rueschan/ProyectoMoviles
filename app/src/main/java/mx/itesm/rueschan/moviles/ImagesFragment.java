@@ -23,6 +23,7 @@ import java.util.List;
 
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 
 /**
@@ -65,9 +66,10 @@ public class ImagesFragment extends Fragment {
     private void grabarDatos() {
 
         DataBase db = DataBase.getInstance(getContext());
-        int numImages = db.itemDAO().countByType(ClosetFragment.clicked);
+        User currentUser = MainActivity.currentUser;
+        int numImages = db.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, currentUser.getIdUser());
         Log.i("ImagesFragment", "Quantity of " + ClosetFragment.clicked + ">> " + numImages);
-        List<Item> clothes = db.itemDAO().getAllItemsByType(ClosetFragment.clicked);
+        List<Item> clothes = db.itemDAO().getAllItemsByTypeAndUserID(ClosetFragment.clicked, currentUser.getIdUser());
         arrPhotos = new Bitmap[numImages];
         arrIDs = new int[numImages];
         for (int i = 0; i < numImages; i++) {

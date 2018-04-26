@@ -7,4 +7,9 @@
         <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

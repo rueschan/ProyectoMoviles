@@ -136,15 +136,23 @@ public class PreferencesAct extends AppCompatActivity {
     }
 
     private void saveUser(){
-
         DataBase db = DataBase.getInstance(this);
+        String from = getIntent().getStringExtra("from");
 
-        //Database
-        db.userDAO().insertUsers(user);
-        DataBase.destroyInstance();
+        if(from.equalsIgnoreCase("SignUpAct")){
+            //Database
+            db.userDAO().insertUsers(user);
+            DataBase.destroyInstance();
 
-        Intent init = new Intent(this, LoginAct.class);
-        startActivity(init);
+            Intent init = new Intent(this, LoginAct.class);
+            startActivity(init);
+        }
+        else if (from.equalsIgnoreCase("MainAct")){
+            db.userDAO().updateColor(getColor(), user.getIdUser());
+
+            Intent init = new Intent(this, MainActivity.class);
+            startActivity(init);
+        }
 
     }
 

@@ -81,7 +81,7 @@ public class SugeridosActivity extends AppCompatActivity {
     private void cargarDatos() {
         // BD
         DataBase bd = DataBase.getInstance(this);
-        List<Item> items = bd.itemDAO().getAllItems();
+        List<Item> items = bd.itemDAO().getAllItemsByUserId(MainActivity.currentUser.getIdUser());
 
         //System.out.println("*********" + items.size());
         for (int i = 0; i < items.size(); i++) {

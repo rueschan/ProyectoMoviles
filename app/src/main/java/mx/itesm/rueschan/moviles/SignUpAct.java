@@ -77,7 +77,7 @@ public class SignUpAct extends AppCompatActivity {
             User user = new User();
             user.setName(edName.getText().toString());
             user.setEmail(edEmail.getText().toString());
-            user.setAge(getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900));
+            user.setAge(getAge(birth.getDay(), birth.getMonth(), birth.getYear()+1900));
             user.setBirth(edBirth.getText().toString());
             user.setPassword(edPassword.getText().toString());
             user.setGender(selectGender());
@@ -86,12 +86,13 @@ public class SignUpAct extends AppCompatActivity {
             //db.userDAO().insertUsers(user);
 
             Log.i("onResume", "Registros: " + db.userDAO().countUsers());
-            //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + getAge(birth.getDay(), birth.getMonth(), birth.getYear() + 1900) + "\n" + birth.toString());
+           // Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + user.getAge() + "\n" + birth.toString());
             //Log.i("Año", "Registros: " + db.userDAO().countUsers());
             DataBase.destroyInstance();
 
             Intent init = new Intent(this, PreferencesAct.class);
             init.putExtra("user",  user);
+            init.putExtra("from",  "SignUpAct");
             startActivity(init);
         }
         else{
