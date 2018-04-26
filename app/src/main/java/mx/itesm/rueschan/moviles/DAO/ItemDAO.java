@@ -17,8 +17,14 @@ public interface ItemDAO {
     @Query("SELECT * FROM Item")
     List<Item> getAllItems();
 
+    @Query("SELECT * FROM Item WHERE userID = :userID")
+    List<Item> getAllItemsByUserId(int userID);
+
     @Query("SELECT * FROM Item WHERE tipo = :tipo")
     List<Item> getAllItemsByType(String tipo);
+
+    @Query("SELECT * FROM Item WHERE tipo = :tipo AND userID = :userID")
+    List<Item> getAllItemsByTypeAndUserID(String tipo, int userID);
 
     @Query("SELECT * FROM Item WHERE color = :color")
     List<Item> getItemsByColor(String color);
@@ -34,6 +40,9 @@ public interface ItemDAO {
 
     @Query("SELECT COUNT(*) FROM Item WHERE tipo = :tipo")
     int countByType(String tipo);
+
+    @Query("SELECT COUNT(*) FROM Item WHERE tipo = :tipo AND userID = :userID")
+    int countByTypeAndUserID(String tipo, int userID);
 
     @Insert
     void insertar(Item... items);

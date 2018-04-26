@@ -16,7 +16,7 @@ import mx.itesm.rueschan.moviles.EntidadesBD.User;
 /**
  * Created by IRV1 on 26/03/18.
  */
-@Database(entities = {Item.class, User.class, Outfit.class}, version = 5)
+@Database(entities = {Item.class, User.class, Outfit.class}, version = 6)
 public abstract class DataBase extends RoomDatabase{
 
     private static DataBase INSTANCE;

@@ -138,7 +138,7 @@ public class FavoritosFragment extends Fragment
         DataBase bd = DataBase.getInstance(getContext());
 
         // Ver en consola los items que existen
-        List<Item> items = bd.itemDAO().getAllItems();
+        List<Item> items = bd.itemDAO().getAllItemsByUserId(MainActivity.currentUser.getIdUser());
 
         if (items.size() < 4) return;
 

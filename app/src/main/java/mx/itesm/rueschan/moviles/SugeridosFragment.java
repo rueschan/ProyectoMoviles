@@ -275,7 +275,7 @@ public class SugeridosFragment extends Fragment {
     private void cargarDatos() {
         // BD
         DataBase bd = DataBase.getInstance(getContext());
-        List<Item> items = bd.itemDAO().getAllItems();
+        List<Item> items = bd.itemDAO().getAllItemsByUserId(MainActivity.currentUser.getIdUser());
         Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
         //String colors[] = seleccionarColor();
 

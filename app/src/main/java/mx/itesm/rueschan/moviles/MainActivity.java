@@ -1,10 +1,9 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -18,13 +17,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.Animation;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FloatingActionButton fab;
     private int currentFragment;
     //private String currentUser;
-    private User user12;
-    private String currentName, currentEmail, currentUser;
+    public static User currentUser;
+    private String currentName, currentEmail;
     NavigationView navigationView;
 
     @Override
@@ -191,20 +187,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setAdapter(adapter);
     }
 
-    private void setMainUser(){
-        DataBase db = DataBase.getInstance(getApplicationContext());
-        SharedPreferences preferences = getSharedPreferences("User", MODE_PRIVATE);
-        SharedPreferences.Editor pref = preferences.edit();
-        currentUser = preferences.getString("currentUser", "User").toString();
-        user12 = db.userDAO().searchByEmail(currentUser);
-    //    Log.i("Email", currentUser);
-//        Log.i("hola",user12.getEmail() +"\n" + user12.getName() + "\n" + user12.getGender() + "\n" + user12.getAge() + "\n" + user12.getBirth() + "\n" + user12.getColor());
-  //      Log.i("User", "Values: " + db.userDAO().countUsers());
-        currentName = user12.getName().toString();
-        currentEmail = user12.getEmail().toString();
-
-    }
-
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -270,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_color) {
             Intent init = new Intent(this, PreferencesAct.class);
-            init.putExtra("user", user12);
+            init.putExtra("user", currentUser);
             init.putExtra("from",  "MainAct");
             startActivity(init);
         } else if (id == R.id.nav_Info) {
@@ -313,6 +295,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onPostExecute(aVoid);
             //Log.i("onPost", "Dato grabado ********************");
         }
+    }
+
+    private void setMainUser(){
+        DataBase db = DataBase.getInstance(getApplicationContext());
+        SharedPreferences preferences = getSharedPreferences("User", MODE_PRIVATE);
+        currentUser = db.userDAO().searchByEmail(preferences.getString("currentUser", "User").toString());
+        //    Log.i("Email", currentUser);
+//        Log.i("hola",currentUser.getEmail() +"\n" + currentUser.getName() + "\n" + currentUser.getGender() + "\n" + currentUser.getAge() + "\n" + currentUser.getBirth() + "\n" + currentUser.getColor());
+        //      Log.i("User", "Values: " + db.userDAO().countUsers());
+        currentName = currentUser.getName().toString();
+        currentEmail = currentUser.getEmail().toString();
+
     }
 }
 

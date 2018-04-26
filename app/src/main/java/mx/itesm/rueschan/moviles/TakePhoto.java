@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 public class TakePhoto extends AppCompatActivity {
 
@@ -267,9 +268,10 @@ public class TakePhoto extends AppCompatActivity {
         bd.setTipo(ClosetFragment.clicked);
         bd.setEvento(eventsList.getSelectedItem().toString());
         DataBase dataBase = DataBase.getInstance(this);
+        bd.setUserID(MainActivity.currentUser.getIdUser());
         dataBase.itemDAO().insertar(bd);
 
-        System.out.println(dataBase.itemDAO().countByType(ClosetFragment.clicked));
+        System.out.println(dataBase.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, MainActivity.currentUser.getIdUser()));
         DataBase.destroyInstance();
 
     }
