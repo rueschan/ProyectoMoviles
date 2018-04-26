@@ -197,9 +197,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor pref = preferences.edit();
         currentUser = preferences.getString("currentUser", "User").toString();
         user12 = db.userDAO().searchByEmail(currentUser);
-        Log.i("Email", currentUser);
-        Log.i("hola",user12.getEmail() +"\n" + user12.getName() + "\n" + user12.getGender() + "\n" + user12.getAge() + "\n" + user12.getBirth() + "\n" + user12.getColor());
-        Log.i("User", "Values: " + db.userDAO().countUsers());
+    //    Log.i("Email", currentUser);
+//        Log.i("hola",user12.getEmail() +"\n" + user12.getName() + "\n" + user12.getGender() + "\n" + user12.getAge() + "\n" + user12.getBirth() + "\n" + user12.getColor());
+  //      Log.i("User", "Values: " + db.userDAO().countUsers());
         currentName = user12.getName().toString();
         currentEmail = user12.getEmail().toString();
 
