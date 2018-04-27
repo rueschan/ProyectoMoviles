@@ -97,8 +97,6 @@ public class FavoritosFragment extends Fragment
 
         numSize = outfits.size();
 
-
-
         // Crea los arreglos para el adaptador
         arrIDs = new int[numOutfits];
         arrNames = new String[numOutfits];

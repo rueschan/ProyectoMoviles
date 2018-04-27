@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
+    private ConstraintLayout selectedLayout;
     private TextView tvUser, tvMail;
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
+
+        selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
+        selectedLayout.setVisibility(View.INVISIBLE);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
