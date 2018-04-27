@@ -98,7 +98,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(true);
                         break;
                     case 2:
-                        if(SugeridosFragment.numSize == 0){
+                        System.out.println(SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
+                                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
+                                SugeridosFragment.coatsSize);
+                        if(SugeridosFragment.numSize == 0 || SugeridosFragment.shoesSize == 0 ||
+                                SugeridosFragment.bottomSize  == 0 || SugeridosFragment.topSize == 0 ||
+                                SugeridosFragment.coatsSize == 0) {
                             String errorMsg = SugeridosFragment.errorMessage;
                             System.out.println("MSG EN MAIN" + errorMsg);
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
@@ -151,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                         break;
                     case 1:
-                        if(FavoritosFragment.numSize == 0){
+                        if(FavoritosFragment.numSize == 0 ){
                             String errorMsg = "No hay suficiente ropa";
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
@@ -163,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
-                        intent = new Intent(v.getContext(), SugeridosActivity.class);
-                        startActivity(intent);
                         break;
                 }
 

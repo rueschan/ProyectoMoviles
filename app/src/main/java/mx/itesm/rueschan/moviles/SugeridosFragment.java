@@ -55,7 +55,7 @@ public class SugeridosFragment extends Fragment {
     private List<Item> items;
 
 
-    public static int numSize;
+    public static int numSize, shoesSize, bottomSize, topSize, coatsSize;
     public static String errorMessage;
 
     //private OnFragmentInteractionListener mListener;
@@ -314,7 +314,6 @@ public class SugeridosFragment extends Fragment {
             colors = new String[items.size()];
             System.out.println("ITEMS " + items.size());
 
-            numSize = items.size();
             sizeBD = bd.outfitDAO().countOutfits();
 
 
@@ -340,7 +339,6 @@ public class SugeridosFragment extends Fragment {
 
         System.out.println("ITEMS " + items.size());
 
-
         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
 
             String errorMsg = "You don't have these items:\n";
@@ -361,7 +359,6 @@ public class SugeridosFragment extends Fragment {
             }
 
             //System.out.println("MSG " + errorMsg);
-            errorMessage = errorMsg;
                 /*
                 for (int i = 0; i < tipoItems.length; i++) {
                     if (tipoItems[i] < 1)
@@ -371,7 +368,15 @@ public class SugeridosFragment extends Fragment {
            /* MyAlertDialog dialog = new MyAlertDialog(errorMsg);
             dialog.show(getActivity().getFragmentManager(), "Sample Fragment");*/
         }
-
+        errorMessage = errorMsg;
+        shoesSize = shoes.size();
+        bottomSize = bottom.size();
+        topSize = top.size();
+        coatsSize = coats.size();
+        numSize = items.size();
+        System.out.println("FRAG " + SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
+                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
+                SugeridosFragment.coatsSize);
         DataBase.destroyInstance();
 
         }
@@ -669,7 +674,7 @@ public class SugeridosFragment extends Fragment {
     }
 
     // Para cargar los datos en segundo plano
-    class BDItem extends AsyncTask<Void, Void, Void> {
+    private class BDItem extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             cargarDatos();
@@ -679,6 +684,7 @@ public class SugeridosFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            crearOutfits();
             // Nuevos datos para el adaptador
             SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
