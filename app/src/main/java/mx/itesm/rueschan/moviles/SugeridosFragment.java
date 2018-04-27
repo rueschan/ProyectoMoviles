@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -16,6 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
+import static xdroid.toaster.Toaster.toast;
+import static xdroid.toaster.Toaster.toastLong;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +50,9 @@ public class SugeridosFragment extends Fragment {
     private Bitmap[] arrBottoms;
     private int shoeID;
     private Bitmap[] arrShoes;
+
+    public static int numSize;
+    public static String errorMessage;
     private ArrayList<Item> shoes = new ArrayList<>();
     private ArrayList<Item> top = new ArrayList<>();
     private ArrayList<Item> bottom = new ArrayList<>();
@@ -155,14 +163,17 @@ public class SugeridosFragment extends Fragment {
             if (coats.size() == 0) {
                 errorMsg += "- Coats";
             }
+
+            errorMessage = errorMsg;
+            //toast("CACA");
                 /*
                 for (int i = 0; i < tipoItems.length; i++) {
                     if (tipoItems[i] < 1)
                         errorMsg += "- " + item[i] + "\n";
                 }*/
 
-                MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                dialog.show(getActivity().getFragmentManager(), "Sample Fragment");
+                /*MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                dialog.show(getActivity().getFragmentManager(), "Sample Fragment");*/
         }
 
 
@@ -320,6 +331,9 @@ public class SugeridosFragment extends Fragment {
             // BD
             DataBase bd = DataBase.getInstance(getContext());
             List<Item> items = bd.itemDAO().getAllItems();
+
+            numSize = items.size();
+
             Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
                 colors = new String[items.size()];
 

@@ -23,6 +23,9 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import static xdroid.toaster.Toaster.toast;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int currentFragment;
     //private String currentUser;
     public static User currentUser;
+    public static int numSize;
     private String currentName, currentEmail;
     NavigationView navigationView;
 
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (position) {
                     case 0:
+
                         fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(false);
                         break;
                     case 1:
+
                         fab.animate()
                                 .translationY(0)
                                 .alpha(1.0f)
@@ -91,6 +97,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(true);
                         break;
                     case 2:
+                        if(SugeridosFragment.numSize == 0){
+                            String errorMsg = SugeridosFragment.errorMessage;
+                            MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                            dialog.show(getFragmentManager(), "Sample Fragment");
+                        }
                         fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
@@ -117,28 +128,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-       /* // Set behavior of Navigation drawer
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    // This method will trigger on item Click of navigation menu
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // Set item in checked state
-                        menuItem.setChecked(true);
 
-                        // TODO: handle navigation
-
-                        // Closing drawer on item click
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-                });*/
         // Adding Floating Action Button to bottom right of main view
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setAlpha(1.0f);
 
         currentFragment = viewPager.getCurrentItem();
+
+        System.out.println(currentFragment);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,9 +149,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                         break;
                     case 1:
+                        if(FavoritosFragment.numSize == 0){
+                            String errorMsg = "No hay suficiente ropa";
+                            MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                            dialog.show(getFragmentManager(), "Sample Fragment");
+                        }else{
                         ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         intent = new Intent(v.getContext(), SelectItemsActivity.class);
-                        startActivity(intent);
+                        startActivity(intent);}
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
@@ -235,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

@@ -1,6 +1,7 @@
 package mx.itesm.rueschan.moviles;
 
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.List;
+
+import static xdroid.toaster.Toaster.toast;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
@@ -44,6 +47,9 @@ public class FavoritosFragment extends Fragment
     private Bitmap[] arrBottoms;
     private int shoeID;
     private Bitmap[] arrShoes;
+
+    public static int numSize;
+    public static String errorMessage;
 
     public FavoritosFragment() {
         // Required empty public constructor
@@ -88,6 +94,10 @@ public class FavoritosFragment extends Fragment
         int numOutfits = bd.outfitDAO().countOutfits();
         Log.i("FavoritosFragment", "Cargar Datos :: Registros: " + numOutfits);
         List<Outfit> outfits = bd.outfitDAO().readAll();
+
+        numSize = outfits.size();
+
+
 
         // Crea los arreglos para el adaptador
         arrIDs = new int[numOutfits];
