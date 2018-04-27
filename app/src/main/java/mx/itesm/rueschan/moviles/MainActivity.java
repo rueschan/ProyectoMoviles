@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
                         }else{
+
                         ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         intent = new Intent(v.getContext(), SelectItemsActivity.class);
                         startActivity(intent);}
