@@ -415,7 +415,7 @@ public class SugeridosFragment extends Fragment {
 
             for (int j = 0; j < coats.size() ; j++) {
                 if(verificarCombinacionesContraste(top.get(i).getColor(), coats.get(j).getColor()))
-                    combinacionesCoats.add(coats.get(i));
+                    combinacionesCoats.add(coats.get(j));
             }
 
                     /*Log.i(top.get(i).getColor(),"Shoes" + combinacionesShoes.toString() + "\nBottom" + combinacionesBottom.toString( ) +
