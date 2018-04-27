@@ -1,9 +1,9 @@
 package mx.itesm.rueschan.moviles;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,15 +16,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
-import static xdroid.toaster.Toaster.toast;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 2:
                         if(SugeridosFragment.numSize == 0){
                             String errorMsg = SugeridosFragment.errorMessage;
+                            System.out.println("MSG EN MAIN" + errorMsg);
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
                         }
