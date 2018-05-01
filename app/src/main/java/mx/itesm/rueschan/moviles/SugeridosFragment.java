@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,13 +37,9 @@ public class SugeridosFragment extends Fragment {
     // Arreglos para el adaptador
     private int[] arrIDs;
     private String[] arrNames;
-    private int coatID;
     private Bitmap[] arrCoats;
-    private int upperID;
     private Bitmap[] arrUppers;
-    private int bottomId;
     private Bitmap[] arrBottoms;
-    private int shoeID;
     private Bitmap[] arrShoes;
 
     private ArrayList<Item> shoes;
@@ -55,30 +50,24 @@ public class SugeridosFragment extends Fragment {
     private List<Item> items;
 
 
-    public static int numSize, shoesSize, bottomSize, topSize, coatsSize;
-    public static String errorMessage;
-
     //private OnFragmentInteractionListener mListener;
 
-    private final int OUTFITS = 5;
-
     //verificar cantidad datos
-    private String errorMsg = "";
-    String item[] = {"Shoes", "Bottom", "Top", "Coats"};
     private String camafeo[]; //colores cercanos
     //combinar prendas de colores cercanos en el círculo cromático, como por ejemplo el beige y el marrón.
 
     /*private String circuloCromatico[] = {"#FFE600", "#FFCE00", "#FFB300", "#FF8300", "#FF4701", "#FA1037", "#81F000", "#00BC4A"
             , "#00952D", "#0088E1", "#00B9FF", "#1046C7", "#D971FF", "#C415C9", "#8D08B5"};*/
 
-    private String circuloCromatico[] = {"amarillo_claro","amarillo","amarillo_osc","naranja_claro",
-            "naranja", "naranja_osc","rojo_claro","rojo","rojo_osc",
-            "morado_claro","morado", "morado_osc","azul_claro","azul","azul_osc",
+    private String circuloCromatico[] = {"amarillo_claro","amarillo","amarillo_osc","cafe_claro", "cafe", "cafe_osc",
+            "rojo_claro","rojo","rojo_osc", "morado_claro","morado", "morado_osc","azul_claro","azul","azul_osc",
             "verde_claro","verde","verde_osc"};
     //amarillo, rojo, rojo osc, morado, azul osc, azul calro, verde osc;
     private String contraste[]; //colores opuestos
     private String universales[] = {"blanco", "negro", "gris"};
-    private int sizeBD;
+    private String mezclilla[] = {"azul_claro","azul","azul_osc"};
+    private int outfits;
+
 
     /*beige**
       negro = #000000
@@ -105,6 +94,7 @@ public class SugeridosFragment extends Fragment {
     public SugeridosFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -137,8 +127,7 @@ public class SugeridosFragment extends Fragment {
     public void onStart() {
         super.onStart();
         new BDItem().execute();
-        //System.out.println("ITEMS " + items.size());
-        //crearOutfits();
+
     }
 
     private void crearOutfits() {
@@ -147,102 +136,33 @@ public class SugeridosFragment extends Fragment {
             HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste = crearCombinacionesContraste(shoes, bottom, top, coats);
             HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats);
 
-
-            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, sizeBD);
+            Log.i("CONTRASTE " , combinacionesContraste.size() + "");
+            Log.i("CONTINUO", combinacionesContinuo.size() + "");
+            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, outfits);
         }
-
 
     }
 
-
-    private void seleccionarOutfitContraste(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, DataBase bd) {
+    private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, int size) {
 
         // Crea los arreglos para el adaptador
-        /*arrIDs = new int[OUTFITS];
-        arrNames = new String[OUTFITS];
-        arrCoats = new Bitmap[OUTFITS];
-        arrUppers = new Bitmap[OUTFITS];
-        arrBottoms = new Bitmap[OUTFITS];
-        arrShoes = new Bitmap[OUTFITS];*/
-
-        arrIDs = new int[combinaciones.size()];
-        arrNames = new String[combinaciones.size()];
-        arrCoats = new Bitmap[combinaciones.size()];
-        arrUppers = new Bitmap[combinaciones.size()];
-        arrBottoms = new Bitmap[combinaciones.size()];
-        arrShoes = new Bitmap[combinaciones.size()];
+        arrIDs = new int[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrNames = new String[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrCoats = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrUppers = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrBottoms = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrShoes = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
 
         // Procesa cada registro
-        Iterator it = combinaciones.entrySet().iterator();
+        Iterator it = combinacionesContinuo.entrySet().iterator();
 
         //Selecciona una de las combinaciones al azar
         Random rnd = new Random();
         int indexShoes, indexBottom, indexCoats;
-
-        //for (int i = 0; i < OUTFITS; i++) {
 
         int i = 0;
 
         while (it.hasNext()) {
-            Map.Entry me = (Map.Entry) it.next();
-            System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
-            ArrayList<ArrayList<Item>> itemTemp = (ArrayList<ArrayList<Item>>) me.getValue();
-            //System.out.println("Shoes " + itemTemp.get(0).get(0));
-            Item key = (Item) me.getKey();
-            //String color[] = new String[OUTFITS];
-
-            indexShoes = rnd.nextInt(itemTemp.get(0).size());
-            indexBottom = rnd.nextInt(itemTemp.get(1).size());
-            indexCoats = rnd.nextInt(itemTemp.get(2).size());
-            //System.out.println(itemTemp.get(0).get(indexShoes));
-
-            arrIDs[i] = bd.outfitDAO().countOutfits() + (i+1);
-            arrNames[i] = "Outfit " + (arrIDs[i]) ;
-
-            // Leer id y buscar foto de Top
-            arrUppers[i] = decodificarImagen(key);
-            // Leer id y buscar foto de shoes
-            arrShoes[i] = decodificarImagen(itemTemp.get(0).get(indexShoes));
-            // Leer id y buscar foto de bottom
-            arrBottoms[i] = decodificarImagen(itemTemp.get(1).get(indexBottom));
-            // Leer id y buscar foto de coats
-            arrCoats[i] = decodificarImagen(itemTemp.get(2).get(indexCoats));
-
-            i++;
-
-            //}
-
-        }
-    }
-
-    private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, int bd) {
-
-        // Crea los arreglos para el adaptador
-        /*arrIDs = new int[OUTFITS];
-        arrNames = new String[OUTFITS];
-        arrCoats = new Bitmap[OUTFITS];
-        arrUppers = new Bitmap[OUTFITS];
-        arrBottoms = new Bitmap[OUTFITS];
-        arrShoes = new Bitmap[OUTFITS];*/
-
-        arrIDs = new int[combinaciones.size()];
-        arrNames = new String[combinaciones.size() + combinacionesContinuo.size()];
-        arrCoats = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
-        arrUppers = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
-        arrBottoms = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
-        arrShoes = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
-
-        // Procesa cada registro
-        Iterator it = combinaciones.entrySet().iterator();
-
-        //Selecciona una de las combinaciones al azar
-        Random rnd = new Random();
-        int indexShoes, indexBottom, indexCoats;
-        //for (int i = 0; i < OUTFITS; i++) {
-
-        int i = 0;
-
-            while (it.hasNext()) {
                 Map.Entry me = (Map.Entry) it.next();
                 System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
                 ArrayList<ArrayList<Item>> itemTemp = (ArrayList<ArrayList<Item>>) me.getValue();
@@ -255,7 +175,7 @@ public class SugeridosFragment extends Fragment {
                 indexCoats = rnd.nextInt(itemTemp.get(2).size());
                 //System.out.println(itemTemp.get(0).get(indexShoes));
 
-                arrIDs[i] = sizeBD + (i+1);
+                arrIDs[i] =  size + (i+1);
                 arrNames[i] = "Outfit " + (arrIDs[i]) ;
 
                 // Leer id y buscar foto de Top
@@ -268,10 +188,9 @@ public class SugeridosFragment extends Fragment {
                 arrCoats[i] = decodificarImagen(itemTemp.get(2).get(indexCoats));
 
                 i++;
-            //}
         }
 
-        it = combinacionesContinuo.entrySet().iterator();
+        it = combinacionesContraste.entrySet().iterator();
 
         while (it.hasNext()) {
             Map.Entry me = (Map.Entry) it.next();
@@ -286,7 +205,7 @@ public class SugeridosFragment extends Fragment {
             indexCoats = rnd.nextInt(itemTemp.get(2).size());
             //System.out.println(itemTemp.get(0).get(indexShoes));
 
-            arrIDs[i] = bd + (i + 1);
+            arrIDs[i] = size + (i + 1);
             arrNames[i] = "Outfit " + (arrIDs[i]);
 
             // Leer id y buscar foto de Top
@@ -302,21 +221,19 @@ public class SugeridosFragment extends Fragment {
         }
     }
 
-    
-    private void cargarDatos() {
+    public void cargarDatos() {
             // BD
             DataBase bd = DataBase.getInstance(getContext());
             items = bd.itemDAO().getAllItems();
+
+        outfits = bd.outfitDAO().countOutfits();
             shoes = new ArrayList<>();
             top = new ArrayList<>();
             bottom = new ArrayList<>();
             coats = new ArrayList<>();
             colors = new String[items.size()];
-            System.out.println("ITEMS " + items.size());
 
-            sizeBD = bd.outfitDAO().countOutfits();
-
-
+            //System.out.println("ITEMS " + items.size());
             Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
 
             for (int i = 0; i < items.size(); i++) {
@@ -337,48 +254,7 @@ public class SugeridosFragment extends Fragment {
                 colors[i] = items.get(i).getColor();
             }
 
-        System.out.println("ITEMS " + items.size());
-
-        if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
-
-            String errorMsg = "You don't have these items:\n";
-            if (shoes.size() == 0) {
-                errorMsg += "- Shoes\n";
-            }
-
-            if (bottom.size() == 0) {
-                errorMsg += "- Bottom\n";
-            }
-
-            if (top.size() == 0) {
-                errorMsg += "- Top\n";
-            }
-
-            if (coats.size() == 0) {
-                errorMsg += "- Coats";
-            }
-
-            //System.out.println("MSG " + errorMsg);
-                /*
-                for (int i = 0; i < tipoItems.length; i++) {
-                    if (tipoItems[i] < 1)
-                        errorMsg += "- " + item[i] + "\n";
-                }*/
-
-           /* MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-            dialog.show(getActivity().getFragmentManager(), "Sample Fragment");*/
-        }
-        errorMessage = errorMsg;
-        shoesSize = shoes.size();
-        bottomSize = bottom.size();
-        topSize = top.size();
-        coatsSize = coats.size();
-        numSize = items.size();
-        System.out.println("FRAG " + SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
-                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
-                SugeridosFragment.coatsSize);
         DataBase.destroyInstance();
-
         }
 
     private HashMap<Item,ArrayList<ArrayList<Item>>> crearCombinacionesContinuo(ArrayList<Item> shoes, ArrayList<Item> bottom, ArrayList<Item> top, ArrayList<Item> coats) {
@@ -399,6 +275,9 @@ public class SugeridosFragment extends Fragment {
 
             for (int j = 0; j < bottom.size() ; j++) {
                 if(verificarCombinacionesContinuo(top.get(i).getColor(), bottom.get(j).getColor()))
+                    combinacionesBottom.add(bottom.get(j));
+
+                if(verificarMezclilla(bottom.get(j).getColor()))
                     combinacionesBottom.add(bottom.get(j));
             }
 
@@ -443,11 +322,16 @@ public class SugeridosFragment extends Fragment {
             }
 
             for (int j = 0; j < bottom.size() ; j++) {
+                //Log.i("BOTTOM",bottom.get(j).getColor());
                 if(verificarCombinacionesContraste(top.get(i).getColor(), bottom.get(j).getColor()))
+                    combinacionesBottom.add(bottom.get(j));
+
+                if(verificarMezclilla(bottom.get(j).getColor()))
                     combinacionesBottom.add(bottom.get(j));
             }
 
             for (int j = 0; j < coats.size() ; j++) {
+                //Log.i("COATS",coats.get(j).getColor());
                 if(verificarCombinacionesContraste(top.get(i).getColor(), coats.get(j).getColor()))
                     combinacionesCoats.add(coats.get(j));
             }
@@ -470,7 +354,8 @@ public class SugeridosFragment extends Fragment {
         return combinaciones;
     }
 
-    private boolean verificarCombinacionesContinuo(String colorTop, String colorItem) {
+    private boolean verificarCombinacionesContraste(String colorTop, String colorItem) {
+
         if (Arrays.toString(universales).contains(colorTop) || Arrays.toString(universales).contains(colorItem))
             return true;
         /* 0-2; 9-11;
@@ -499,15 +384,25 @@ public class SugeridosFragment extends Fragment {
         int indexItem = getIndex(colorItem);
         int indexTop = getIndex(colorTop);
 
-        if (indexTop == indexItem - 9 && indexTop == indexItem + 9)
+        if (indexTop == indexItem - 9 || indexTop == indexItem + 9)
             return true;
-        if (indexItem == indexTop - 9 && indexItem == indexTop + 9)
+
+        if (indexItem == indexTop - 9 || indexItem == indexTop + 9)
             return true;
+
+
 
         return false;
     }
 
-    private boolean verificarCombinacionesContraste(String colorTop, String colorItem) {
+    private boolean verificarMezclilla(String colorItem) {
+
+        return Arrays.toString(mezclilla).contains(colorItem);
+
+    }
+
+    private boolean verificarCombinacionesContinuo(String colorTop, String colorItem) {
+
         if (Arrays.toString(universales).contains(colorTop) || Arrays.toString(universales).contains(colorItem))
             return true;
 
@@ -521,19 +416,6 @@ public class SugeridosFragment extends Fragment {
         return false;
     }
 
-    private boolean verificarCombinaciones(HashMap<Integer, ArrayList> combinaciones) {
-
-        ArrayList values = new ArrayList<>(combinaciones.size());
-        for (int key : combinaciones.keySet()) {
-            values = combinaciones.get(key);
-
-            if (values == null || values.contains(null))
-                return false;
-        }
-
-        return true;
-    }
-
     private int getIndex(String color) {
         for (int i = 0; i < circuloCromatico.length; i++) {
             if (circuloCromatico[i].equalsIgnoreCase(color))
@@ -541,29 +423,6 @@ public class SugeridosFragment extends Fragment {
         }
 
         return -1;
-    }
-
-    private ArrayList calcularCombinaciones(String color, int index) {
-
-        ArrayList<String> combinacionesArray = new ArrayList<>(5);
-
-
-        for (int i = 0; i < universales.length; i++) {
-            if (color.equalsIgnoreCase(universales[i])) {
-                for (int j = 0; j < combinacionesArray.size(); j++) {
-                    combinacionesArray.add(circuloCromatico[new Random().nextInt(circuloCromatico.length)]);
-                }
-                return  combinacionesArray;
-            }
-        }
-
-        for (int i = 0; i < circuloCromatico.length; i++) {
-            if (i >= index - 2 && i <= index + 2) {
-                combinacionesArray.add(circuloCromatico[i]);
-            }
-        }
-
-        return combinacionesArray;
     }
 
     //     Crea el bitmap a partir del arreglo de bytes
@@ -685,6 +544,7 @@ public class SugeridosFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             crearOutfits();
+
             // Nuevos datos para el adaptador
             SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);

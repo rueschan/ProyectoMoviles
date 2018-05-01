@@ -3,11 +3,9 @@ package mx.itesm.rueschan.moviles;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.v4.app.DialogFragment;
 
 
 public class MyAlertDialog extends DialogFragment {

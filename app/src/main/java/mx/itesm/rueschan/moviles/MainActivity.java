@@ -2,6 +2,7 @@ package mx.itesm.rueschan.moviles;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -18,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.DAO.ItemDAO;
+import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 import mx.itesm.rueschan.moviles.EntidadesBD.User;
+
+import static xdroid.core.Global.getContext;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,16 +51,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String currentName, currentEmail;
     NavigationView navigationView;
 
+    private ArrayList<Item> shoes;
+    private ArrayList<Item> top;
+    private ArrayList<Item> bottom;
+    private ArrayList<Item> coats;
+    private String colors[];
+    private List<Item> items;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvUser = findViewById(R.id.tvUsuario);
         tvMail = findViewById(R.id.tvMail);
-        new DBMain().execute();
         setSupportActionBar(toolbar);
 
         // Adding Floating Action Button to bottom right of main view
@@ -73,8 +85,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         selectedLayout.setVisibility(View.INVISIBLE);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
 
@@ -98,16 +113,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(true);
                         break;
                     case 2:
-                        System.out.println(SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
-                                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
-                                SugeridosFragment.coatsSize);
-                        if(SugeridosFragment.numSize == 0 || SugeridosFragment.shoesSize == 0 ||
-                                SugeridosFragment.bottomSize  == 0 || SugeridosFragment.topSize == 0 ||
-                                SugeridosFragment.coatsSize == 0) {
-                            String errorMsg = SugeridosFragment.errorMessage;
-                            System.out.println("MSG EN MAIN" + errorMsg);
+                        if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
+                            String errorMsg = "You don't have these items:\n";
+                            if (shoes.size() == 0)
+                                errorMsg += "- Shoes\n";
+                            if (bottom.size() == 0)
+                                errorMsg += "- Bottom\n";
+                            if (top.size() == 0)
+                                errorMsg += "- Top\n";
+                            if (coats.size() == 0)
+                                errorMsg += "- Coats";
+
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                            dialog.show(getFragmentManager(), "Sample Fragment");
+                            dialog.show(getSupportFragmentManager(), "Sample Fragment");
                         }
                         fab.animate()
                                 .translationY(fab.getHeight())
@@ -156,15 +174,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                         break;
                     case 1:
-                        if(FavoritosFragment.numSize == 0 ){
-                            String errorMsg = "No hay suficiente ropa";
-                            MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                            dialog.show(getFragmentManager(), "Sample Fragment");
-                        }else{
+                        if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
+                            String errorMsg = "You don't have these items:\n";
+                            if (shoes.size() == 0)
+                                errorMsg += "- Shoes\n";
+                            if (bottom.size() == 0)
+                                errorMsg += "- Bottom\n";
+                            if (top.size() == 0)
+                                errorMsg += "- Top\n";
+                            if (coats.size() == 0)
+                                errorMsg += "- Coats";
 
-                        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
-                        intent = new Intent(v.getContext(), SelectItemsActivity.class);
-                        startActivity(intent);}
+                            MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                            dialog.show(getSupportFragmentManager(), "Sample Fragment");
+                        } else {
+                            ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
+                            intent = new Intent(v.getContext(), SelectItemsActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
@@ -178,10 +205,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
+        new DBMain().execute();
         //user = (User)getIntent().getSerializableExtra("userCurrent");
         View v = navigationView.getHeaderView(0);
-        tvUser = (TextView ) v.findViewById(R.id.tvUsuario);
-        tvMail = (TextView ) v.findViewById(R.id.tvMail);
+        tvUser = (TextView) v.findViewById(R.id.tvUsuario);
+        tvMail = (TextView) v.findViewById(R.id.tvMail);
         tvUser.setText(currentName);
         tvMail.setText(currentEmail);
     }
@@ -231,19 +259,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-   /* @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
-        drawerToggle.syncState();
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
 
         //noinspection SimplifiableIfStatement
@@ -263,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_color) {
             Intent init = new Intent(this, PreferencesAct.class);
             init.putExtra("user", currentUser);
-            init.putExtra("from",  "MainAct");
+            init.putExtra("from", "MainAct");
             startActivity(init);
         } else if (id == R.id.nav_Info) {
             Intent init = new Intent(this, AboutActivity.class);
@@ -292,22 +313,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(a);
     }
 
-    class DBMain extends AsyncTask<Void, Void, Void>
-    {
+    class DBMain extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected Void doInBackground(Void... voids) {
             setMainUser();
+            cargarDatos();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+
+            /*FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
+            adapt.notifyDataSetChanged();*/
             //Log.i("onPost", "Dato grabado ********************");
+        }
+
+        private void cargarDatos() {
+            // BD
+            DataBase bd = DataBase.getInstance(getContext());
+            items = bd.itemDAO().getAllItems();
+            shoes = new ArrayList<>();
+            top = new ArrayList<>();
+            bottom = new ArrayList<>();
+            coats = new ArrayList<>();
+            colors = new String[items.size()];
+            System.out.println("ITEMS " + items.size());
+
+            //sizeBD = bd.outfitDAO().countOutfits();
+
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getTipo().equalsIgnoreCase("Shoes")) {
+                    shoes.add(items.get(i));
+                }
+                if (items.get(i).getTipo().equalsIgnoreCase("Bottom")) {
+                    bottom.add(items.get(i));
+                }
+                if (items.get(i).getTipo().equalsIgnoreCase("Top")) {
+                    top.add(items.get(i));
+                }
+                if (items.get(i).getTipo().equalsIgnoreCase("Coats")) {
+                    coats.add(items.get(i));
+                }
+
+                //Seleccionar Color
+                colors[i] = items.get(i).getColor();
+            }
+
         }
     }
 
-    private void setMainUser(){
+    private void setMainUser() {
         DataBase db = DataBase.getInstance(getApplicationContext());
         SharedPreferences preferences = getSharedPreferences("User", MODE_PRIVATE);
         currentUser = db.userDAO().searchByEmail(preferences.getString("currentUser", "User").toString());
@@ -319,4 +379,3 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 }
-
