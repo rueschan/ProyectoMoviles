@@ -24,21 +24,107 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                 />
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"/>
+                android:background="@color/colorPrimary" />
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </android.support.v4.view.ViewPager>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/selectedLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="Selected Items"
+                        android:textAlignment="textStart"
+                        android:layout_gravity="start"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textColor="@color/colorAccent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="96dp"
+                        android:layout_marginRight="96dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+                        <ImageView
+                            android:id="@+id/selectedCoat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tint="@color/colorAccent"
+                            app:srcCompat="@drawable/ic_high_heels" />
+
+                        <ImageView
+                            android:id="@+id/selectedUpper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tint="@color/colorAccent"
+                            app:srcCompat="@drawable/ic_big_skirt" />
+
+                        <ImageView
+                            android:id="@+id/selectedBottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tint="@color/colorAccent"
+                            app:srcCompat="@drawable/ic_jacket" />
+
+                        <ImageView
+                            android:id="@+id/selectedShoes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:tint="@color/colorAccent"
+                            app:srcCompat="@drawable/ic_blouse" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -47,8 +133,10 @@
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="@dimen/md_keylines"
             android:layout_marginRight="@dimen/md_keylines"
+            android:layout_marginEnd="@dimen/md_keylines"
             android:tint="#FFFFFF"
             app:srcCompat="@android:drawable/ic_menu_add" />
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
@@ -60,6 +148,7 @@
         app:headerLayout="@layout/nav"
         app:menu="@menu/drawer_menu"
        />
+
 </android.support.v4.widget.DrawerLayout>
 
 

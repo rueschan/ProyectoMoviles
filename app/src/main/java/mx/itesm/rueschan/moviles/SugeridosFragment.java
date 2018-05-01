@@ -1,6 +1,5 @@
 package mx.itesm.rueschan.moviles;
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,9 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import static xdroid.toaster.Toaster.toast;
-import static xdroid.toaster.Toaster.toastLong;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,13 +47,17 @@ public class SugeridosFragment extends Fragment {
     private int shoeID;
     private Bitmap[] arrShoes;
 
-    public static int numSize;
-    public static String errorMessage;
-    private ArrayList<Item> shoes = new ArrayList<>();
-    private ArrayList<Item> top = new ArrayList<>();
-    private ArrayList<Item> bottom = new ArrayList<>();
-    private ArrayList<Item> coats = new ArrayList<>();
+    private ArrayList<Item> shoes;
+    private ArrayList<Item> top;
+    private ArrayList<Item> bottom;
+    private ArrayList<Item> coats;
     private String colors[];
+    private List<Item> items;
+
+
+    public static int numSize, shoesSize, bottomSize, topSize, coatsSize;
+    public static String errorMessage;
+
     //private OnFragmentInteractionListener mListener;
 
     private final int OUTFITS = 5;
@@ -78,6 +78,7 @@ public class SugeridosFragment extends Fragment {
     //amarillo, rojo, rojo osc, morado, azul osc, azul calro, verde osc;
     private String contraste[]; //colores opuestos
     private String universales[] = {"blanco", "negro", "gris"};
+    private int sizeBD;
 
     /*beige**
       negro = #000000
@@ -136,44 +137,18 @@ public class SugeridosFragment extends Fragment {
     public void onStart() {
         super.onStart();
         new BDItem().execute();
+        //System.out.println("ITEMS " + items.size());
+        //crearOutfits();
     }
 
-    private void crearOutfit(DataBase bd) {
+    private void crearOutfits() {
 
         if (shoes.size() > 0 && bottom.size() > 0 && top.size() > 0 && coats.size() > 0) {
             HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste = crearCombinacionesContraste(shoes, bottom, top, coats);
             HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats);
 
 
-            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, bd);
-        } else {
-            String errorMsg = "You don't have these items:\n";
-            if (shoes.size() == 0) {
-                errorMsg += "- Shoes\n";
-            }
-
-            if (bottom.size() == 0) {
-                errorMsg += "- Bottom\n";
-            }
-
-            if (top.size() == 0) {
-                errorMsg += "- Top\n";
-            }
-
-            if (coats.size() == 0) {
-                errorMsg += "- Coats";
-            }
-
-            errorMessage = errorMsg;
-            //toast("CACA");
-                /*
-                for (int i = 0; i < tipoItems.length; i++) {
-                    if (tipoItems[i] < 1)
-                        errorMsg += "- " + item[i] + "\n";
-                }*/
-
-                /*MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                dialog.show(getActivity().getFragmentManager(), "Sample Fragment");*/
+            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, sizeBD);
         }
 
 
@@ -240,7 +215,7 @@ public class SugeridosFragment extends Fragment {
         }
     }
 
-    private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, DataBase bd) {
+    private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, int bd) {
 
         // Crea los arreglos para el adaptador
         /*arrIDs = new int[OUTFITS];
@@ -280,7 +255,7 @@ public class SugeridosFragment extends Fragment {
                 indexCoats = rnd.nextInt(itemTemp.get(2).size());
                 //System.out.println(itemTemp.get(0).get(indexShoes));
 
-                arrIDs[i] = bd.outfitDAO().countOutfits() + (i+1);
+                arrIDs[i] = sizeBD + (i+1);
                 arrNames[i] = "Outfit " + (arrIDs[i]) ;
 
                 // Leer id y buscar foto de Top
@@ -310,8 +285,8 @@ public class SugeridosFragment extends Fragment {
             indexBottom = rnd.nextInt(itemTemp.get(1).size());
             indexCoats = rnd.nextInt(itemTemp.get(2).size());
             //System.out.println(itemTemp.get(0).get(indexShoes));
-            
-            arrIDs[i] = bd.outfitDAO().countOutfits() + (i + 1);
+
+            arrIDs[i] = bd + (i + 1);
             arrNames[i] = "Outfit " + (arrIDs[i]);
 
             // Leer id y buscar foto de Top
@@ -327,17 +302,24 @@ public class SugeridosFragment extends Fragment {
         }
     }
 
+    
     private void cargarDatos() {
             // BD
             DataBase bd = DataBase.getInstance(getContext());
-            List<Item> items = bd.itemDAO().getAllItems();
+            items = bd.itemDAO().getAllItems();
+            shoes = new ArrayList<>();
+            top = new ArrayList<>();
+            bottom = new ArrayList<>();
+            coats = new ArrayList<>();
+            colors = new String[items.size()];
+            System.out.println("ITEMS " + items.size());
 
-            numSize = items.size();
+            sizeBD = bd.outfitDAO().countOutfits();
+
 
             Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
-                colors = new String[items.size()];
 
-                for (int i = 0; i < items.size(); i++) {
+            for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getTipo().equalsIgnoreCase("Shoes")) {
                     shoes.add(items.get(i));
                 }
@@ -355,8 +337,46 @@ public class SugeridosFragment extends Fragment {
                 colors[i] = items.get(i).getColor();
             }
 
-            crearOutfit(bd);
+        System.out.println("ITEMS " + items.size());
 
+        if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
+
+            String errorMsg = "You don't have these items:\n";
+            if (shoes.size() == 0) {
+                errorMsg += "- Shoes\n";
+            }
+
+            if (bottom.size() == 0) {
+                errorMsg += "- Bottom\n";
+            }
+
+            if (top.size() == 0) {
+                errorMsg += "- Top\n";
+            }
+
+            if (coats.size() == 0) {
+                errorMsg += "- Coats";
+            }
+
+            //System.out.println("MSG " + errorMsg);
+                /*
+                for (int i = 0; i < tipoItems.length; i++) {
+                    if (tipoItems[i] < 1)
+                        errorMsg += "- " + item[i] + "\n";
+                }*/
+
+           /* MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+            dialog.show(getActivity().getFragmentManager(), "Sample Fragment");*/
+        }
+        errorMessage = errorMsg;
+        shoesSize = shoes.size();
+        bottomSize = bottom.size();
+        topSize = top.size();
+        coatsSize = coats.size();
+        numSize = items.size();
+        System.out.println("FRAG " + SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
+                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
+                SugeridosFragment.coatsSize);
         DataBase.destroyInstance();
 
         }
@@ -654,7 +674,7 @@ public class SugeridosFragment extends Fragment {
     }
 
     // Para cargar los datos en segundo plano
-    class BDItem extends AsyncTask<Void, Void, Void> {
+    private class BDItem extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             cargarDatos();
@@ -664,6 +684,7 @@ public class SugeridosFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            crearOutfits();
             // Nuevos datos para el adaptador
             SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);

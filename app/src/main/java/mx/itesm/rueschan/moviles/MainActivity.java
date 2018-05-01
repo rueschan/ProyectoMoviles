@@ -1,9 +1,10 @@
 package mx.itesm.rueschan.moviles;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,15 +17,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
-import static xdroid.toaster.Toaster.toast;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
+    private ConstraintLayout selectedLayout;
     private TextView tvUser, tvMail;
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -71,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
 
+        selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
+        selectedLayout.setVisibility(View.INVISIBLE);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -97,8 +98,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(true);
                         break;
                     case 2:
-                        if(SugeridosFragment.numSize == 0){
+                        System.out.println(SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
+                                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
+                                SugeridosFragment.coatsSize);
+                        if(SugeridosFragment.numSize == 0 || SugeridosFragment.shoesSize == 0 ||
+                                SugeridosFragment.bottomSize  == 0 || SugeridosFragment.topSize == 0 ||
+                                SugeridosFragment.coatsSize == 0) {
                             String errorMsg = SugeridosFragment.errorMessage;
+                            System.out.println("MSG EN MAIN" + errorMsg);
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
                         }
@@ -149,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                         break;
                     case 1:
-                        if(FavoritosFragment.numSize == 0){
+                        if(FavoritosFragment.numSize == 0 ){
                             String errorMsg = "No hay suficiente ropa";
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
@@ -161,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
-                        intent = new Intent(v.getContext(), SugeridosActivity.class);
-                        startActivity(intent);
                         break;
                 }
 

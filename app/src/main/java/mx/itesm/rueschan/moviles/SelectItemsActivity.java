@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -37,6 +38,7 @@ public class SelectItemsActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
     private ViewPager viewPager;
+    private ConstraintLayout selectedLayout;
     private FloatingActionButton fab;
 
     @Override
@@ -48,6 +50,9 @@ public class SelectItemsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
+
+        selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
+        selectedLayout.setVisibility(View.VISIBLE);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
