@@ -310,7 +310,7 @@ public class SugeridosFragment extends Fragment {
             indexBottom = rnd.nextInt(itemTemp.get(1).size());
             indexCoats = rnd.nextInt(itemTemp.get(2).size());
             //System.out.println(itemTemp.get(0).get(indexShoes));
-
+            
             arrIDs[i] = bd.outfitDAO().countOutfits() + (i + 1);
             arrNames[i] = "Outfit " + (arrIDs[i]);
 
