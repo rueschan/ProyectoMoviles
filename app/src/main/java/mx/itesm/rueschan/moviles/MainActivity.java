@@ -105,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                     case 1:
 
-                        /*fab.animate()
-                                .translationY(0)
-                                .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(true);*/
+                    /*fab.animate()
+                            .translationY(0)
+                            .alpha(1.0f)
+                            .setListener(null);
+                    fab.setVisibility(View.VISIBLE);
+                    fab.setClickable(true);*/
+                        ((FavoritosFragment)(((Adapter)viewPager.getAdapter()).getItem(1))).recargarDatos();
                         break;
+
                     case 2:
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
                             String errorMsg = "You don't have these items:\n";

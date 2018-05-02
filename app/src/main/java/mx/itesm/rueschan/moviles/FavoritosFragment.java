@@ -87,6 +87,10 @@ public class FavoritosFragment extends Fragment
         super.onStart();
     }
 
+    public void recargarDatos() {
+        new BDFavoritos().execute();
+    }
+
 
     private void cargarDatos() {
         // BD
@@ -161,6 +165,10 @@ public class FavoritosFragment extends Fragment
         bitmap_tmp.copyPixelsFromBuffer(buffer);
         Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
+    }
+
+    public void reloadData() {
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

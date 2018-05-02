@@ -306,7 +306,7 @@ public class SugeridosFragment extends Fragment {
 
             for (int j = 0; j < coats.size() ; j++) {
                 if(verificarCombinacionesContinuo(top.get(i).getColor(), coats.get(j).getColor()))
-                    combinacionesCoats.add(coats.get(i));
+                    combinacionesCoats.add(coats.get(j));
             }
 
                     /*Log.i(top.get(i).getColor(),"Shoes" + combinacionesShoes.toString() + "\nBottom" + combinacionesBottom.toString( ) +
@@ -508,8 +508,9 @@ public class SugeridosFragment extends Fragment {
                     //toast("Simon");
                     outfit =  new Outfit( outfitName.getText().toString(), Integer.parseInt(coatName.getText().toString()), Integer.parseInt(upperName.getText().toString()),
                             Integer.parseInt(bottomName.getText().toString()), Integer.parseInt(shoesName.getText().toString()));
-                    Log.i("OUTFIT GUARDADO", outfit +"");
+                    //Log.i("OUTFIT GUARDADO", outfit +"");
                     new BDOutfit().execute();
+                    onStart();
                 }
             });
         }
