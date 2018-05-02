@@ -170,10 +170,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
+                        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
                         intent = new Intent(v.getContext(), AboutActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
+                        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
                             String errorMsg = "You don't have these items:\n";
                             if (shoes.size() == 0)
@@ -188,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getSupportFragmentManager(), "Sample Fragment");
                         } else {
-                            ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                             intent = new Intent(v.getContext(), SelectItemsActivity.class);
                             startActivity(intent);
                         }
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new FavoritosFragment(), "Favorites");
+        adapter.addFragment(new FavoritosFragment(), "Saved");
         adapter.addFragment(new SugeridosFragment(), "Suggested");
 
         viewPager.setAdapter(adapter);

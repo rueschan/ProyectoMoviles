@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -30,8 +32,14 @@ import java.util.Random;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
+import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
+
+import static xdroid.toaster.Toaster.toast;
 
 public class SugeridosFragment extends Fragment {
+
+    //outfit para guardar
+    private Outfit outfit;
 
     private RecyclerView recyclerView;
     // Arreglos para el adaptador
@@ -41,6 +49,7 @@ public class SugeridosFragment extends Fragment {
     private Bitmap[] arrUppers;
     private Bitmap[] arrBottoms;
     private Bitmap[] arrShoes;
+    private Outfit[] arrOutfits;
 
     private ArrayList<Item> shoes;
     private ArrayList<Item> top;
@@ -66,7 +75,9 @@ public class SugeridosFragment extends Fragment {
     private String contraste[]; //colores opuestos
     private String universales[] = {"blanco", "negro", "gris"};
     private String mezclilla[] = {"azul_claro","azul","azul_osc"};
-    private int outfits;
+    private int numOutfits;
+
+    private List<Outfit> outfits;
 
 
     /*beige**
@@ -113,7 +124,8 @@ public class SugeridosFragment extends Fragment {
                 new Bitmap[]{},
                 new Bitmap[]{},
                 new Bitmap[]{},
-                new Bitmap[]{}
+                new Bitmap[]{},
+                new Outfit[]{}
         );
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -138,7 +150,7 @@ public class SugeridosFragment extends Fragment {
 
             Log.i("CONTRASTE " , combinacionesContraste.size() + "");
             Log.i("CONTINUO", combinacionesContinuo.size() + "");
-            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, outfits);
+            seleccionarOutfit(combinacionesContraste, combinacionesContinuo, numOutfits);
         }
 
     }
@@ -152,6 +164,7 @@ public class SugeridosFragment extends Fragment {
         arrUppers = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
         arrBottoms = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
         arrShoes = new Bitmap[combinacionesContraste.size() + combinacionesContinuo.size()];
+        arrOutfits = new Outfit[combinacionesContraste.size() + combinacionesContinuo.size()];
 
         // Procesa cada registro
         Iterator it = combinacionesContinuo.entrySet().iterator();
@@ -164,7 +177,7 @@ public class SugeridosFragment extends Fragment {
 
         while (it.hasNext()) {
                 Map.Entry me = (Map.Entry) it.next();
-                System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
+                //System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
                 ArrayList<ArrayList<Item>> itemTemp = (ArrayList<ArrayList<Item>>) me.getValue();
                 //System.out.println("Shoes " + itemTemp.get(0).get(0));
                 Item key = (Item) me.getKey();
@@ -187,14 +200,17 @@ public class SugeridosFragment extends Fragment {
                 // Leer id y buscar foto de coats
                 arrCoats[i] = decodificarImagen(itemTemp.get(2).get(indexCoats));
 
-                i++;
+            Outfit tempOutfit = new Outfit(arrNames[i], itemTemp.get(2).get(indexCoats).getId(), key.getId(), itemTemp.get(1).get(indexBottom).getId(), itemTemp.get(0).get(indexShoes).getId());
+            arrOutfits[i] = tempOutfit;
+
+            i++;
         }
 
         it = combinacionesContraste.entrySet().iterator();
 
         while (it.hasNext()) {
             Map.Entry me = (Map.Entry) it.next();
-            System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
+            //System.out.println("Key is: " + me.getKey() + "\nValue is: " + me.getValue().toString());
             ArrayList<ArrayList<Item>> itemTemp = (ArrayList<ArrayList<Item>>) me.getValue();
             //System.out.println("Shoes " + itemTemp.get(0).get(0));
             Item key = (Item) me.getKey();
@@ -204,7 +220,7 @@ public class SugeridosFragment extends Fragment {
             indexBottom = rnd.nextInt(itemTemp.get(1).size());
             indexCoats = rnd.nextInt(itemTemp.get(2).size());
             //System.out.println(itemTemp.get(0).get(indexShoes));
-
+            //arrOutfits[i] = outfits.get(i);
             arrIDs[i] = size + (i + 1);
             arrNames[i] = "Outfit " + (arrIDs[i]);
 
@@ -217,6 +233,11 @@ public class SugeridosFragment extends Fragment {
             // Leer id y buscar foto de coats
             arrCoats[i] = decodificarImagen(itemTemp.get(2).get(indexCoats));
 
+            //arrOutfits[i] = new Outfit(arrNames[i],itemTemp.get(2).get(indexCoats).getId() ,key.getId(), itemTemp.get(1).get(indexBottom).getId(), itemTemp.get(0).get(indexShoes).getId());
+
+            Outfit tempOutfit = new Outfit(arrNames[i], itemTemp.get(2).get(indexCoats).getId(), key.getId(), itemTemp.get(1).get(indexBottom).getId(), itemTemp.get(0).get(indexShoes).getId());
+            arrOutfits[i] = tempOutfit;
+
             i++;
         }
     }
@@ -226,7 +247,9 @@ public class SugeridosFragment extends Fragment {
             DataBase bd = DataBase.getInstance(getContext());
             items = bd.itemDAO().getAllItems();
 
-        outfits = bd.outfitDAO().countOutfits();
+            numOutfits = bd.outfitDAO().countOutfits();
+            outfits = bd.outfitDAO().readAll();
+
             shoes = new ArrayList<>();
             top = new ArrayList<>();
             bottom = new ArrayList<>();
@@ -448,15 +471,19 @@ public class SugeridosFragment extends Fragment {
         return bitmap_tmp;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private FloatingActionButton btn;
 
         private TextView outfitName;
-
         private ImageView coatIv;
         private ImageView upperIv;
         private ImageView bottomIv;
         private ImageView shoesIv;
+
+        private TextView coatName;
+        private TextView upperName;
+        private TextView bottomName;
+        private TextView shoesName;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.outfit_card, parent, false));
@@ -467,37 +494,57 @@ public class SugeridosFragment extends Fragment {
             bottomIv = itemView.findViewById(R.id.bottomImg);
             shoesIv = itemView.findViewById(R.id.shoesImg);
 
+
+            coatName =  itemView.findViewById(R.id.coatName);
+            upperName =  itemView.findViewById(R.id.upperName);
+            bottomName =  itemView.findViewById(R.id.bottomName);
+            shoesName =  itemView.findViewById(R.id.shoesName);
+
             btn = itemView.findViewById(R.id.favBtn);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //toast("Simon");
+                    outfit =  new Outfit( outfitName.getText().toString(), Integer.parseInt(coatName.getText().toString()), Integer.parseInt(upperName.getText().toString()),
+                            Integer.parseInt(bottomName.getText().toString()), Integer.parseInt(shoesName.getText().toString()));
+                    Log.i("OUTFIT GUARDADO", outfit +"");
+                    new BDOutfit().execute();
+                }
+            });
         }
 
     }
 
-    public static class ControllerAdapter extends RecyclerView.Adapter<SugeridosFragment.ViewHolder> {
+    public class ControllerAdapter extends RecyclerView.Adapter<SugeridosFragment.ViewHolder> {
 
-        private static int SIZE;
+        private int SIZE;
         private int[] arrIDs;
         private String[] arrNames;
         private Bitmap[] arrCoats;
         private Bitmap[] arrUppers;
         private Bitmap[] arrBottoms;
         private Bitmap[] arrShoes;
+        private Outfit[] arrOutfits;
 
-        public ControllerAdapter(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+        public ControllerAdapter(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs, Outfit[] outfits) {
             this.arrIDs = ids;
             this.arrNames = names;
             this.arrCoats = coatIDs;
             this.arrUppers = upperIDs;
             this.arrBottoms = bottomIDs;
             this.arrShoes = shoesIDs;
+            this.arrOutfits = outfits;
         }
 
-        public void setDatos(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs) {
+        public void setDatos(int[] ids, String[] names, Bitmap[] coatIDs, Bitmap[] upperIDs, Bitmap[] bottomIDs, Bitmap[] shoesIDs, Outfit[] outfits) {
             this.arrIDs = ids;
             this.arrNames = names;
             this.arrCoats = coatIDs;
             this.arrUppers = upperIDs;
             this.arrBottoms = bottomIDs;
             this.arrShoes = shoesIDs;
+            this.arrOutfits = outfits;
 
             try {
                 SIZE = arrIDs.length;
@@ -516,6 +563,7 @@ public class SugeridosFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull SugeridosFragment.ViewHolder holder, int position) {
 
+            //Log.i("OUTFIT ACTUAL", arrOutfits[position].getCoatID()+"");
             if (arrNames.length > 0) {
                 holder.outfitName.setText(arrNames[position]);
 
@@ -523,6 +571,12 @@ public class SugeridosFragment extends Fragment {
                 holder.upperIv.setImageBitmap(arrUppers[position]);
                 holder.bottomIv.setImageBitmap(arrBottoms[position]);
                 holder.shoesIv.setImageBitmap(arrShoes[position]);
+
+                holder.coatName.setText(String.valueOf(arrOutfits[position].getCoatID()));
+                holder.upperName.setText(String.valueOf(arrOutfits[position].getUpperID()));
+                holder.bottomName.setText(String.valueOf(arrOutfits[position].getBottomID()));
+                holder.shoesName.setText(String.valueOf(arrOutfits[position].getShoesID()));
+
             }
         }
 
@@ -547,9 +601,34 @@ public class SugeridosFragment extends Fragment {
 
             // Nuevos datos para el adaptador
             SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
-            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
             adapt.notifyDataSetChanged();
         }
+    }
+
+    private class BDOutfit extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            guardarOutfits();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            crearOutfits();
+            Log.i("Outfit Guardoado","");
+            // Nuevos datos para el adaptador
+            SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
+            adapt.notifyDataSetChanged();
+        }
+    }
+
+    private void guardarOutfits() {
+        DataBase bd = DataBase.getInstance(getContext());
+        bd.outfitDAO().insertOutfits(outfit);
+        DataBase.destroyInstance();
     }
 
 }

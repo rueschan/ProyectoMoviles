@@ -83,8 +83,8 @@ public class FavoritosFragment extends Fragment
 
     @Override
     public void onStart() {
+        new BDFavoritos().execute();
         super.onStart();
-        new BDOutfit().execute();
     }
 
 
@@ -94,8 +94,6 @@ public class FavoritosFragment extends Fragment
         int numOutfits = bd.outfitDAO().countOutfits();
         Log.i("FavoritosFragment", "Cargar Datos :: Registros: " + numOutfits);
         List<Outfit> outfits = bd.outfitDAO().readAll();
-
-        numSize = outfits.size();
 
         // Crea los arreglos para el adaptador
         arrIDs = new int[numOutfits];
@@ -253,11 +251,10 @@ public class FavoritosFragment extends Fragment
     }
 
     // Para cargar los datos en segundo plano
-    class BDOutfit extends AsyncTask<Void, Void, Void>
+    private class BDFavoritos extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected Void doInBackground(Void... voids) {
-//
             cargarDatos();
             return null;
         }

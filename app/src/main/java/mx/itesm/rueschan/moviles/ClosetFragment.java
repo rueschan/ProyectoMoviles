@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
+
+import static xdroid.core.Global.getContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,11 +32,13 @@ public class ClosetFragment extends Fragment {
     public static Origin origen;
     public static String clicked;
     public static Outfit tempOutfit;
+    private int outfits;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i("ClosetFragment", "Enter");
+        new BDOutfit().execute();
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
         ControllerAdapter adapter = new ControllerAdapter(recyclerView.getContext());
@@ -43,14 +49,10 @@ public class ClosetFragment extends Fragment {
         recyclerView.setPadding(paddingInBetween, paddingInBetween, paddingInBetween, paddingInBetween);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        if (origen == Origin.FAVORITOS) {
-            tempOutfit = new Outfit("favOutfit", -1, -1, -1, -1);
-        }
-
         return recyclerView;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
 
         public ImageView imageView;
@@ -75,13 +77,13 @@ public class ClosetFragment extends Fragment {
 
     }
 
-    public static class ControllerAdapter extends RecyclerView.Adapter<ViewHolder>{
+    public static class ControllerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private static final  int SIZE = 4;
+        private static final int SIZE = 4;
         private final String[] arrayTexto;
         private final Drawable[] arrayPictures;
 
-        public ControllerAdapter(Context context){
+        public ControllerAdapter(Context context) {
 
             Resources resources = context.getResources();
             arrayTexto = resources.getStringArray(R.array.types);
@@ -102,8 +104,8 @@ public class ClosetFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.imageView.setImageDrawable(arrayPictures[position%arrayPictures.length]);
-            holder.textView.setText(arrayTexto[position%arrayTexto.length]);
+            holder.imageView.setImageDrawable(arrayPictures[position % arrayPictures.length]);
+            holder.textView.setText(arrayTexto[position % arrayTexto.length]);
 
         }
 
@@ -117,5 +119,24 @@ public class ClosetFragment extends Fragment {
         MAIN,
         SUGERIDOS,
         FAVORITOS
+    }
+
+    class BDOutfit extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            DataBase bd = DataBase.getInstance(getContext());
+            outfits = bd.outfitDAO().countOutfits();
+            DataBase.destroyInstance();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (origen == Origin.FAVORITOS) {
+                tempOutfit = new Outfit("Outfit " + (outfits + 1), -1, -1, -1, -1);
+            }
+        }
+
     }
 }
