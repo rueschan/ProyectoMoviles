@@ -169,9 +169,6 @@ public class PreferencesAct extends AppCompatActivity {
         Intent init = new Intent(this, MainActivity.class);
         init.putExtra("userCurrent",  user);
         startActivity(init);
-
-
-
     }
 
         /*

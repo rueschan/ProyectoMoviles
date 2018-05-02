@@ -214,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvMail = (TextView) v.findViewById(R.id.tvMail);
         tvUser.setText(currentName);
         tvMail.setText(currentEmail);
+        System.out.println("Hola current: START " + currentName + currentEmail);
     }
 
     private void setUpView(ViewPager viewPager) {
@@ -268,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -316,7 +316,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     class DBMain extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... voids) {
             setMainUser();
@@ -361,7 +360,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (items.get(i).getTipo().equalsIgnoreCase("Coats")) {
                     coats.add(items.get(i));
                 }
-
                 //Seleccionar Color
                 colors[i] = items.get(i).getColor();
             }
@@ -376,8 +374,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //    Log.i("Email", currentUser);
 //        Log.i("hola",currentUser.getEmail() +"\n" + currentUser.getName() + "\n" + currentUser.getGender() + "\n" + currentUser.getAge() + "\n" + currentUser.getBirth() + "\n" + currentUser.getColor());
         //      Log.i("User", "Values: " + db.userDAO().countUsers());
+
         currentName = currentUser.getName().toString();
         currentEmail = currentUser.getEmail().toString();
-
+        System.out.println("Hola current: " + currentName + currentEmail);
     }
 }

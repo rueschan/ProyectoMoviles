@@ -85,12 +85,10 @@ public class LoginAct extends AppCompatActivity {
 
         //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age);
         if (attemptLogin(email, password))
-            checkUser(email, password);
+            new BDLogin().execute();
     }
 
     private void checkUser(String email, String password) {
-
-
         DataBase db = DataBase.getInstance(getApplicationContext());
         //User user1 = db.userDAO().searchByEmail("tata@gmail.com");
         // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());
@@ -170,12 +168,33 @@ public class LoginAct extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
     private boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
+    }
+
+    class BDLogin extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            checkUser(email, password);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 
 }
