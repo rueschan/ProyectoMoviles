@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new FavoritosFragment(), "Favoritos");
-        adapter.addFragment(new SugeridosFragment(), "Sugeridos");
+        adapter.addFragment(new FavoritosFragment(), "Favorites");
+        adapter.addFragment(new SugeridosFragment(), "Suggested");
 
         viewPager.setAdapter(adapter);
     }
