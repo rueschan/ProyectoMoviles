@@ -115,6 +115,13 @@ public class Outfit {
         return false;
     }
 
+    public boolean hasItems() {
+        if (coatID != -1 || upperID != -1 || bottomID != -1 || shoesID != -1) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return name + " (" + id + ") : Coat> " + coatID + ", Upper> " + upperID + ", Bottom> " +

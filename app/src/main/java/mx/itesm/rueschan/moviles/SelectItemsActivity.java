@@ -1,13 +1,15 @@
 package mx.itesm.rueschan.moviles;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,15 +23,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.Animation;
+import android.widget.ImageView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.Item;
 import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
 
 
@@ -40,6 +45,11 @@ public class SelectItemsActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ConstraintLayout selectedLayout;
     private FloatingActionButton fab;
+
+    private Item coat;
+    private Item upper;
+    private Item lower;
+    private Item shoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +128,26 @@ public class SelectItemsActivity extends AppCompatActivity {
 
             }
         });
+
+        createItems();
+    }
+
+    private void createItems() {
+        coat = new Item();
+        coat.setId(-1);
+        upper = new Item();
+        upper.setId(-1);
+        lower = new Item();
+        lower.setId(-1);
+        shoes = new Item();
+        shoes.setId(-1);
+    }
+
+    private void disposeItems() {
+        coat = null;
+        upper = null;
+        lower = null;
+        shoes = null;
     }
 
     private void guardarOutfit(){
@@ -131,6 +161,87 @@ public class SelectItemsActivity extends AppCompatActivity {
         ClosetFragment.tempOutfit = null;
         DataBase.destroyInstance();
 
+    }
+
+    private void fillCard() {
+        Outfit temp = ClosetFragment.tempOutfit;
+        DataBase dataBase = DataBase.getInstance(this);
+
+        if (temp.getCoatID() != -1 && coat.getId() != temp.getCoatID()) {
+            Log.i("SelectItemsActivity", "Coat Selected");
+            coat = new Item();
+            coat.setId(temp.getCoatID());
+            coat.setFoto(dataBase.itemDAO().getItemById(coat.getId()).get(0).getFoto());
+
+        }
+        if (temp.getUpperID() != -1 && upper.getId() != temp.getUpperID()) {
+            Log.i("SelectItemsActivity", "Upper Selected");
+            upper = new Item();
+            upper.setId(temp.getUpperID());
+            upper.setFoto(dataBase.itemDAO().getItemById(upper.getId()).get(0).getFoto());
+            System.out.println(upper.toString());
+
+        }
+        if (temp.getBottomID() != -1 && lower.getId() != temp.getBottomID()) {
+            Log.i("SelectItemsActivity", "Bottom Selected");
+            lower = new Item();
+            lower.setId(temp.getBottomID());
+            lower.setFoto(dataBase.itemDAO().getItemById(lower.getId()).get(0).getFoto());
+
+        }
+        if (temp.getShoesID() != -1 && shoes.getId() != temp.getShoesID()) {
+            Log.i("SelectItemsActivity", "Shoes Selected");
+            shoes = new Item();
+            shoes.setId(temp.getShoesID());
+            shoes.setFoto(dataBase.itemDAO().getItemById(shoes.getId()).get(0).getFoto());
+
+        }
+    }
+
+    private void pasteImages() {
+        if (coat != null && coat.getId() != -1) {
+            Log.i("SelectItemsActivity", "Coat Displayed");
+            ImageView selectedCoat = findViewById(R.id.selectedCoat);
+            selectedCoat.setImageBitmap(decodificarImagen(coat));
+        }
+        System.out.println("-------------" + upper.toString());
+        if (upper != null && upper.getId() != -1) {
+            Log.i("SelectItemsActivity", "Upper Displayed");
+            ImageView selectedUpper = findViewById(R.id.selectedUpper);
+            selectedUpper.setImageBitmap(decodificarImagen(upper));
+        }
+        if (lower != null && lower.getId() != -1) {
+            Log.i("SelectItemsActivity", "Bottom Displayed");
+            ImageView selectedBottom = findViewById(R.id.selectedBottom);
+            selectedBottom.setImageBitmap(decodificarImagen(lower));
+        }
+        if (shoes != null && shoes.getId() != -1) {
+            Log.i("SelectItemsActivity", "Shoes Displayed");
+            ImageView selectedShoes = findViewById(R.id.selectedShoes);
+            selectedShoes.setImageBitmap(decodificarImagen(shoes));
+        }
+    }
+
+    @NonNull
+    private Bitmap decodificarImagen(Item item) {
+        Bitmap bm = null;
+
+        try {
+            InputStream ent = getResources().getAssets().open("temp.png");
+            bm = BitmapFactory.decodeStream(ent);
+        } catch (IOException e) {
+            Log.i("BD (FavoritosFragment)", "Error: " + e.getMessage());
+        }
+        int width = 128;
+        int height = 128;
+        Bitmap.Config configBmp = Bitmap.Config.valueOf(bm.getConfig().name());
+        Bitmap bitmap_tmp = Bitmap.createBitmap(width, height, configBmp);
+
+        ByteBuffer buffer = ByteBuffer.wrap(item.getFoto());
+
+        bitmap_tmp.copyPixelsFromBuffer(buffer);
+        Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
+        return bitmap_tmp;
     }
 
     private void setUpView(ViewPager viewPager) {
@@ -190,7 +301,31 @@ public class SelectItemsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         ClosetFragment.origen = ClosetFragment.Origin.MAIN;
+        disposeItems();
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ClosetFragment.tempOutfit != null && ClosetFragment.tempOutfit.hasItems()) {
+            new BDFillCard().execute();
+        }
+    }
+
+    class BDFillCard extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            fillCard();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pasteImages();
+        }
     }
 
     class BDTarea extends AsyncTask<Void, Void, Void>
