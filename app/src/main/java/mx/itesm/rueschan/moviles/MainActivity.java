@@ -212,8 +212,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View v = navigationView.getHeaderView(0);
         tvUser = (TextView) v.findViewById(R.id.tvUsuario);
         tvMail = (TextView) v.findViewById(R.id.tvMail);
-        tvUser.setText(currentName);
-        tvMail.setText(currentEmail);
         System.out.println("Hola current: START " + currentName + currentEmail);
     }
 
@@ -326,7 +324,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            tvUser.setText(currentName);
+            tvMail.setText(currentEmail);
 
             /*FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
@@ -374,7 +373,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //    Log.i("Email", currentUser);
 //        Log.i("hola",currentUser.getEmail() +"\n" + currentUser.getName() + "\n" + currentUser.getGender() + "\n" + currentUser.getAge() + "\n" + currentUser.getBirth() + "\n" + currentUser.getColor());
         //      Log.i("User", "Values: " + db.userDAO().countUsers());
-
         currentName = currentUser.getName().toString();
         currentEmail = currentUser.getEmail().toString();
         System.out.println("Hola current: " + currentName + currentEmail);
