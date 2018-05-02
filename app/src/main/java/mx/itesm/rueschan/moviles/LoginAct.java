@@ -85,7 +85,7 @@ public class LoginAct extends AppCompatActivity {
 
         //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age);
         if (attemptLogin(email, password))
-            new DBTarea().execute();
+            checkUser(email, password);
     }
 
     private void checkUser(String email, String password) {
@@ -178,18 +178,4 @@ public class LoginAct extends AppCompatActivity {
         return password.length() > 4;
     }
 
-    class DBTarea extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            checkUser(email, password);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            //Log.i("onPost", "Dato grabado ********************");
-        }
-    }
 }

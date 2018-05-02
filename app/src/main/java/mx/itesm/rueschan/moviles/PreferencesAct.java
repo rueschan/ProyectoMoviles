@@ -135,24 +135,42 @@ public class PreferencesAct extends AppCompatActivity {
         setColor(color);
     }
 
-    private void saveUser(){
+    public void saveUser(){
         DataBase db = DataBase.getInstance(this);
         String from = getIntent().getStringExtra("from");
 
         if(from.equalsIgnoreCase("SignUpAct")){
-            //Database
+            /*Log.i("USER", user.getName() + " " + user.getPassword() + "\n" + user.getGender() + "\n" + user.getAge() + "\n" + user.getBirth()
+                    + "\n" + user.getColor());*/
             db.userDAO().insertUsers(user);
-            DataBase.destroyInstance();
 
-            Intent init = new Intent(this, LoginAct.class);
-            startActivity(init);
-        }
-        else if (from.equalsIgnoreCase("MainAct")){
+            SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
+            SharedPreferences.Editor pref = preferences.edit();
+            pref.putBoolean("sesion", true);
+            pref.commit();
+
+            SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+            SharedPreferences.Editor shared = sharedPreferences.edit();
+            shared.putString("currentUser", user.getEmail().toString());
+            shared.commit();
+
+
+            /*Intent init = new Intent(this, LoginAct.class);
+            init.putExtra("user",  user);
+            startActivity(init);*/
+
+
+        }else if (from.equalsIgnoreCase("MainAct")) {
             db.userDAO().updateColor(getColor(), user.getIdUser());
-
-            Intent init = new Intent(this, MainActivity.class);
-            startActivity(init);
         }
+
+        DataBase.destroyInstance();
+
+        Intent init = new Intent(this, MainActivity.class);
+        init.putExtra("userCurrent",  user);
+        startActivity(init);
+
+
 
     }
 
@@ -196,7 +214,6 @@ public class PreferencesAct extends AppCompatActivity {
                     .create().show();
         }
 
-
         //System.out.println(user.getName() + " " + user.getColor());
         //iniciar sesion
         /*SharedPreferences prefs = getSharedPreferences("sesion", Context.MODE_PRIVATE);
@@ -206,8 +223,8 @@ public class PreferencesAct extends AppCompatActivity {
 
     }
 
-    class DBTarea extends AsyncTask<Void, Void, Void>
-    {
+
+    class DBTarea extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             saveUser();
@@ -217,7 +234,6 @@ public class PreferencesAct extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.i("onPost", "Dato grabado ********************");
         }
     }
 

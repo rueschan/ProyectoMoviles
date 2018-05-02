@@ -52,4 +52,7 @@ public interface ItemDAO {
 
     @Query("DELETE FROM Item WHERE id = :id")
     void deletePhotoById(int id);
+
+    @Query("DELETE FROM Item")
+    void delete();
 }

@@ -274,7 +274,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/iv_cafe_claro"
+                        android:id="@+id/iv_cafe_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
@@ -297,7 +297,7 @@
 
 
                     <ImageView
-                        android:id="@+id/iv_cafe_osc"
+                        android:id="@+id/iv_cafe_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
