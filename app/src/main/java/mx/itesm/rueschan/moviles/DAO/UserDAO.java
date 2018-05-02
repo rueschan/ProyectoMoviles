@@ -41,6 +41,8 @@ public interface UserDAO {
     @Query("SELECT COUNT(*) FROM User WHERE email = :email")
     int countUsersByEmail(String email);
 
+
+
     @Insert
     void insertUsers(User... usuarios);
 

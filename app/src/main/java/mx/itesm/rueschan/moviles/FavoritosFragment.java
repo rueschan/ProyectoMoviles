@@ -140,64 +140,7 @@ public class FavoritosFragment extends Fragment
         DataBase.destroyInstance();
     }
 
-    // Método de prueba
-    private void cargarDatosTest() {
-        // BD
-        DataBase bd = DataBase.getInstance(getContext());
 
-        // Ver en consola los items que existen
-        List<Item> items = bd.itemDAO().getAllItemsByUserId(MainActivity.currentUser.getIdUser());
-
-        if (items.size() < 4) return;
-
-        for (Item i: items) {
-            System.out.println("Image: " + i.getFoto());
-        }
-
-        int numOutfits = 1;
-        Log.i("FavoritosFragment", "Cargar Datos(Test) :: Registros: " + numOutfits);
-        Outfit temp = new Outfit("Test", 1, 2, 3, 4);
-
-        // Crea los arreglos para el adaptador
-        arrIDs = new int[numOutfits];
-        arrNames = new String[numOutfits];
-        arrCoats = new Bitmap[numOutfits];
-        arrUppers = new Bitmap[numOutfits];
-        arrBottoms = new Bitmap[numOutfits];
-        arrShoes = new Bitmap[numOutfits];
-
-        arrIDs[0] = temp.getId();
-        arrNames[0] = temp.getName();
-
-        Item itemTemp;
-        // Leer id y buscar foto de coat
-        coatID = temp.getCoatID();
-        itemTemp = bd.itemDAO().getItemById(coatID).get(0);
-        System.out.println(itemTemp.toString());
-        arrCoats[0] = decodificarImagen(itemTemp);
-
-        // Leer id y buscar foto de coat
-        upperID = temp.getUpperID();
-        itemTemp = bd.itemDAO().getItemById(upperID).get(0);
-        System.out.println(itemTemp.toString());
-        arrUppers[0] = decodificarImagen(itemTemp);
-
-        // Leer id y buscar foto de coat
-        bottomId = temp.getBottomID();
-        itemTemp = bd.itemDAO().getItemById(bottomId).get(0);
-        System.out.println(itemTemp.toString());
-        arrBottoms[0] = decodificarImagen(itemTemp);
-
-        // Leer id y buscar foto de coat
-        shoeID = temp.getShoesID();
-        itemTemp = bd.itemDAO().getItemById(shoeID).get(0);
-        System.out.println(itemTemp.toString());
-        arrShoes[0] = decodificarImagen(itemTemp);
-
-        Log.i("BD (FavoritosFragment)", temp.toString());
-
-        DataBase.destroyInstance();
-    }
 
 //     Crea el bitmap a partir del arreglo de bytes
     @NonNull
@@ -244,17 +187,7 @@ public class FavoritosFragment extends Fragment
 
             btn = itemView.findViewById(R.id.favBtn);
 
-//            holder.btn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    coatToSave = arrCoats[position];
-//                    upperToSave = arrUppers[position];
-//                    bottomToSave = arrBottoms[position];
-//                    shoesToSave = arrShoes[position];
-//
-//                    new BDOutfit().execute();
-//                }
-//            });
+
         }
 
     }
@@ -324,7 +257,7 @@ public class FavoritosFragment extends Fragment
     {
         @Override
         protected Void doInBackground(Void... voids) {
-//            cargarDatosTest();
+//
             cargarDatos();
             return null;
         }

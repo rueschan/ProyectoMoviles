@@ -44,6 +44,9 @@ public interface ItemDAO {
     @Query("SELECT COUNT(*) FROM Item WHERE tipo = :tipo AND userID = :userID")
     int countByTypeAndUserID(String tipo, int userID);
 
+    @Query("SELECT * FROM Item WHERE evento = :evento")
+    List<Item> getItemByEvent(String evento);
+
     @Insert
     void insertar(Item... items);
 

@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Adding Floating Action Button to bottom right of main view
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.animate()
+        /*fab.animate()
                 .translationY(160)
                 .alpha(1.0f)
                 .setListener(null);
         fab.setVisibility(View.VISIBLE);
-        fab.setClickable(false);
+        fab.setClickable(false);*/
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
@@ -81,21 +81,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 switch (position) {
                     case 0:
 
-                        fab.animate()
+                        /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
                                 .setListener(null);
                         fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(false);
+                        fab.setClickable(false);*/
                         break;
                     case 1:
 
-                        fab.animate()
+                        /*fab.animate()
                                 .translationY(0)
                                 .alpha(1.0f)
                                 .setListener(null);
                         fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(true);
+                        fab.setClickable(true);*/
                         break;
                     case 2:
                         System.out.println(SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
@@ -109,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getFragmentManager(), "Sample Fragment");
                         }
-                        fab.animate()
+                        /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
                                 .setListener(null);
                         fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(false);
+                        fab.setClickable(false);*/
                         break;
                 }
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
-                        intent = new Intent(v.getContext(), ImagesActivity.class);
+                        intent = new Intent(v.getContext(), AboutActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                     case 2:
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
+                        intent = new Intent(v.getContext(),SuggestedByEvent.class);
+                        startActivity(intent);
                         break;
                 }
 
