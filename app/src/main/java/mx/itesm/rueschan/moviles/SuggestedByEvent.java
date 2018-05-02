@@ -285,15 +285,8 @@ public class SuggestedByEvent extends AppCompatActivity {
 
             toast(errorMsg);
         }
-        /*errorMessage = errorMsg;
-        shoesSize = shoes.size();
-        bottomSize = bottom.size();
-        topSize = top.size();
-        coatsSize = coats.size();
-        numSize = items.size();*/
-        System.out.println("FRAG " + SugeridosFragment.numSize + " " +  SugeridosFragment.shoesSize + " "+
-                SugeridosFragment.bottomSize  + " " + SugeridosFragment.topSize + " "+
-                SugeridosFragment.coatsSize);
+
+
         DataBase.destroyInstance();
 
     }
