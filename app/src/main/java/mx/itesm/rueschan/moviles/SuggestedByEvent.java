@@ -141,7 +141,7 @@ public class SuggestedByEvent extends AppCompatActivity {
     private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, int bd) {
 
 
-        arrIDs = new int[combinaciones.size()];
+        arrIDs = new int[combinaciones.size() + combinacionesContinuo.size()];
         arrNames = new String[combinaciones.size() + combinacionesContinuo.size()];
         arrCoats = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
         arrUppers = new Bitmap[combinaciones.size() + combinacionesContinuo.size()];
@@ -379,6 +379,95 @@ public class SuggestedByEvent extends AppCompatActivity {
 
         return combinaciones;
     }
+
+    /*
+     private HashMap<Item,ArrayList<ArrayList<Item>>> crearCombinacionesContinuo(ArrayList<Item> shoes, ArrayList<Item> bottom, ArrayList<Item> top, ArrayList<Item> coats) {
+
+        HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones = new HashMap<>();
+        ArrayList<Item> combinacionesShoes = new ArrayList<>();
+        ArrayList<Item> combinacionesBottom = new ArrayList<>();
+        ArrayList<Item> combinacionesCoats = new ArrayList<>();
+        ArrayList<ArrayList<Item>> combinan = new ArrayList<>();
+
+        for (int i = 0; i < top.size() ; i++) {
+            //Log.i("TOP",top.get(i).getColor());
+            for (int j = 0; j < shoes.size() ; j++) {
+                //Log.i("SHOES",shoes.get(j).getColor());
+                if(verificarCombinacionesContinuo(top.get(i).getColor(), shoes.get(j).getColor()))
+                    combinacionesShoes.add(shoes.get(j));
+            }
+
+            for (int j = 0; j < bottom.size() ; j++) {
+                if(verificarCombinacionesContinuo(top.get(i).getColor(), bottom.get(j).getColor()))
+                    combinacionesBottom.add(bottom.get(j));
+            }
+
+            for (int j = 0; j < coats.size() ; j++) {
+                if(verificarCombinacionesContinuo(top.get(i).getColor(), coats.get(j).getColor()))
+                    combinacionesCoats.add(coats.get(i));
+            }
+
+
+            if(combinacionesShoes.size()>0 && combinacionesBottom.size()>0 && combinacionesCoats.size()>0) {
+        combinan.add(combinacionesShoes);
+        combinan.add(combinacionesBottom);
+        combinan.add(combinacionesCoats);
+        combinaciones.put(top.get(i), combinan);
+        combinan = new ArrayList<>();
+    }
+
+    combinacionesShoes = new ArrayList<>();
+    combinacionesBottom = new ArrayList<>();
+    combinacionesCoats = new ArrayList<>();
+}
+
+        return combinaciones;
+
+                }
+
+private HashMap<Item, ArrayList<ArrayList<Item>>> crearCombinacionesContraste(ArrayList<Item> shoes, ArrayList<Item> bottom, ArrayList<Item> top, ArrayList<Item> coats) {
+
+        HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones = new HashMap<>();
+        ArrayList<Item> combinacionesShoes = new ArrayList<>();
+        ArrayList<Item> combinacionesBottom = new ArrayList<>();
+        ArrayList<Item> combinacionesCoats = new ArrayList<>();
+        ArrayList<ArrayList<Item>> combinan = new ArrayList<>();
+
+        for (int i = 0; i < top.size() ; i++) {
+        //Log.i("TOP",top.get(i).getColor());
+        for (int j = 0; j < shoes.size() ; j++) {
+        //Log.i("SHOES",shoes.get(j).getColor());
+        if(verificarCombinacionesContraste(top.get(i).getColor(), shoes.get(j).getColor()))
+        combinacionesShoes.add(shoes.get(j));
+        }
+
+        for (int j = 0; j < bottom.size() ; j++) {
+        if(verificarCombinacionesContraste(top.get(i).getColor(), bottom.get(j).getColor()))
+        combinacionesBottom.add(bottom.get(j));
+        }
+
+        for (int j = 0; j < coats.size() ; j++) {
+        if(verificarCombinacionesContraste(top.get(i).getColor(), coats.get(j).getColor()))
+        combinacionesCoats.add(coats.get(j));
+        }
+
+
+        if(combinacionesShoes.size()>0 && combinacionesBottom.size()>0 && combinacionesCoats.size()>0) {
+        combinan.add(combinacionesShoes);
+        combinan.add(combinacionesBottom);
+        combinan.add(combinacionesCoats);
+        combinaciones.put(top.get(i), combinan);
+        combinan = new ArrayList<>();
+        }
+
+        combinacionesShoes = new ArrayList<>();
+        combinacionesBottom = new ArrayList<>();
+        combinacionesCoats = new ArrayList<>();
+        }
+
+        return combinaciones;
+        }
+     */
 
     private boolean verificarCombinacionesContinuo(String colorTop, String colorItem) {
         if (Arrays.toString(universales).contains(colorTop) || Arrays.toString(universales).contains(colorItem))

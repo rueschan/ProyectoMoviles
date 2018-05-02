@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View v = navigationView.getHeaderView(0);
         tvUser = (TextView) v.findViewById(R.id.tvUsuario);
         tvMail = (TextView) v.findViewById(R.id.tvMail);
-        System.out.println("Hola current: START " + currentName + currentEmail);
+        //System.out.println("Hola current: START " + currentName + currentEmail);
     }
 
     private void setUpView(ViewPager viewPager) {
