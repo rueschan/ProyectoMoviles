@@ -257,6 +257,7 @@ public class SuggestedByEvent extends AppCompatActivity {
 
         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
 
+
             String errorMsg = "You don't have enough items with the tag "+event+":\n";
             if (shoes.size() == 0) {
                 errorMsg += "- Shoes\n";
