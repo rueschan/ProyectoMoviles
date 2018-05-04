@@ -1,6 +1,7 @@
 package mx.itesm.rueschan.moviles;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,18 +17,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mx.itesm.rueschan.moviles.BD.DataBase;
+import mx.itesm.rueschan.moviles.EntidadesBD.Item;
+import mx.itesm.rueschan.moviles.EntidadesBD.User;
+
 public class ImagesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private NavigationView navigationView;
+    //private NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
+
+    //mensaje para indicar que hacer
+    private TextView error_tv;
+
+    private int numImagenes;
+    private List<Item> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,6 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
         ViewPager viewPager = findViewById(R.id.viewPagerPhotos);
         setUpView(viewPager);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_viewImages);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerImages);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,7 +76,7 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
                     }
                 });*/
 
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
@@ -107,28 +119,14 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
             }
         });
 
+        error_tv = findViewById(R.id.error_tv);
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected void onStart() {
+        super.onStart();
+        new BDTarea().execute();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -174,6 +172,15 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
 
     }
 
+    public void setAlert() {
+
+        if(numImagenes == 0)
+            error_tv.setVisibility(View.VISIBLE);
+        else
+            error_tv.setVisibility(View.INVISIBLE);
+
+    }
+
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -201,6 +208,30 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private class BDTarea extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            cargarDatos();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setAlert();
+
+        }
+    }
+
+    private void cargarDatos() {
+
+        DataBase db = DataBase.getInstance(getApplicationContext());
+        User currentUser = MainActivity.currentUser;
+        numImagenes = db.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, currentUser.getIdUser());
+        items = db.itemDAO().getAllItemsByType(ClosetFragment.clicked);
+        DataBase.destroyInstance();
     }
 
 

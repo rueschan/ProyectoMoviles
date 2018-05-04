@@ -118,22 +118,22 @@ public class FavoritosFragment extends Fragment
 
             // Leer id y buscar foto de coat
             coatID = temp.getCoatID();
-            itemTemp = bd.itemDAO().getItemById(coatID).get(0);
+            itemTemp = bd.itemDAO().getItemById(coatID);
             arrCoats[i] = decodificarImagen(itemTemp);
 
             // Leer id y buscar foto de coat
             upperID = temp.getUpperID();
-            itemTemp = bd.itemDAO().getItemById(upperID).get(0);
+            itemTemp = bd.itemDAO().getItemById(upperID);
             arrUppers[i] = decodificarImagen(itemTemp);
 
             // Leer id y buscar foto de coat
             bottomId = temp.getBottomID();
-            itemTemp = bd.itemDAO().getItemById(bottomId).get(0);
+            itemTemp = bd.itemDAO().getItemById(bottomId);
             arrBottoms[i] = decodificarImagen(itemTemp);
 
             // Leer id y buscar foto de coat
             shoeID = temp.getShoesID();
-            itemTemp = bd.itemDAO().getItemById(shoeID).get(0);
+            itemTemp = bd.itemDAO().getItemById(shoeID);
             arrShoes[i] = decodificarImagen(itemTemp);
 
             Log.i("BD (FavoritosFragment)", temp.toString());

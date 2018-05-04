@@ -33,7 +33,7 @@ public interface ItemDAO {
     List<Item> getItemsByColorAndType(String color, String tipo);
 
     @Query("SELECT * FROM Item WHERE id = :id")
-    List<Item> getItemById(int id);
+    Item getItemById(int id);
 
     @Query("SELECT * FROM Item WHERE foto = :foto")
     List<Item> getItemByPhoto(byte[] foto);
@@ -55,4 +55,12 @@ public interface ItemDAO {
 
     @Query("DELETE FROM Item")
     void delete();
+
+    @Query("UPDATE Item SET color = :color WHERE id = :id")
+    void updateItemColor(String color, int id);
+
+    @Query("UPDATE Item SET evento = :evento WHERE id = :id")
+    void updateItemEvent(String evento, int id);
+
+
 }

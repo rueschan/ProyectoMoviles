@@ -78,7 +78,6 @@
                         android:onClick="selectColor" />
 
                 </TableRow>
-
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -91,8 +90,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/morado_osc"
-                        android:clickable="true"
+                        android:background="#7F23AC"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -102,8 +100,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/morado"
-                        android:clickable="true"
+                        android:background="#B232C0"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -113,11 +110,11 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/morado_claro"
-                        android:clickable="true"
+                        android:background="#C979F6"
                         android:onClick="selectColor" />
 
                 </TableRow>
+
 
                 <TableRow
                     android:layout_height="wrap_content"
@@ -131,8 +128,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/azul_osc"
-                        android:clickable="true"
+                        android:background="#1D48BD"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -142,8 +138,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/azul"
-                        android:clickable="true"
+                        android:background="#3786D8"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -153,8 +148,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/azul_claro"
-                        android:clickable="true"
+                        android:background="#4FB6F7"
                         android:onClick="selectColor" />
                 </TableRow>
 
@@ -170,8 +164,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/verde_osc"
-                        android:clickable="true"
+                        android:background="#3F903A"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -181,8 +174,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/verde"
-                        android:clickable="true"
+                        android:background="#52B657"
                         android:onClick="selectColor" />
 
                     <ImageView
@@ -192,8 +184,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/verde_claro"
-                        android:clickable="true"
+                        android:background="#9BEA47"
                         android:onClick="selectColor" />
                 </TableRow>
 

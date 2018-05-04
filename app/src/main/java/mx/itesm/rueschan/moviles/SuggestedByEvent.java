@@ -314,7 +314,7 @@ public class SuggestedByEvent extends AppCompatActivity {
 
             for (int j = 0; j < coats.size() ; j++) {
                 if(verificarCombinacionesContinuo(top.get(i).getColor(), coats.get(j).getColor()))
-                    combinacionesCoats.add(coats.get(i));
+                    combinacionesCoats.add(coats.get(j));
             }
 
                     /*Log.i(top.get(i).getColor(),"Shoes" + combinacionesShoes.toString() + "\nBottom" + combinacionesBottom.toString( ) +

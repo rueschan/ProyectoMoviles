@@ -80,10 +80,9 @@
                         android:id="@+id/iv_negro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
                         android:onClick="selectColor"
                         app:srcCompat="@android:color/black" />
 
@@ -91,10 +90,9 @@
                         android:id="@+id/iv_gris"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
                         android:onClick="selectColor"
                         app:srcCompat="@android:color/darker_gray" />
 
@@ -102,11 +100,10 @@
                         android:id="@+id/iv_blanco"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/background"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
                 </TableRow>
@@ -120,10 +117,10 @@
                         android:id="@+id/iv_morado_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/morado_osc"
+                        android:layout_marginTop="10dp"
+                        android:background="#7F23AC"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
@@ -131,10 +128,10 @@
                         android:id="@+id/iv_morado"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/morado"
+                        android:layout_marginTop="10dp"
+                        android:background="#B232C0"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
@@ -142,10 +139,10 @@
                         android:id="@+id/iv_morado_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/morado_claro"
+                        android:layout_marginTop="10dp"
+                        android:background="#C979F6"
                         android:clickable="true"
                         android:onClick="selectColor" />
 
@@ -160,33 +157,30 @@
                         android:id="@+id/iv_azul_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/azul_osc"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#1D48BD"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_azul"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/azul"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#3786D8"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_azul_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/azul_claro"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#4FB6F7"
                         android:onClick="selectColor" />
                 </TableRow>
 
@@ -199,33 +193,30 @@
                         android:id="@+id/iv_verde_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/verde_osc"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#3F903A"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_verde"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/verde"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#52B657"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_verde_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/verde_claro"
-                        android:clickable="true"
+                        android:layout_marginTop="10dp"
+                        android:background="#9BEA47"
                         android:onClick="selectColor" />
                 </TableRow>
 
@@ -238,33 +229,30 @@
                         android:id="@+id/iv_ama_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#d4af37"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_amarillo"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#ffe001"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_ama_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#f3ff00"
-                        android:clickable="true"
                         android:onClick="selectColor" />
                 </TableRow>
 
@@ -277,22 +265,20 @@
                         android:id="@+id/iv_cafe_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#4b3621"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
                     <ImageView
                         android:id="@+id/iv_cafe"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#804000"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
 
@@ -300,11 +286,10 @@
                         android:id="@+id/iv_cafe_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#d2b48c"
-                        android:clickable="true"
                         android:onClick="selectColor" />
 
                 </TableRow>
@@ -318,9 +303,9 @@
                         android:id="@+id/iv_rojo_osc"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#b50030"
                         android:onClick="selectColor" />
 
@@ -328,9 +313,9 @@
                         android:id="@+id/iv_rojo"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="#e20202"
                         android:onClick="selectColor" />
 
@@ -338,9 +323,9 @@
                         android:id="@+id/iv_rojo_claro"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:onClick="selectColor"
                         app:srcCompat="@android:color/holo_red_light" />
 

@@ -190,14 +190,14 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
             Log.i("SelectItemsActivity", "Coat Selected");
             coat = new Item();
             coat.setId(temp.getCoatID());
-            coat.setFoto(dataBase.itemDAO().getItemById(coat.getId()).get(0).getFoto());
+            coat.setFoto(dataBase.itemDAO().getItemById(coat.getId()).getFoto());
 
         }
         if (temp.getUpperID() != -1 && upper.getId() != temp.getUpperID()) {
             Log.i("SelectItemsActivity", "Upper Selected");
             upper = new Item();
             upper.setId(temp.getUpperID());
-            upper.setFoto(dataBase.itemDAO().getItemById(upper.getId()).get(0).getFoto());
+            upper.setFoto(dataBase.itemDAO().getItemById(upper.getId()).getFoto());
             System.out.println(upper.toString());
 
         }
@@ -205,14 +205,14 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
             Log.i("SelectItemsActivity", "Bottom Selected");
             lower = new Item();
             lower.setId(temp.getBottomID());
-            lower.setFoto(dataBase.itemDAO().getItemById(lower.getId()).get(0).getFoto());
+            lower.setFoto(dataBase.itemDAO().getItemById(lower.getId()).getFoto());
 
         }
         if (temp.getShoesID() != -1 && shoes.getId() != temp.getShoesID()) {
             Log.i("SelectItemsActivity", "Shoes Selected");
             shoes = new Item();
             shoes.setId(temp.getShoesID());
-            shoes.setFoto(dataBase.itemDAO().getItemById(shoes.getId()).get(0).getFoto());
+            shoes.setFoto(dataBase.itemDAO().getItemById(shoes.getId()).getFoto());
 
         }
     }

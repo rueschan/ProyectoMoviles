@@ -3,8 +3,10 @@ package mx.itesm.rueschan.moviles;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
@@ -35,6 +39,8 @@ public class TakePhoto extends AppCompatActivity {
     private String color;
     private int old_iv;
 
+    private int id;
+
 
     private Bitmap bmNew;
     private TextView tvType;
@@ -43,18 +49,33 @@ public class TakePhoto extends AppCompatActivity {
     private Spinner eventsList;
     String events[] = {"Sports", "Streetwear", "Casual", "Business Casual", "Business", "Black Tie"};
 
+    //data for the image
+    private Bitmap bm;
+    private byte[] img;
+
+    private final int WIDTH = 128;
+    private final int HEIGHT = 128;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
 
-        Intent intFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intFoto.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intFoto, SOLICITA_CAMARA);
-        }
 
+        id = getIntent().getIntExtra("id", -1);
         imageView = findViewById(R.id.imgtaken);
         tvType = findViewById(R.id.tv_tipo);
+
+        Intent intFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(id == -1) {
+            if (intFoto.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intFoto, SOLICITA_CAMARA);
+            }
+        }else{
+            new BDImage().execute();
+            
+        }
+
 
         //lista tipo de prenda
 
@@ -126,14 +147,16 @@ public class TakePhoto extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SOLICITA_CAMARA && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap bm = (Bitmap) extras.get("data");
-            bmNew = Bitmap.createScaledBitmap(bm, 128, 128, false);
+            bm = (Bitmap) extras.get("data");
+            bmNew = Bitmap.createScaledBitmap(bm, WIDTH, HEIGHT, false);
             imageView.setImageBitmap(bm);
             tvType.setText(ClosetFragment.clicked);
         } else if (requestCode == SOLICITA_CAMARA && resultCode == RESULT_CANCELED) {
@@ -172,8 +195,8 @@ public class TakePhoto extends AppCompatActivity {
         }
 
         if (iv.getScaleX() <= 1.0f && iv.getScaleY() <= 1.0f) {
-            iv.setScaleX(iv.getScaleX() + 0.2f);
-            iv.setScaleY(iv.getScaleY() + 0.2f);
+            iv.setScaleX(iv.getScaleX() + 0.4f);
+            iv.setScaleY(iv.getScaleY() + 0.4f);
         }
 
         setOld_iv(v.getId());
@@ -290,16 +313,24 @@ public class TakePhoto extends AppCompatActivity {
 
     private void grabarDatos() {
 
-        Item bd = new Item();
-        bd.setFoto(codificarImagen());
-        bd.setColor(getColor());
-        bd.setTipo(ClosetFragment.clicked);
-        bd.setEvento(eventsList.getSelectedItem().toString());
         DataBase dataBase = DataBase.getInstance(this);
-        bd.setUserID(MainActivity.currentUser.getIdUser());
-        dataBase.itemDAO().insertar(bd);
 
-        System.out.println(dataBase.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, MainActivity.currentUser.getIdUser()));
+        if(id == -1) {
+            Item item = new Item();
+            item.setFoto(codificarImagen());
+            item.setColor(getColor());
+            item.setTipo(ClosetFragment.clicked);
+            item.setEvento(eventsList.getSelectedItem().toString());
+            item.setUserID(MainActivity.currentUser.getIdUser());
+            dataBase.itemDAO().insertar(item);
+            System.out.println(dataBase.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, MainActivity.currentUser.getIdUser()));
+        }else{
+            dataBase.itemDAO().updateItemColor(getColor(), id);
+            dataBase.itemDAO().updateItemEvent(eventsList.getSelectedItem().toString(), id);
+
+        }
+
+
         DataBase.destroyInstance();
 
     }
@@ -329,9 +360,46 @@ public class TakePhoto extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.i("onPost", "Dato grabado ********************");
         }
     }
 
+
+    class BDImage extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            loadImage();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            //set image
+            tvType.setText(ClosetFragment.clicked);
+        }
+    }
+
+    public void loadImage(){
+        DataBase db  = DataBase.getInstance(getApplicationContext());
+        img = db.itemDAO().getItemById(id).getFoto();
+
+        Bitmap bm = null;
+
+        try {
+            InputStream ent = getResources().getAssets().open("temp.png");
+            bm = BitmapFactory.decodeStream(ent);
+        } catch (IOException e) {
+            Log.i("BD (TakePhoto)", "Error: " + e.getMessage());
+        }
+
+
+        Bitmap.Config configBmp = Bitmap.Config.valueOf(bm.getConfig().name());
+        Bitmap bitmap_tmp = Bitmap.createBitmap(WIDTH, HEIGHT, configBmp);
+        ByteBuffer buffer = ByteBuffer.wrap(img);
+        bitmap_tmp.copyPixelsFromBuffer(buffer);
+        imageView.setImageBitmap(bitmap_tmp);
+
+        DataBase.destroyInstance();
+    }
 
 }

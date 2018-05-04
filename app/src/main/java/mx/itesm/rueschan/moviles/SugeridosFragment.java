@@ -146,13 +146,22 @@ public class SugeridosFragment extends Fragment {
 
         if (shoes.size() > 0 && bottom.size() > 0 && top.size() > 0 && coats.size() > 0) {
             HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste = crearCombinacionesContraste(shoes, bottom, top, coats);
-            HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats);
+            HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo = crearCombinacionesContinuo(shoes, bottom, top, coats, combinacionesContraste);
 
             Log.i("CONTRASTE " , combinacionesContraste.size() + "");
             Log.i("CONTINUO", combinacionesContinuo.size() + "");
+            //toast(getNumOutfits() + 1 + " Outfits");
             seleccionarOutfit(combinacionesContraste, combinacionesContinuo, numOutfits);
         }
 
+    }
+
+    public int getNumOutfits() {
+        return numOutfits;
+    }
+
+    public void setNumOutfits(int numOutfits) {
+        this.numOutfits = numOutfits;
     }
 
     private void seleccionarOutfit(HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContinuo, int size) {
@@ -248,6 +257,7 @@ public class SugeridosFragment extends Fragment {
             items = bd.itemDAO().getAllItems();
 
             numOutfits = bd.outfitDAO().countOutfits();
+            setNumOutfits(numOutfits);
             outfits = bd.outfitDAO().readAll();
 
             shoes = new ArrayList<>();
@@ -280,7 +290,7 @@ public class SugeridosFragment extends Fragment {
         DataBase.destroyInstance();
         }
 
-    private HashMap<Item,ArrayList<ArrayList<Item>>> crearCombinacionesContinuo(ArrayList<Item> shoes, ArrayList<Item> bottom, ArrayList<Item> top, ArrayList<Item> coats) {
+    private HashMap<Item,ArrayList<ArrayList<Item>>> crearCombinacionesContinuo(ArrayList<Item> shoes, ArrayList<Item> bottom, ArrayList<Item> top, ArrayList<Item> coats, HashMap<Item, ArrayList<ArrayList<Item>>> combinacionesContraste) {
 
         HashMap<Item, ArrayList<ArrayList<Item>>> combinaciones = new HashMap<>();
         ArrayList<Item> combinacionesShoes = new ArrayList<>();
@@ -315,7 +325,15 @@ public class SugeridosFragment extends Fragment {
                 combinan.add(combinacionesShoes);
                 combinan.add(combinacionesBottom);
                 combinan.add(combinacionesCoats);
-                combinaciones.put(top.get(i), combinan);
+
+                if(combinacionesContraste.containsKey(top.get(i))){
+                    if(!combinacionesContraste.get(top.get(i)).equals(combinan)){
+                        combinaciones.put(top.get(i), combinan);
+                    }
+                }else {
+                    combinaciones.put(top.get(i), combinan);
+                }
+                //combinaciones.put(top.get(i), combinan);
                 combinan = new ArrayList<>();
             }
 
@@ -505,8 +523,9 @@ public class SugeridosFragment extends Fragment {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //toast("Simon");
-                    outfit =  new Outfit( outfitName.getText().toString(), Integer.parseInt(coatName.getText().toString()), Integer.parseInt(upperName.getText().toString()),
+                    //toast(getNumOutfits() + 1 + " Outfits");
+                   outfit =  new Outfit( "Outfit " + (getNumOutfits() + 1)/*outfitName.getText().toString()*/,
+                            Integer.parseInt(coatName.getText().toString()), Integer.parseInt(upperName.getText().toString()),
                             Integer.parseInt(bottomName.getText().toString()), Integer.parseInt(shoesName.getText().toString()));
                     //Log.i("OUTFIT GUARDADO", outfit +"");
                     new BDOutfit().execute();
@@ -618,11 +637,11 @@ public class SugeridosFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             crearOutfits();
-            Log.i("Outfit Guardoado","");
+            Log.i("Outfit Guardado","");
             // Nuevos datos para el adaptador
-            SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
+            /*SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
-            adapt.notifyDataSetChanged();
+            adapt.notifyDataSetChanged();*/
         }
     }
 
