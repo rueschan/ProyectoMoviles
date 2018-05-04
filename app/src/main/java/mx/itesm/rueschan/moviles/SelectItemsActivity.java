@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -68,11 +69,11 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
-        tvMail = findViewById(R.id.tvMail);
-        tvUser = findViewById(R.id.tvUsuario);
 //        tvMail.setText(MainActivity.currentUser.getEmail());
         selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
         selectedLayout.setVisibility(View.VISIBLE);
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setVisibility(View.INVISIBLE);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -85,6 +86,11 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         ActionBar supportActionBar = getSupportActionBar();
+
+        tvUser = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvUsuario);
+        tvMail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvMail);
+        tvUser.setText(MainActivity.currentUser.getName());
+        tvMail.setText(MainActivity.currentUser.getEmail());
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

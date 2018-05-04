@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivMLAbout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="90dp"
@@ -26,7 +26,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ivMLAbout"
         app:layout_constraintVertical_bias="0.04000002"
         tools:context="mx.itesm.rueschan.moviles.LoginAct">
 

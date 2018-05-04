@@ -29,8 +29,13 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_about);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        tvUser = findViewById(R.id.tvUsuarioSelected);
-        tvMail = findViewById(R.id.tvMailSelected);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        //tvMail.autofill(MainActivity.currentUser.getEmail());
+//        System.out.println(tvMail.getText());
+       // tvUser.setText("Laeve");
+        //tvMail.setText(MainActivity.currentUser.getEmail());
         setSupportActionBar(toolbar);
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewAbout);
@@ -44,6 +49,10 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         ActionBar supportActionBar = getSupportActionBar();
+        tvUser = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvUsuario);
+        tvMail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvMail);
+        tvUser.setText(MainActivity.currentUser.getName());
+        tvMail.setText(MainActivity.currentUser.getEmail());
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -64,8 +73,7 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onStart() {
         super.onStart();
-//        tvUser.setText(MainActivity.currentUser.getName());
-//        tvMail.setText(MainActivity.currentUser.getEmail());
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -95,5 +103,10 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerAbout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

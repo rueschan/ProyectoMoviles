@@ -24,7 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways">
+
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -103,7 +105,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_selected"
-        app:menu="@menu/drawer_menu" />
+        app:headerLayout="@layout/nav"
+        app:menu="@menu/drawer_menu_selected"
+        />
 
 </android.support.v4.widget.DrawerLayout>

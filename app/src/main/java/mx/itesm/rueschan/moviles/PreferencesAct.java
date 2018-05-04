@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.User;
@@ -42,7 +43,10 @@ public class PreferencesAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
         user = (User) getIntent().getSerializableExtra("user");
-
+        String from = getIntent().getStringExtra("from");
+        if (from.equalsIgnoreCase("MainAct")){
+            Toast.makeText(this, "Actual favorite color:  " + traducirColor(user.getColor()),Toast.LENGTH_LONG).show();
+        }
     }
 
     public void selectColor(View v) {
@@ -218,6 +222,54 @@ public class PreferencesAct extends AppCompatActivity {
         pref.putBoolean("sesion", true);
         pref.commit();*/
 
+    }
+
+    private String traducirColor(String color) {
+        switch (color){
+            case "negro":
+                return "Black";
+            case "blanco":
+                return "White";
+            case "gris":
+                return "Gray";
+            case "amarillo_claro":
+                return "Light Yellow";
+            case "amarillo_osc":
+                return "Drak Yellow";
+            case "amarillo":
+                return "Yellow";
+            case "rojo_osc":
+                return "Dark Red";
+            case "rojo_claro":
+                return "Light Red";
+            case "rojo":
+                return "Red";
+            case "verde_osc":
+                return "Dark Green";
+            case "verde":
+                return "Green";
+            case "verde_claro":
+                return "Light Green";
+            case "azul_osc":
+                return "Dark Blue";
+            case "azul_claro":
+                return "Light Blue";
+            case "azul":
+                return "Blue";
+            case "morado_osc":
+                return "Dark Purple";
+            case "morado":
+                return "Purple";
+            case "morado_claro":
+                return "Light Purple";
+            case "cafe_osc":
+                return "Dark Brown";
+            case "cafe":
+                return "Brown";
+            case "cafe_claro":
+                return "Light Brown";
+        }
+        return "";
     }
 
 

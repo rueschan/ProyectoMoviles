@@ -33,8 +33,9 @@ import mx.itesm.rueschan.moviles.EntidadesBD.User;
 
 public class ImagesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //private NavigationView navigationView;
+    private NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
+    private TextView tvUser, tvMail;
 
     //mensaje para indicar que hacer
     private TextView error_tv;
@@ -54,8 +55,9 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
         ViewPager viewPager = findViewById(R.id.viewPagerPhotos);
         setUpView(viewPager);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_viewImages);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerImages);
-
+        error_tv = findViewById(R.id.error_tv);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
@@ -75,8 +77,13 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
                         return true;
                     }
                 });*/
+        tvUser = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvUsuario);
+        tvMail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvMail);
+        tvUser.setText(MainActivity.currentUser.getName());
+        tvMail.setText(MainActivity.currentUser.getEmail());
 
-        //navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
@@ -119,10 +126,15 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
             }
         });
 
-        error_tv = findViewById(R.id.error_tv);
-
     }
 
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+*/
     @Override
     protected void onStart() {
         super.onStart();

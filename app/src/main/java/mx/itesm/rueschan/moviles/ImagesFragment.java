@@ -294,6 +294,7 @@ public class ImagesFragment extends Fragment {
                     holder.imageView.setBackgroundColor(Color.WHITE);
                 }
             }
+
         }
 
         @Override
@@ -376,6 +377,7 @@ public class ImagesFragment extends Fragment {
 
         }
     }
+
 
 
 }
