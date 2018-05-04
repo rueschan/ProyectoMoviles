@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<Item> items;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Adding Floating Action Button to bottom right of main view
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_info));
         /*fab.animate()
                 .translationY(160)
                 .alpha(1.0f)
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (position) {
                     case 0:
-
+                        fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_info));
                         /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(false);*/
                         break;
                     case 1:
-
+                        fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                     /*fab.animate()
                             .translationY(0)
                             .alpha(1.0f)
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case 2:
+                        fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
                             String errorMsg = "You don't have these items:\n";
                             if (shoes.size() == 0)
@@ -167,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 int currentFragment = viewPager.getCurrentItem();
                 Intent intent;
                 switch (currentFragment) {
@@ -215,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View v = navigationView.getHeaderView(0);
         tvUser = (TextView) v.findViewById(R.id.tvUsuario);
         tvMail = (TextView) v.findViewById(R.id.tvMail);
+
         //System.out.println("Hola current: START " + currentName + currentEmail);
     }
 
@@ -271,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_delete) {
             return true;
         }
 
