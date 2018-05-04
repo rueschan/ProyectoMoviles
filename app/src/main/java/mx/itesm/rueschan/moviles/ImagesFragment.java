@@ -372,9 +372,8 @@ public class ImagesFragment extends Fragment {
             ImagesFragment.ControllerAdapter adapt = (ImagesFragment.ControllerAdapter)recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrPhotos, arrColors, arrEvents, delete_iv, edit_iv, layout_edit);
             adapt.notifyDataSetChanged();
-
-            Toast.makeText(getContext(), "Click the photos to get their info",Toast.LENGTH_LONG).show();
-
+            if(numImages != 0)
+                Toast.makeText(getContext(), "Click the photos to get their info",Toast.LENGTH_LONG).show();
         }
     }
 

@@ -21,6 +21,18 @@ public class PreferencesAct extends AppCompatActivity {
     private User user;
     private String color;
     private int old_iv;
+    private int primera;
+
+    public ImageView getIvFavorite() {
+        return ivFavorite;
+    }
+
+    public void setIvFavorite(ImageView ivFavorite) {
+        this.ivFavorite = ivFavorite;
+    }
+
+    private ImageView ivFavorite;
+
 
     public String getColor() {
         return color;
@@ -44,16 +56,30 @@ public class PreferencesAct extends AppCompatActivity {
         setContentView(R.layout.activity_preferences);
         user = (User) getIntent().getSerializableExtra("user");
         String from = getIntent().getStringExtra("from");
+
         if (from.equalsIgnoreCase("MainAct")){
+            ivFavorite = findViewById(traducirColorTextView(user.getColor()));
+            ivFavorite.setScaleX(ivFavorite.getScaleX() + 0.2f);
+            ivFavorite.setScaleY(ivFavorite.getScaleX() + 0.2f);
+            setColor(user.getColor());
             Toast.makeText(this, "Actual favorite color:  " + traducirColor(user.getColor()),Toast.LENGTH_LONG).show();
+            primera = 0;
         }
     }
 
     public void selectColor(View v) {
         String color = "";
         ImageView iv = findViewById(v.getId());
+        ImageView old_iv;
 
-        ImageView old_iv = findViewById(getOld_iv());
+        if (getIntent().getStringExtra("from").equalsIgnoreCase("MainAct") && primera == 0){
+            old_iv = getIvFavorite();
+            primera = 1;
+        }
+        else{
+            old_iv = findViewById(getOld_iv());
+        }
+
 
         if (old_iv != null) {
             if(old_iv.getScaleY() > 1.0f && old_iv.getScaleX() > 1.0f){
@@ -222,6 +248,54 @@ public class PreferencesAct extends AppCompatActivity {
         pref.putBoolean("sesion", true);
         pref.commit();*/
 
+    }
+
+    private int traducirColorTextView(String color) {
+        switch (user.getColor()){
+            case "negro":
+                return 2131624118;
+            case "blanco":
+                return 2131624120;
+            case "gris":
+                return 2131624119;
+            case "amarillo_claro":
+                return 2131624132;
+            case "amarillo_osc":
+                return 2131624130;
+            case "amarillo":
+                return 2131624131;
+            case "rojo_osc":
+                return 2131624136;
+            case "rojo_claro":
+                return 2131624137;
+            case "rojo":
+                return 2131624138;
+            case "verde_osc":
+                return 2131624127;
+            case "verde":
+                return 2131624128;
+            case "verde_claro":
+                return 2131624129;
+            case "azul_osc":
+                return 2131624124;
+            case "azul_claro":
+                return 2131624126;
+            case "azul":
+                return 2131624125;
+            case "morado_osc":
+                return 2131624121;
+            case "morado":
+                return 2131624122;
+            case "morado_claro":
+                return 2131624123;
+            case "cafe_osc":
+                return 2131624133;
+            case "cafe":
+                return 2131624134;
+            case "cafe_claro":
+                return 2131624135;
+        }
+        return 0;
     }
 
     private String traducirColor(String color) {
