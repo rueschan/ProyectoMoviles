@@ -1,7 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,8 +48,7 @@ public class FavoritosFragment extends Fragment
     private int shoeID;
     private Bitmap[] arrShoes;
 
-    public static int numSize;
-    public static String errorMessage;
+    private int deleatableID;
 
     public FavoritosFragment() {
         // Required empty public constructor
@@ -83,12 +82,12 @@ public class FavoritosFragment extends Fragment
 
     @Override
     public void onStart() {
-        new BDFavoritos().execute();
+        new cargarOutfitsBD().execute();
         super.onStart();
     }
 
     public void recargarDatos() {
-        new BDFavoritos().execute();
+        new cargarOutfitsBD().execute();
     }
 
 
@@ -172,9 +171,10 @@ public class FavoritosFragment extends Fragment
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private FloatingActionButton btn;
 
+        private int outfitID;
         private TextView outfitName;
 
         private ImageView coatIv;
@@ -193,16 +193,30 @@ public class FavoritosFragment extends Fragment
             shoesIv = itemView.findViewById(R.id.shoesImg);
 
             btn = itemView.findViewById(R.id.favBtn);
-            btn.setVisibility(View.GONE);
+            btn.setImageResource(R.drawable.ic_delete);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //toast(getNumOutfits() + 1 + " Outfits");
+                    deleatableID = outfitID;
+                    String nombre = outfitName.getText().toString();
+                    new FavoritosFragment.quitarOutfitBD().execute();
+
+                    Toast.makeText(getContext(), nombre + " was deleted.", Toast.LENGTH_SHORT).show();
+
+                    //onStart();
+                }
+            });
 
 
         }
 
     }
 
-    public static class ControllerAdapter extends RecyclerView.Adapter<FavoritosFragment.ViewHolder> {
+    public class ControllerAdapter extends RecyclerView.Adapter<FavoritosFragment.ViewHolder> {
 
-        private static int SIZE;
+        private int SIZE;
         private int[] arrIDs;
         private String[] arrNames;
         private Bitmap[] arrCoats;
@@ -245,6 +259,7 @@ public class FavoritosFragment extends Fragment
         public void onBindViewHolder(@NonNull FavoritosFragment.ViewHolder holder, int position) {
 
             if(arrNames.length > 0) {
+                holder.outfitID = arrIDs[position];
                 holder.outfitName.setText(arrNames[position]);
 
                 holder.coatIv.setImageBitmap(arrCoats[position]);
@@ -261,7 +276,7 @@ public class FavoritosFragment extends Fragment
     }
 
     // Para cargar los datos en segundo plano
-    private class BDFavoritos extends AsyncTask<Void, Void, Void>
+    private class cargarOutfitsBD extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected Void doInBackground(Void... voids) {
@@ -277,5 +292,30 @@ public class FavoritosFragment extends Fragment
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
             adapt.notifyDataSetChanged();
         }
+    }
+
+    private class quitarOutfitBD extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            borrarOutfit();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            // Nuevos datos para el adaptador
+            FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
+            adapt.notifyDataSetChanged();
+        }
+    }
+
+    private void borrarOutfit() {
+        DataBase bd = DataBase.getInstance(getContext());
+        bd.outfitDAO().eraseByID(deleatableID);
+        DataBase.destroyInstance();
+        cargarDatos();
     }
 }

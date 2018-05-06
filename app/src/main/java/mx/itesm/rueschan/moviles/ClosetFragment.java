@@ -134,7 +134,7 @@ public class ClosetFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (origen == Origin.FAVORITOS) {
-                tempOutfit = new Outfit("Outfit " + (outfits + 1), -1, -1, -1, -1);
+                tempOutfit = new Outfit("Favorite " + (outfits + 1), -1, -1, -1, -1);
             }
         }
 

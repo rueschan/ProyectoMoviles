@@ -45,4 +45,7 @@ public interface OutfitDAO {
     @Query("DELETE FROM Outfit")    // CUIDADO!!!
     void erase();
 
+    @Query("DELETE FROM Outfit WHERE id = :id")    // CUIDADO!!!
+    void eraseByID(int id);
+
 }
