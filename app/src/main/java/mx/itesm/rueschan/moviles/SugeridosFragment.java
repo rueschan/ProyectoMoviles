@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
@@ -113,10 +114,10 @@ public class SugeridosFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.i("SugeridosFragment", "Enter");
 
-        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
+        //ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
 
-        View v = inflater.inflate(R.layout.fragment_sugeridos_list, container, false);
-        recyclerView = v.findViewById(R.id.rvSugeridosOutfit);
+        View v = inflater.inflate(R.layout.fragment_favoritos_list, container, false);
+        recyclerView = v.findViewById(R.id.rvOutfit);
 
         SugeridosFragment.ControllerAdapter adapter = new SugeridosFragment.ControllerAdapter(
                 new int[]{},
@@ -299,7 +300,7 @@ public class SugeridosFragment extends Fragment {
         ArrayList<ArrayList<Item>> combinan = new ArrayList<>();
 
         for (int i = 0; i < top.size() ; i++) {
-            //Log.i("TOP",top.get(i).getColor());
+            Log.i("TOP",top.get(i).getColor());
             for (int j = 0; j < shoes.size() ; j++) {
                 //Log.i("SHOES",shoes.get(j).getColor());
                 if(verificarCombinacionesContinuo(top.get(i).getColor(), shoes.get(j).getColor()))
@@ -315,6 +316,7 @@ public class SugeridosFragment extends Fragment {
             }
 
             for (int j = 0; j < coats.size() ; j++) {
+                Log.i("COATS",coats.get(j).getColor());
                 if(verificarCombinacionesContinuo(top.get(i).getColor(), coats.get(j).getColor()))
                     combinacionesCoats.add(coats.get(j));
             }
@@ -449,10 +451,37 @@ public class SugeridosFragment extends Fragment {
 
         int indexItem = getIndex(colorItem);
         int indexTop = getIndex(colorTop);
-        if (indexTop >= indexItem - 2 && indexTop <= indexItem + 2)
-                return true;
-        if (indexItem >= indexTop - 2 && indexItem <= indexTop + 2)
+        //Log.i(colorTop + " " + indexTop , colorItem + " " + indexItem);
+
+        /*{"amarillo_claro","amarillo","amarillo_osc",
+                "cafe_claro", "cafe", "cafe_osc",
+                "rojo_claro","rojo","rojo_osc",
+                "morado_claro","morado", "morado_osc",
+                "azul_claro","azul","azul_osc",
+                "verde_claro","verde","verde_osc"};
+
+         0-2; 9-11;
+         3-5; 12-14;
+         6-8; 15-17;*/
+
+        if (indexTop >= indexItem - 5 && indexTop <= indexItem + 5)
             return true;
+
+        if (indexItem >= indexTop - 5 && indexItem <= indexTop + 5)
+            return true;
+
+        //17
+        //verificar los ultimos vs los primeros
+        if (indexItem >= 12) {
+            if (indexItem <= (17 - indexTop + 5) || indexItem >= (indexTop - 5) )
+                return true;
+        }
+
+
+        if (indexTop >= 12) {
+            if (indexTop <= (17 - indexItem + 5) || indexTop >= (indexItem - 5) )
+                return true;
+        }
 
         return false;
     }
@@ -487,6 +516,10 @@ public class SugeridosFragment extends Fragment {
         bitmap_tmp.copyPixelsFromBuffer(buffer);
         //Log.i("SugeridosFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
+    }
+
+    public void recargarDatos() {
+        new BDItem().execute();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -529,7 +562,11 @@ public class SugeridosFragment extends Fragment {
                             Integer.parseInt(bottomName.getText().toString()), Integer.parseInt(shoesName.getText().toString()));
                     //Log.i("OUTFIT GUARDADO", outfit +"");
                     new BDOutfit().execute();
-                    onStart();
+
+                    Toast.makeText(getContext(), outfitName.getText().toString() + " was saved", Toast.LENGTH_SHORT).show();
+                    btn.setVisibility(View.INVISIBLE);
+
+                    //onStart();
                 }
             });
         }
@@ -596,6 +633,8 @@ public class SugeridosFragment extends Fragment {
                 holder.upperName.setText(String.valueOf(arrOutfits[position].getUpperID()));
                 holder.bottomName.setText(String.valueOf(arrOutfits[position].getBottomID()));
                 holder.shoesName.setText(String.valueOf(arrOutfits[position].getShoesID()));
+
+                holder.btn.setVisibility(View.VISIBLE);
 
             }
         }

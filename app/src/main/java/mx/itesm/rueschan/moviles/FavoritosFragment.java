@@ -36,7 +36,7 @@ import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
 public class FavoritosFragment extends Fragment
 {
     private RecyclerView recyclerView;
-    // Arreglos para el adaptador
+    // Arreglos para el adaptardor
     private int[] arrIDs;
     private String[] arrNames;
     private int coatID;
@@ -62,7 +62,7 @@ public class FavoritosFragment extends Fragment
 
         View v =  inflater.inflate(R.layout.fragment_favoritos_list, container, false);
 
-        recyclerView = v.findViewById(R.id.rvFavOutfit);
+        recyclerView = v.findViewById(R.id.rvOutfit);
 //        AdaptadorRV adaptador = new AdaptadorRV(new int[]{}, new String[]{}, null,null, null, null);
 //        System.out.println(">>> " + recyclerView.toString());
 //        recyclerView.setAdapter(adaptador);
@@ -150,6 +150,7 @@ public class FavoritosFragment extends Fragment
         Bitmap bm = null;
 
         try {
+
             InputStream ent = getResources().getAssets().open("temp.png");
             bm = BitmapFactory.decodeStream(ent);
         } catch (IOException e) {
@@ -192,6 +193,7 @@ public class FavoritosFragment extends Fragment
             shoesIv = itemView.findViewById(R.id.shoesImg);
 
             btn = itemView.findViewById(R.id.favBtn);
+            btn.setVisibility(View.GONE);
 
 
         }

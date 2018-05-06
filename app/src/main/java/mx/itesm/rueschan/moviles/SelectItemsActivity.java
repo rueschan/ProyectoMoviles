@@ -63,12 +63,14 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.select_items);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         setUpView(viewPager);
+        tvMail = findViewById(R.id.tvMail);
+        tvUser = findViewById(R.id.tvUsuario);
 //        tvMail.setText(MainActivity.currentUser.getEmail());
         selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
         selectedLayout.setVisibility(View.VISIBLE);

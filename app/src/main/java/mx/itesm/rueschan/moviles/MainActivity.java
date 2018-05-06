@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String colors[];
     private List<Item> items;
 
+    private TextView error_tv;
+    private int numOutfits;
 
 
     @Override
@@ -69,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvUser = findViewById(R.id.tvUsuario);
         tvMail = findViewById(R.id.tvMail);
+        error_tv = findViewById(R.id.error_tv);
         setSupportActionBar(toolbar);
+
+        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
 
         // Adding Floating Action Button to bottom right of main view
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -85,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpView(viewPager);
 
         selectedLayout = (ConstraintLayout) findViewById(R.id.selectedLayout);
-        selectedLayout.setVisibility(View.INVISIBLE);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (position) {
                     case 0:
+                        error_tv.setVisibility(View.INVISIBLE);
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_info));
                         /*fab.animate()
                                 .translationY(fab.getHeight())
@@ -115,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fab.setVisibility(View.VISIBLE);
                     fab.setClickable(true);*/
                         ((FavoritosFragment)(((Adapter)viewPager.getAdapter()).getItem(1))).recargarDatos();
+                        if(numOutfits == 0)
+                            error_tv.setVisibility(View.VISIBLE);
                         break;
 
                     case 2:
@@ -133,12 +141,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             MyAlertDialog dialog = new MyAlertDialog(errorMsg);
                             dialog.show(getSupportFragmentManager(), "Sample Fragment");
                         }
+
+                        ((SugeridosFragment)(((Adapter)viewPager.getAdapter()).getItem(2))).recargarDatos();
                         /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
                                 .setListener(null);
                         fab.setVisibility(View.VISIBLE);
                         fab.setClickable(false);*/
+                        error_tv.setVisibility(View.INVISIBLE);
                         break;
                 }
 
@@ -155,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         ActionBar supportActionBar = getSupportActionBar();
 
-        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
+
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -225,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpView(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ClosetFragment(), "Closet");
-        adapter.addFragment(new FavoritosFragment(), "Saved");
+        adapter.addFragment(new FavoritosFragment(), "Favorites");
         adapter.addFragment(new SugeridosFragment(), "Suggested");
 
         viewPager.setAdapter(adapter);
@@ -351,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             colors = new String[items.size()];
             System.out.println("ITEMS " + items.size());
 
-            //sizeBD = bd.outfitDAO().countOutfits();
+            numOutfits = bd.outfitDAO().countOutfits();
 
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getTipo().equalsIgnoreCase("Shoes")) {

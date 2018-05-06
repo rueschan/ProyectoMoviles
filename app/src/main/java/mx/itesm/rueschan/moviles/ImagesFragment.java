@@ -48,6 +48,7 @@ public class ImagesFragment extends Fragment {
     private ImageView[] delete_iv;
     private ImageView[] edit_iv;
     private LinearLayout[] layout_edit;
+    private ImageView[] like_iv;
 
     private int numImages;
 
@@ -139,6 +140,7 @@ public class ImagesFragment extends Fragment {
         private ImageView delete_iv;
         private ImageView edit_iv;
         public LinearLayout layout_edit;
+        public ImageView like;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.closet_photos_items, parent, false));
@@ -148,6 +150,8 @@ public class ImagesFragment extends Fragment {
             delete_iv = itemView.findViewById(R.id.delete_iv);
             edit_iv = itemView.findViewById(R.id.edit_iv);
             layout_edit = itemView.findViewById(R.id.items_layout);
+            like = itemView.findViewById(R.id.like_iv);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -178,7 +182,6 @@ public class ImagesFragment extends Fragment {
         private ImageView[] delete_iv;
         private ImageView[] edit_iv;
         private LinearLayout[] layout_edit;
-
 
         public ControllerAdapter(int[] IDs, Bitmap[] arrPhotos, String[] arrColors, String[] arrEvents, ImageView[] delete_iv, ImageView[] edit_iv, LinearLayout[] layout_edit) {
             arrIDs = IDs;
@@ -222,12 +225,15 @@ public class ImagesFragment extends Fragment {
                 holder.imageView.setImageBitmap(arrPictures[position % arrPictures.length]);
                 holder.titulo.setText("IMG " + arrIDs[position]);
                 holder.info.setText("Color: " +  traducirColor(arrColors[position]) + "\nEvent: " + arrEvents[position]);
+                //holder.like.setVisibility(View.INVISIBLE);
             }
 
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setVisibility();
+                    //Toast.makeText(getContext(),"click en la imagen " + ClosetFragment.origen,Toast.LENGTH_SHORT).show();
+                    if (ClosetFragment.origen == ClosetFragment.Origin.MAIN)
+                        setVisibility();
                     selectedID = holder.id;
                     notifyDataSetChanged();
                     //new BDItem().execute();
@@ -242,22 +248,22 @@ public class ImagesFragment extends Fragment {
                     LinearLayout.LayoutParams params;
 
                     //Aparecer la informacion del texto
-                    if (holder.info.getVisibility() == View.INVISIBLE) {
-                        holder.info.setVisibility(View.VISIBLE);
+                    if (holder.edit_iv.getVisibility() == View.INVISIBLE) {
+                        //holder.info.setVisibility(View.VISIBLE);
                         holder.edit_iv.setVisibility(View.VISIBLE);
                         holder.delete_iv.setVisibility(View.VISIBLE);
-                        parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), convertPxToDp(200));
-                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), convertPxToDp(400));
-                    } else {
-                        holder.info.setVisibility(View.INVISIBLE);
+                        /*parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), convertPxToDp(200));
+                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), convertPxToDp(400));*/
+                    }else {
+                        //holder.info.setVisibility(View.INVISIBLE);
                         holder.edit_iv.setVisibility(View.INVISIBLE);
                         holder.delete_iv.setVisibility(View.INVISIBLE);
-                        parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), 0);
-                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), 0);
+                        /*parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), 0);
+                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), 0);*/
                     }
 
-                    holder.layout_edit.setLayoutParams(parms);
-                    holder.info.setLayoutParams(params);
+                    //holder.layout_edit.setLayoutParams(parms);
+                    //holder.info.setLayoutParams(params);
 
                 }
             });
@@ -286,17 +292,17 @@ public class ImagesFragment extends Fragment {
             //le movi al if chanito
             if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
                 if (selectedID == holder.id) {
-                    int border = 10;
+                    holder.like.setVisibility(View.VISIBLE);
+                    /*int border = 10;
                     holder.imageView.setPadding(border, border, border, border);
-                    holder.imageView.setBackgroundColor(Color.DKGRAY);
+                    holder.imageView.setBackgroundColor(Color.DKGRAY);*/
                 } else {
-                    holder.imageView.setPadding(0, 0, 0, 0);
-                    holder.imageView.setBackgroundColor(Color.WHITE);
+                    /*holder.imageView.setPadding(0, 0, 0, 0);
+                    holder.imageView.setBackgroundColor(Color.WHITE);*/
+                    holder.like.setVisibility(View.INVISIBLE);
                 }
             }
-
         }
-
         @Override
         public int getItemCount() {
             return SIZE;
@@ -372,11 +378,15 @@ public class ImagesFragment extends Fragment {
             ImagesFragment.ControllerAdapter adapt = (ImagesFragment.ControllerAdapter)recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrPhotos, arrColors, arrEvents, delete_iv, edit_iv, layout_edit);
             adapt.notifyDataSetChanged();
-            if(numImages != 0)
-                Toast.makeText(getContext(), "Click the photos to get their info",Toast.LENGTH_LONG).show();
+
+            if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
+                Toast.makeText(getContext(), "Click on the photos to edit them", Toast.LENGTH_LONG).show();
+            }else  if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                Toast.makeText(getContext(), "Click on the photos to select them", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
-
 
 
 }
