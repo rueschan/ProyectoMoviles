@@ -253,47 +253,47 @@ public class PreferencesAct extends AppCompatActivity {
     private int traducirColorTextView(String color) {
         switch (user.getColor()){
             case "negro":
-                return 2131624118;
+                return findViewById(R.id.iv_negro).getId();
             case "blanco":
-                return 2131624120;
+                return findViewById(R.id.iv_blanco).getId();
             case "gris":
-                return 2131624119;
+                return findViewById(R.id.iv_gris).getId();
             case "amarillo_claro":
-                return 2131624132;
+                return findViewById(R.id.iv_ama_claro).getId();
             case "amarillo_osc":
-                return 2131624130;
+                return findViewById(R.id.iv_ama_osc).getId();
             case "amarillo":
-                return 2131624131;
+                return findViewById(R.id.iv_amarillo).getId();
             case "rojo_osc":
-                return 2131624136;
+                return findViewById(R.id.iv_rojo_osc).getId();
             case "rojo_claro":
-                return 2131624137;
+                return findViewById(R.id.iv_rojo_claro).getId();
             case "rojo":
-                return 2131624138;
+                return findViewById(R.id.iv_rojo).getId();
             case "verde_osc":
-                return 2131624127;
+                return findViewById(R.id.iv_verde_osc).getId();
             case "verde":
-                return 2131624128;
+                return findViewById(R.id.iv_verde).getId();
             case "verde_claro":
-                return 2131624129;
+                return findViewById(R.id.iv_verde_claro).getId();
             case "azul_osc":
-                return 2131624124;
+                return findViewById(R.id.iv_azul_osc).getId();
             case "azul_claro":
-                return 2131624126;
+                return findViewById(R.id.iv_azul_claro).getId();
             case "azul":
-                return 2131624125;
+                return findViewById(R.id.iv_azul).getId();
             case "morado_osc":
-                return 2131624121;
+                return findViewById(R.id.iv_morado_osc).getId();
             case "morado":
-                return 2131624122;
+                return findViewById(R.id.iv_morado).getId();
             case "morado_claro":
-                return 2131624123;
+                return findViewById(R.id.iv_morado_claro).getId();
             case "cafe_osc":
-                return 2131624133;
+                return findViewById(R.id.iv_cafe_osc).getId();
             case "cafe":
-                return 2131624134;
+                return findViewById(R.id.iv_cafe).getId();
             case "cafe_claro":
-                return 2131624135;
+                return findViewById(R.id.iv_cafe_claro).getId();
         }
         return 0;
     }
