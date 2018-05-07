@@ -22,21 +22,30 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginAct"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferencesAct" />
-        <activity android:name=".SignUpAct" />
-        <activity android:name=".SelectItemsActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ImagesActivity" />
-        <activity android:name=".TakePhoto" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".SuggestedByEvent"></activity>
+        <activity android:name=".PreferencesAct"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignUpAct"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SelectItemsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ImagesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TakePhoto"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SuggestedByEvent"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

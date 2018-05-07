@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,7 @@ public class TakePhoto extends AppCompatActivity {
 
     //Seleccionar Color
     private String color;
+    private String oldColor;
     private int old_iv;
 
     private int id;
@@ -55,6 +57,9 @@ public class TakePhoto extends AppCompatActivity {
 
     private final int WIDTH = 128;
     private final int HEIGHT = 128;
+    private ImageView ivFavorite;
+    private int primera = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,8 @@ public class TakePhoto extends AppCompatActivity {
 
 
         id = getIntent().getIntExtra("id", -1);
+        oldColor = getIntent().getStringExtra("color");
+        System.out.println(oldColor);
         imageView = findViewById(R.id.imgtaken);
         tvType = findViewById(R.id.tv_tipo);
 
@@ -73,7 +80,10 @@ public class TakePhoto extends AppCompatActivity {
             }
         }else{
             new BDImage().execute();
-            
+            ivFavorite = findViewById(traducirColorTextView(oldColor));
+            ivFavorite.setScaleX(ivFavorite.getScaleX() + 0.2f);
+            ivFavorite.setScaleY(ivFavorite.getScaleY() + 0.2f);
+            primera = 0;
         }
 
 
@@ -180,23 +190,39 @@ public class TakePhoto extends AppCompatActivity {
         this.color = color;
     }
 
+    public ImageView getIvFavorite() {
+        return ivFavorite;
+    }
+
+    public void setIvFavorite(ImageView ivFavorite) {
+        this.ivFavorite = ivFavorite;
+    }
+
 
     public void selectColor(View v) {
         String color = "";
         ImageView iv = findViewById(v.getId());
+        ImageView old_iv;
 
-        ImageView old_iv = findViewById(getOld_iv());
+        if (primera == 0){
+            old_iv = getIvFavorite();
+            primera = 1;
+        }
+        else{
+            old_iv = findViewById(getOld_iv());
+        }
+
 
         if (old_iv != null) {
-            if (old_iv.getScaleY() > 1.0f && old_iv.getScaleX() > 1.0f) {
+            if(old_iv.getScaleY() > 1.0f && old_iv.getScaleX() > 1.0f){
                 old_iv.setScaleX(1.0f);
                 old_iv.setScaleY(1.0f);
             }
         }
 
-        if (iv.getScaleX() <= 1.0f && iv.getScaleY() <= 1.0f) {
-            iv.setScaleX(iv.getScaleX() + 0.4f);
-            iv.setScaleY(iv.getScaleY() + 0.4f);
+        if(iv.getScaleX() <= 1.0f && iv.getScaleY() <= 1.0f) {
+            iv.setScaleX(iv.getScaleX() + 0.2f);
+            iv.setScaleY(iv.getScaleY() + 0.2f);
         }
 
         setOld_iv(v.getId());
@@ -309,6 +335,54 @@ public class TakePhoto extends AppCompatActivity {
         setOld_iv(v.getId());
         setColor(color);
 
+    }
+
+    private int traducirColorTextView(String color) {
+        switch (color){
+            case "negro":
+                return findViewById(R.id.iv_negro).getId();
+            case "blanco":
+                return findViewById(R.id.iv_blanco).getId();
+            case "gris":
+                return findViewById(R.id.iv_gris).getId();
+            case "amarillo_claro":
+                return findViewById(R.id.iv_ama_claro).getId();
+            case "amarillo_osc":
+                return findViewById(R.id.iv_ama_osc).getId();
+            case "amarillo":
+                return findViewById(R.id.iv_amarillo).getId();
+            case "rojo_osc":
+                return findViewById(R.id.iv_rojo_osc).getId();
+            case "rojo_claro":
+                return findViewById(R.id.iv_rojo_claro).getId();
+            case "rojo":
+                return findViewById(R.id.iv_rojo).getId();
+            case "verde_osc":
+                return findViewById(R.id.iv_verde_osc).getId();
+            case "verde":
+                return findViewById(R.id.iv_verde).getId();
+            case "verde_claro":
+                return findViewById(R.id.iv_verde_claro).getId();
+            case "azul_osc":
+                return findViewById(R.id.iv_azul_osc).getId();
+            case "azul_claro":
+                return findViewById(R.id.iv_azul_claro).getId();
+            case "azul":
+                return findViewById(R.id.iv_azul).getId();
+            case "morado_osc":
+                return findViewById(R.id.iv_morado_osc).getId();
+            case "morado":
+                return findViewById(R.id.iv_morado).getId();
+            case "morado_claro":
+                return findViewById(R.id.iv_morado_claro).getId();
+            case "cafe_osc":
+                return findViewById(R.id.iv_cafe_osc).getId();
+            case "cafe":
+                return findViewById(R.id.iv_cafe).getId();
+            case "cafe_claro":
+                return findViewById(R.id.iv_cafe_claro).getId();
+        }
+        return 0;
     }
 
     private void grabarDatos() {

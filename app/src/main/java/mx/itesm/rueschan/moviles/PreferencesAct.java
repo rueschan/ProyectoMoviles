@@ -60,7 +60,7 @@ public class PreferencesAct extends AppCompatActivity {
         if (from.equalsIgnoreCase("MainAct")){
             ivFavorite = findViewById(traducirColorTextView(user.getColor()));
             ivFavorite.setScaleX(ivFavorite.getScaleX() + 0.2f);
-            ivFavorite.setScaleY(ivFavorite.getScaleX() + 0.2f);
+            ivFavorite.setScaleY(ivFavorite.getScaleY() + 0.2f);
             setColor(user.getColor());
             Toast.makeText(this, "Actual favorite color:  " + traducirColor(user.getColor()),Toast.LENGTH_LONG).show();
             primera = 0;
@@ -309,7 +309,7 @@ public class PreferencesAct extends AppCompatActivity {
             case "amarillo_claro":
                 return "Light Yellow";
             case "amarillo_osc":
-                return "Drak Yellow";
+                return "Dark Yellow";
             case "amarillo":
                 return "Yellow";
             case "rojo_osc":
