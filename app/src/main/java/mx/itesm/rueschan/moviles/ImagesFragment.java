@@ -284,6 +284,7 @@ public class ImagesFragment extends Fragment {
                     if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
                         Intent init = new Intent(getContext(), TakePhoto.class);
                         init.putExtra("id", selectedID);
+                        init.putExtra("color", arrColors[position]);
                         startActivity(init);
                     }
                 }
