@@ -145,7 +145,11 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
                     new AlertDialog.Builder(SelectItemsActivity.this)
                         .setMessage("You are still missing some clothes!")
                         .setTitle("Wait!")
-                        .create().show();
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            })
+                            .create().show();
 
                 }
 

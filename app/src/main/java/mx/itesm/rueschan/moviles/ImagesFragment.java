@@ -1,6 +1,7 @@
 package mx.itesm.rueschan.moviles;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -277,10 +279,22 @@ public class ImagesFragment extends Fragment {
                 public void onClick(View v) {
 //                    selectedID = holder.id;
                     selectedID = arrIDs[position];
-                    System.out.println("++++++++++++++++++++++ " + selectedID);
-                    new BDborrar().execute();
-                    toast("BORRAR " + selectedID + "");
-                }
+                    new AlertDialog.Builder(getContext())
+                            .setMessage("Are you sure you want to delete this item?")
+                            .setTitle("Wait!")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    new BDborrar().execute();
+                                    Toast.makeText(getContext(),"Item " + selectedID + " was deleted",Toast.LENGTH_SHORT).show();
+                                }
+                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            }).create().show();
+
+                    //System.out.println("++++++++++++++++++++++ " + selectedID);
+                        }
             });
 
             holder.edit_iv.setOnClickListener(new View.OnClickListener() {
@@ -310,11 +324,6 @@ public class ImagesFragment extends Fragment {
             return SIZE;
         }
 
-    }
-
-    //ajusta automatico el tamaño de cada pantalla
-    public int convertPxToDp(float px) {
-        return (int) (px / getContext().getResources().getDisplayMetrics().density);
     }
 
     private String traducirColor(String color) {

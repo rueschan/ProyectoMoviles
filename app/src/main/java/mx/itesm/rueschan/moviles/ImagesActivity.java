@@ -103,7 +103,16 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
                     Log.i("TOUCH ",id + " " + selected);
 
                     if (id == -1) {
-                        Toast.makeText(ImagesActivity.this, "Select an item before saving", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ImagesActivity.this, "Select an item before saving", Toast.LENGTH_SHORT).show();
+                        new AlertDialog.Builder(ImagesActivity.this)
+                                .setMessage("Please select an item")
+                                .setTitle("Wait!")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                })
+                                .create().show();
+
                     } else {
                         if (selected.equals(types[0])) {
                             ClosetFragment.tempOutfit.setUpperID(id);
