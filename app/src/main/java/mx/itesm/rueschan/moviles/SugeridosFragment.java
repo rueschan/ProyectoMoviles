@@ -162,7 +162,7 @@ public class SugeridosFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        new BDItem().execute();
+        //new BDItem().execute();
 
     }
 
@@ -679,12 +679,14 @@ public class SugeridosFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            crearOutfits();
+            if (shoes.size() > 0 && bottom.size() > 0 && top.size() > 0 && coats.size() > 0) {
+                crearOutfits();
 
-            // Nuevos datos para el adaptador
-            SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
-            adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
-            adapt.notifyDataSetChanged();
+                // Nuevos datos para el adaptador
+                SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
+                adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
+                adapt.notifyDataSetChanged();
+            }
         }
     }
 
