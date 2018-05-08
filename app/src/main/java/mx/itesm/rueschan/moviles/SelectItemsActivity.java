@@ -3,10 +3,8 @@ package mx.itesm.rueschan.moviles;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -32,8 +30,6 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,7 +177,7 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         Outfit guardable = ClosetFragment.tempOutfit;
 
         DataBase dataBase = DataBase.getInstance(this);
-        dataBase.outfitDAO().insertOutfits(guardable);
+        dataBase.outfitDAO().insert(guardable);
 
         Log.i("SelectItemsActivity", "...................Guardado en BD: " + guardable.toString());
 

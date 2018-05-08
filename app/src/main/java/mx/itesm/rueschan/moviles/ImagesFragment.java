@@ -101,12 +101,14 @@ public class ImagesFragment extends Fragment {
 
         for (int i = 0; i < numImages; i++) {
                 Item item = clothes.get(i);
+            Log.i("ImagesFragment", "ITEM: " + item.toString());
                 arrIDs[i] = item.getId();
                 arrPhotos[i] = decodificarImagen(item);
                 arrColors[i] = item.getColor();
                 arrEvents[i] = item.getEvento();
 
         }
+        DataBase.destroyInstance();
     }
 
     @NonNull
@@ -232,12 +234,13 @@ public class ImagesFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(getContext(),"click en la imagen " + ClosetFragment.origen,Toast.LENGTH_SHORT).show();
-                    if (ClosetFragment.origen == ClosetFragment.Origin.MAIN)
+                    if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
                         setVisibility();
+                    }
                     selectedID = holder.id;
                     notifyDataSetChanged();
                     //new BDItem().execute();
-                    //toast("click en la imagen " + selectedID);
+//                    toast("click en la imagen " + selectedID + " y viene de " + ClosetFragment.origen.name());
                 }
 
                 private void setVisibility() {
@@ -272,7 +275,10 @@ public class ImagesFragment extends Fragment {
             holder.delete_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedID = holder.id;
+//                    selectedID = holder.id;
+                    selectedID = arrIDs[position];
+                    System.out.println("++++++++++++++++++++++ " + selectedID);
+                    new BDborrar().execute();
                     toast("BORRAR " + selectedID + "");
                 }
             });
@@ -283,7 +289,7 @@ public class ImagesFragment extends Fragment {
                     selectedID = holder.id;
                     if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
                         Intent init = new Intent(getContext(), TakePhoto.class);
-                        init.putExtra("id", selectedID);
+                        init.putExtra("id", arrIDs[position]);
                         init.putExtra("color", arrColors[position]);
                         startActivity(init);
                     }
@@ -387,6 +393,41 @@ public class ImagesFragment extends Fragment {
             }
 
         }
+    }
+
+    class BDborrar extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            borrarItem();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            ImagesFragment.ControllerAdapter adapt = (ImagesFragment.ControllerAdapter)recyclerView.getAdapter();
+            adapt.setDatos(arrIDs, arrPhotos, arrColors, arrEvents, delete_iv, edit_iv, layout_edit);
+            adapt.notifyDataSetChanged();
+
+            if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
+                Toast.makeText(getContext(), "Click on the photos to edit them", Toast.LENGTH_LONG).show();
+            }else  if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                Toast.makeText(getContext(), "Click on the photos to select them", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
+    private void borrarItem() {
+        DataBase bd = DataBase.getInstance(getContext());
+        if (bd == null) System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        if (selectedID != -1) {
+            bd.outfitDAO().deleteByItemID(selectedID);
+            bd.itemDAO().deleteById(selectedID);
+        }
+        selectedID = -1;
+        DataBase.destroyInstance();
+        cargarDatos();
     }
 
 

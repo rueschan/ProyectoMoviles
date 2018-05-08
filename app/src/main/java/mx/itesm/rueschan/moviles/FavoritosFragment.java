@@ -111,6 +111,7 @@ public class FavoritosFragment extends Fragment
         // Procesa cada registro
         for (int i = 0; i< outfits.size(); i++) {
             temp = outfits.get(i);
+            Log.i("BD (FavoritosFragment)", "OUTFIT: " + temp.toString());
 
             arrIDs[i] = temp.getId();
             arrNames[i] = temp.getName();
@@ -134,8 +135,6 @@ public class FavoritosFragment extends Fragment
             shoeID = temp.getShoesID();
             itemTemp = bd.itemDAO().getItemById(shoeID);
             arrShoes[i] = decodificarImagen(itemTemp);
-
-            Log.i("BD (FavoritosFragment)", temp.toString());
         }
 
         DataBase.destroyInstance();

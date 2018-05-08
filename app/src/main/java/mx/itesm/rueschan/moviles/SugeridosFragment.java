@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.Item;
@@ -711,7 +709,7 @@ public class SugeridosFragment extends Fragment {
 
     private void guardarOutfits() {
         DataBase bd = DataBase.getInstance(getContext());
-        bd.outfitDAO().insertOutfits(outfit);
+        bd.outfitDAO().insert(outfit);
         DataBase.destroyInstance();
     }
 

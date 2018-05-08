@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -152,7 +151,7 @@ public class AdaptadorRV extends RecyclerView.Adapter<AdaptadorRV.Vista> {
         outfit.setShoesID(shoe.getId());
 
         if (dataBase != null) {
-            dataBase.outfitDAO().insertOutfits(outfit);
+            dataBase.outfitDAO().insert(outfit);
 
             System.out.println("Quantity of outfits: " + dataBase.outfitDAO().countOutfits());
             Log.i("DB", "Saved Data: " + outfit.toString());

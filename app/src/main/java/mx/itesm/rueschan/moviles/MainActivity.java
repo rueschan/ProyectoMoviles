@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent;
                 switch (currentFragment) {
                     case 0:
-                        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
+//                        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
                         intent = new Intent(v.getContext(), AboutActivity.class);
                         startActivity(intent);
                         break;
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         break;
                     case 2:
-                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
+//                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
                         intent = new Intent(v.getContext(),SuggestedByEvent.class);
                         startActivity(intent);
                         break;
