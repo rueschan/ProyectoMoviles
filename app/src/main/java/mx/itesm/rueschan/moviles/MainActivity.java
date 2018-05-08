@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             dialog.show(getSupportFragmentManager(), "Sample Fragment");
                         }
 
-                        //((SugeridosFragment)(((Adapter)viewPager.getAdapter()).getItem(2))).recargarDatos();
+                        ((SugeridosFragment)(((Adapter)viewPager.getAdapter()).getItem(2))).recargarDatos();
                         /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
