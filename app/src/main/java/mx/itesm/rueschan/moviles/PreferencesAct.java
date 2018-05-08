@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
@@ -22,6 +23,7 @@ public class PreferencesAct extends AppCompatActivity {
     private String color;
     private int old_iv;
     private int primera;
+    private ProgressBar progressBar;
 
     public ImageView getIvFavorite() {
         return ivFavorite;
@@ -57,6 +59,7 @@ public class PreferencesAct extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         String from = getIntent().getStringExtra("from");
 
+        progressBar = findViewById(R.id.login_progress);
         if (from.equalsIgnoreCase("MainAct")){
             ivFavorite = findViewById(traducirColorTextView(user.getColor()));
             ivFavorite.setScaleX(ivFavorite.getScaleX() + 0.2f);
@@ -172,7 +175,14 @@ public class PreferencesAct extends AppCompatActivity {
         if(from.equalsIgnoreCase("SignUpAct")){
             /*Log.i("USER", user.getName() + " " + user.getPassword() + "\n" + user.getGender() + "\n" + user.getAge() + "\n" + user.getBirth()
                     + "\n" + user.getColor());*/
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            });
+
             db.userDAO().insertUsers(user);
+
 
             SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
             SharedPreferences.Editor pref = preferences.edit();

@@ -88,7 +88,7 @@ public class LoginAct extends AppCompatActivity {
         email = edEmail.getText().toString();
         password = edPassword.getText().toString();
 
-        progressBar.setVisibility(View.VISIBLE);
+
         //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age);
         if (attemptLogin(email, password)) {
             new BDLogin().execute();
@@ -118,13 +118,14 @@ public class LoginAct extends AppCompatActivity {
             user.setPassword(password);
             String pass = db.userDAO().searchPasswordByEmail(email);
             if (password.equals(pass)) {
-                    /*runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         public void run() {
-                            showProgress(true);
+                            progressBar.setVisibility(View.VISIBLE);
                         }
-                    });*/
+                    });
 
                 //iniciar sesion
+
                 SharedPreferences preferences = getSharedPreferences("Log", MODE_PRIVATE);
                 SharedPreferences.Editor pref = preferences.edit();
                 pref.putBoolean("sesion", true);

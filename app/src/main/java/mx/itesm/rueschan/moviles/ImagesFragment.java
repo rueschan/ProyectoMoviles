@@ -381,7 +381,7 @@ public class ImagesFragment extends Fragment {
             adapt.setDatos(arrIDs, arrPhotos, arrColors, arrEvents, delete_iv, edit_iv, layout_edit);
             adapt.notifyDataSetChanged();
 
-            if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
+            if (ClosetFragment.origen == ClosetFragment.Origin.MAIN && numImages>0) {
                 Toast.makeText(getContext(), "Click on the photos to edit them", Toast.LENGTH_LONG).show();
             }else  if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
                 Toast.makeText(getContext(), "Click on the photos to select them", Toast.LENGTH_LONG).show();
