@@ -108,18 +108,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
-                                .setListener(null);
+                                .setListener(null);*/
                         fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(false);*/
+                        //fab.setClickable(false);
                         break;
                     case 1:
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                     /*fab.animate()
                             .translationY(0)
                             .alpha(1.0f)
-                            .setListener(null);
+                            .setListener(null);*/
                     fab.setVisibility(View.VISIBLE);
-                    fab.setClickable(true);*/
+                    //fab.setClickable(true);*/
                         ((FavoritosFragment)(((Adapter)viewPager.getAdapter()).getItem(1))).recargarDatos();
                         if(numOutfits == 0)
                             error_tv.setVisibility(View.VISIBLE);
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         /*fab.animate()
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
-                                .setListener(null);
-                        fab.setVisibility(View.VISIBLE);
-                        fab.setClickable(false);*/
+                                .setListener(null);*/
+                        fab.setVisibility(View.INVISIBLE);
+                        fab.setClickable(false);
                         error_tv.setVisibility(View.INVISIBLE);
                         break;
                 }

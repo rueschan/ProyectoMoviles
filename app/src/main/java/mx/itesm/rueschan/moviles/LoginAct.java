@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import mx.itesm.rueschan.moviles.BD.DataBase;
 import mx.itesm.rueschan.moviles.EntidadesBD.User;
@@ -25,6 +26,8 @@ public class LoginAct extends AppCompatActivity {
     private EditText edPassword;
     String email, password;
     private User user;
+    private ProgressBar progressBar;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class LoginAct extends AppCompatActivity {
 
         edEmail.setText("");
         edPassword.setText("");
+
+        progressBar = findViewById(R.id.login_progress);
         //startActivity(new Intent(this, MainActivity.class));
         //System.out.println(primeraVez() + " *********** " + sesionIniciada());
         if (!primeraVez()) {
@@ -83,12 +88,17 @@ public class LoginAct extends AppCompatActivity {
         email = edEmail.getText().toString();
         password = edPassword.getText().toString();
 
+        progressBar.setVisibility(View.VISIBLE);
         //Log.i("hola",email +"\n" + name + "\n" + password + "\n" + gender + "\n" + age);
-        if (attemptLogin(email, password))
+        if (attemptLogin(email, password)) {
             new BDLogin().execute();
+        }
+        //progressBar.setVisibility(View.INVISIBLE);
+
     }
 
     private void checkUser(String email, String password) {
+
         DataBase db = DataBase.getInstance(getApplicationContext());
         //User user1 = db.userDAO().searchByEmail("tata@gmail.com");
         // Log.i("usuario tata: ", user1.getEmail() +"\n" + user1.getName() + "\n" + user1.getPassword() + "\n" + user1.getGender() + "\n" + user1.getAge() + "\n" + user1.getBirth());

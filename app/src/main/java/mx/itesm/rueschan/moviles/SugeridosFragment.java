@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +83,13 @@ public class SugeridosFragment extends Fragment {
 
     private List<Outfit> outfits;
 
+    private Spinner eventsList;
+    String events[] = {"Sports", "Streetwear", "Casual", "Business Casual", "Business", "Black Tie"};
+
+    private String event = "Casual";
+
+    private Button button;
+
 
     /*beige**
       negro = #000000
@@ -116,8 +126,14 @@ public class SugeridosFragment extends Fragment {
 
         //ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
 
-        View v = inflater.inflate(R.layout.fragment_favoritos_list, container, false);
-        recyclerView = v.findViewById(R.id.rvOutfit);
+        View v = inflater.inflate(R.layout.activity_suggested_by_event, container, false);
+        recyclerView = v.findViewById(R.id.recycler);
+
+
+        eventsList = v.findViewById(R.id.spinner1);
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, events);
+        adapterSpinner.setDropDownViewResource(R.layout.spinner);
+        eventsList.setAdapter(adapterSpinner);
 
         SugeridosFragment.ControllerAdapter adapter = new SugeridosFragment.ControllerAdapter(
                 new int[]{},
@@ -130,6 +146,15 @@ public class SugeridosFragment extends Fragment {
         );
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        button = v.findViewById(R.id.button3);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                event = eventsList.getSelectedItem().toString();
+                new SugeridosFragment.BDItem().execute();
+            }
+        });
 
         return v;
 
@@ -271,16 +296,16 @@ public class SugeridosFragment extends Fragment {
             Log.i("SugeridosFragment", "Cargar Datos :: Registros: " + items.size());
 
             for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getTipo().equalsIgnoreCase("Shoes")) {
+                if (items.get(i).getTipo().equalsIgnoreCase("Shoes") && items.get(i).getEvento().equals(event)) {
                     shoes.add(items.get(i));
                 }
-                if (items.get(i).getTipo().equalsIgnoreCase("Bottom")) {
+                if (items.get(i).getTipo().equalsIgnoreCase("Bottom") && items.get(i).getEvento().equals(event)) {
                     bottom.add(items.get(i));
                 }
-                if (items.get(i).getTipo().equalsIgnoreCase("Top")) {
+                if (items.get(i).getTipo().equalsIgnoreCase("Top") && items.get(i).getEvento().equals(event)) {
                     top.add(items.get(i));
                 }
-                if (items.get(i).getTipo().equalsIgnoreCase("Coats")) {
+                if (items.get(i).getTipo().equalsIgnoreCase("Coats") && items.get(i).getEvento().equals(event)) {
                     coats.add(items.get(i));
                 }
 
