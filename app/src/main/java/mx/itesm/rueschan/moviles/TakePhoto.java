@@ -83,6 +83,7 @@ public class TakePhoto extends AppCompatActivity {
             ivFavorite = findViewById(traducirColorTextView(oldColor));
             ivFavorite.setScaleX(ivFavorite.getScaleX() + 0.2f);
             ivFavorite.setScaleY(ivFavorite.getScaleY() + 0.2f);
+            setColor(oldColor);
             primera = 0;
         }
 
