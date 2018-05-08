@@ -1,8 +1,10 @@
 package mx.itesm.rueschan.moviles.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -13,6 +15,15 @@ import mx.itesm.rueschan.moviles.EntidadesBD.Item;
  */
 @Dao
 public interface ItemDAO {
+
+    @Insert
+    void insert(Item... items);
+
+    @Update
+    void update(Item... items);
+
+    @Delete
+    void delete(Item... items);
 
     @Query("SELECT * FROM Item")
     List<Item> getAllItems();
@@ -47,11 +58,8 @@ public interface ItemDAO {
     @Query("SELECT * FROM Item WHERE evento = :evento")
     List<Item> getItemByEvent(String evento);
 
-    @Insert
-    void insertar(Item... items);
-
     @Query("DELETE FROM Item WHERE id = :id")
-    void deletePhotoById(int id);
+    void deleteById(int id);
 
     @Query("DELETE FROM Item")
     void delete();

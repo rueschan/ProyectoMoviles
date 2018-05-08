@@ -8,6 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 /**
  * Created by Rubén Escalante on 13/03/2018.
  */
@@ -24,25 +26,33 @@ public class Outfit {
 
     @ForeignKey(entity = Item.class,
             parentColumns = "id",
-            childColumns = "coatID")
+            childColumns = "coatID",
+            onDelete = CASCADE,
+            onUpdate = CASCADE)
     @ColumnInfo(name = "coat")
     private int coatID;
 
     @ForeignKey(entity = Item.class,
             parentColumns = "id",
-            childColumns = "upperID")
+            childColumns = "upperID",
+            onDelete = CASCADE,
+            onUpdate = CASCADE)
     @ColumnInfo(name = "upper")
     private int upperID;
 
     @ForeignKey(entity = Item.class,
             parentColumns = "id",
-            childColumns = "bottomID")
+            childColumns = "bottomID",
+            onDelete = CASCADE,
+            onUpdate = CASCADE)
     @ColumnInfo(name = "bottom")
     private int bottomID;
 
     @ForeignKey(entity = Item.class,
             parentColumns = "id",
-            childColumns = "shoesID")
+            childColumns = "shoesID",
+            onDelete = CASCADE,
+            onUpdate = CASCADE)
     @ColumnInfo(name = "shoes")
     private int shoesID;
 

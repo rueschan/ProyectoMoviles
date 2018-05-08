@@ -396,7 +396,7 @@ public class TakePhoto extends AppCompatActivity {
             item.setTipo(ClosetFragment.clicked);
             item.setEvento(eventsList.getSelectedItem().toString());
             item.setUserID(MainActivity.currentUser.getIdUser());
-            dataBase.itemDAO().insertar(item);
+            dataBase.itemDAO().insert(item);
             System.out.println(dataBase.itemDAO().countByTypeAndUserID(ClosetFragment.clicked, MainActivity.currentUser.getIdUser()));
         }else{
             dataBase.itemDAO().updateItemColor(getColor(), id);

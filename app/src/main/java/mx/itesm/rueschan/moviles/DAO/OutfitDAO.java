@@ -1,8 +1,10 @@
 package mx.itesm.rueschan.moviles.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -15,6 +17,15 @@ import mx.itesm.rueschan.moviles.EntidadesBD.Outfit;
 @Dao
 public interface OutfitDAO {
 
+    @Insert
+    void insert(Outfit... outfits);
+
+    @Update
+    void update(Outfit... outfits);
+
+    @Delete
+    void delete(Outfit... outfits);
+
     @Query("SELECT * FROM Outfit")
     List<Outfit> readAll();
 
@@ -25,27 +36,31 @@ public interface OutfitDAO {
     Outfit searchByName(String name);
 
     @Query("SELECT * FROM Outfit WHERE coat = :coat")
-    Outfit searchByCoat(String coat);
+    Outfit searchByCoatID(int coat);
 
     @Query("SELECT * FROM Outfit WHERE upper = :upper")
-    Outfit searchByUpper(String upper);
+    Outfit searchByUpperID(int upper);
 
     @Query("SELECT * FROM Outfit WHERE bottom = :bottom")
-    Outfit searchByLower(String bottom);
+    Outfit searchByLowerID(int bottom);
 
     @Query("SELECT * FROM Outfit WHERE shoes = :shoes")
-    Outfit searchByShoes(String shoes);
+    Outfit searchByShoesID(int shoes);
 
     @Query("SELECT COUNT(*) FROM Outfit")
     int countOutfits();
 
-    @Insert
-    void insertOutfits(Outfit... outfits);
+    // =================== CUIDADO =====================
 
-    @Query("DELETE FROM Outfit")    // CUIDADO!!!
-    void erase();
+    @Query("DELETE FROM Outfit")
+    void delete();
 
-    @Query("DELETE FROM Outfit WHERE id = :id")    // CUIDADO!!!
+    @Query("DELETE FROM Outfit WHERE id = :id")
     void eraseByID(int id);
+
+    @Query("DELETE FROM Outfit WHERE coat = :id OR upper = :id OR bottom = :id OR shoes = :id")
+    void deleteByItemID(int id);
+
+    // -------------------------------------------------
 
 }
