@@ -132,7 +132,7 @@ public class SugeridosFragment extends Fragment {
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, events);
         adapterSpinner.setDropDownViewResource(R.layout.spinner);
         eventsList.setAdapter(adapterSpinner);
-
+//
         SugeridosFragment.ControllerAdapter adapter = new SugeridosFragment.ControllerAdapter(
                 new int[]{},
                 new String[]{},
@@ -310,6 +310,37 @@ public class SugeridosFragment extends Fragment {
                 //Seleccionar Color
                 colors[i] = items.get(i).getColor();
             }
+
+        if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
+
+
+            String errorMsg = "You don't have enough items with the tag "+event+":\n";
+            if (shoes.size() == 0) {
+                errorMsg += "- Shoes\n";
+            }
+
+            if (bottom.size() == 0) {
+                errorMsg += "- Bottom\n";
+            }
+
+            if (top.size() == 0) {
+                errorMsg += "- Top\n";
+            }
+
+            if (coats.size() == 0) {
+                errorMsg += "- Coats";
+            }
+
+            //System.out.println("MSG " + errorMsg);
+                /*
+                for (int i = 0; i < tipoItems.length; i++) {
+                    if (tipoItems[i] < 1)
+                        errorMsg += "- " + item[i] + "\n";
+                }*/
+
+
+            toast(errorMsg);
+        }
 
         DataBase.destroyInstance();
         }

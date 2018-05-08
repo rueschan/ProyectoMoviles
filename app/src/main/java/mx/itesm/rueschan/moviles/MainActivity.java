@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .translationY(0)
                             .alpha(1.0f)
                             .setListener(null);*/
-                    fab.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.VISIBLE);
                     //fab.setClickable(true);*/
                         ((FavoritosFragment)(((Adapter)viewPager.getAdapter()).getItem(1))).recargarDatos();
                         reloadData();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .alpha(1.0f)
                                 .setListener(null);*/
                         fab.setVisibility(View.INVISIBLE);
-                        fab.setClickable(false);
+                        //fab.setClickable(false);
                         error_tv.setVisibility(View.INVISIBLE);
                         break;
                 }
