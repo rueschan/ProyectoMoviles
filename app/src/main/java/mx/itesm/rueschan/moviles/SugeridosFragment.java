@@ -580,7 +580,7 @@ public class SugeridosFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //toast(getNumOutfits() + 1 + " Outfits");
-                   outfit =  new Outfit( "Outfit " + (getNumOutfits() + 1)/*outfitName.getText().toString()*/,
+                   outfit =  new Outfit( "Favorite " + (getNumOutfits() + 1)/*outfitName.getText().toString()*/,
                             Integer.parseInt(coatName.getText().toString()), Integer.parseInt(upperName.getText().toString()),
                             Integer.parseInt(bottomName.getText().toString()), Integer.parseInt(shoesName.getText().toString()));
                     //Log.i("OUTFIT GUARDADO", outfit +"");
@@ -588,6 +588,9 @@ public class SugeridosFragment extends Fragment {
 
                     Toast.makeText(getContext(), outfitName.getText().toString() + " was saved", Toast.LENGTH_SHORT).show();
                     btn.setVisibility(View.INVISIBLE);
+
+                    MainActivity a = (MainActivity) getActivity();
+                    a.reloadData();
 
                     //onStart();
                 }

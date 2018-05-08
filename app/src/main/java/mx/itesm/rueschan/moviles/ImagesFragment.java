@@ -300,12 +300,7 @@ public class ImagesFragment extends Fragment {
             if (ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
                 if (selectedID == holder.id) {
                     holder.like.setVisibility(View.VISIBLE);
-                    /*int border = 10;
-                    holder.imageView.setPadding(border, border, border, border);
-                    holder.imageView.setBackgroundColor(Color.DKGRAY);*/
                 } else {
-                    /*holder.imageView.setPadding(0, 0, 0, 0);
-                    holder.imageView.setBackgroundColor(Color.WHITE);*/
                     holder.like.setVisibility(View.INVISIBLE);
                 }
             }

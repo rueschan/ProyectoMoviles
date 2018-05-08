@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int currentFragment;
     //private String currentUser;
     public static User currentUser;
-    public static int numSize;
+
+    private final int NEW_OUTFIT = 1;
+
     private String currentName, currentEmail;
     NavigationView navigationView;
 
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (position) {
                     case 0:
+                        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
                         error_tv.setVisibility(View.INVISIBLE);
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_info));
                         /*fab.animate()
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //fab.setClickable(false);
                         break;
                     case 1:
+                        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                     /*fab.animate()
                             .translationY(0)
@@ -121,11 +125,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fab.setVisibility(View.VISIBLE);
                     //fab.setClickable(true);*/
                         ((FavoritosFragment)(((Adapter)viewPager.getAdapter()).getItem(1))).recargarDatos();
-                        if(numOutfits == 0)
-                            error_tv.setVisibility(View.VISIBLE);
+                        reloadData();
+                        /*if(numOutfits == 0 && ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS)
+                            error_tv.setVisibility(View.VISIBLE);*/
+
                         break;
 
                     case 2:
+                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
                             String errorMsg = "You don't have these items:\n";
@@ -191,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                         break;
                     case 1:
-                        ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
                             String errorMsg = "You don't have these items:\n";
                             if (shoes.size() == 0)
@@ -207,11 +213,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             dialog.show(getSupportFragmentManager(), "Sample Fragment");
                         } else {
                             intent = new Intent(v.getContext(), SelectItemsActivity.class);
-                            startActivity(intent);
+                            startActivityForResult(intent,NEW_OUTFIT);
                         }
                         break;
                     case 2:
-//                        ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
                         intent = new Intent(v.getContext(),SuggestedByEvent.class);
                         startActivity(intent);
                         break;
@@ -220,6 +225,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == NEW_OUTFIT && resultCode == RESULT_OK) {
+            ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
+            Log.i("START ",ClosetFragment.origen + "");
+            reloadData();
+        }
+    }
+
+    public void reloadData() {
+        new DBMain().execute();
+    }
+
 
     @Override
     protected void onStart() {
@@ -345,6 +364,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tvUser.setText(currentName);
             tvMail.setText(currentEmail);
 
+            if(numOutfits == 0 && ClosetFragment.origen == ClosetFragment.Origin.FAVORITOS) {
+                error_tv.setVisibility(View.VISIBLE);
+            }else{
+                error_tv.setVisibility(View.INVISIBLE);
+            }
+
+
             /*FavoritosFragment.ControllerAdapter adapt = (FavoritosFragment.ControllerAdapter)recyclerView.getAdapter();
             adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes);
             adapt.notifyDataSetChanged();*/
@@ -360,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bottom = new ArrayList<>();
             coats = new ArrayList<>();
             colors = new String[items.size()];
-            System.out.println("ITEMS " + items.size());
+            //System.out.println("ITEMS " + items.size());
 
             numOutfits = bd.outfitDAO().countOutfits();
 
@@ -393,6 +419,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //      Log.i("User", "Values: " + db.userDAO().countUsers());
         currentName = currentUser.getName().toString();
         currentEmail = currentUser.getEmail().toString();
-        System.out.println("Hola current: " + currentName + currentEmail);
+        //System.out.println("Hola current: " + currentName + currentEmail);
     }
 }

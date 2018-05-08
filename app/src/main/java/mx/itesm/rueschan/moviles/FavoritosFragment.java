@@ -82,12 +82,12 @@ public class FavoritosFragment extends Fragment
 
     @Override
     public void onStart() {
-        new cargarOutfitsBD().execute();
         super.onStart();
+        new cargarOutfitsBD().execute();
     }
 
     public void recargarDatos() {
-        new cargarOutfitsBD().execute();
+        onStart();//new cargarOutfitsBD().execute();
     }
 
 
@@ -204,7 +204,9 @@ public class FavoritosFragment extends Fragment
 
                     Toast.makeText(getContext(), nombre + " was deleted.", Toast.LENGTH_SHORT).show();
 
-                    //onStart();
+                    MainActivity a = (MainActivity) getActivity();
+                    a.reloadData();
+
                 }
             });
 

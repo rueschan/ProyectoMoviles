@@ -36,8 +36,9 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:tint="@color/colorPrimaryDark"
                 android:visibility="invisible"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@android:drawable/btn_star" />
 
         </LinearLayout>
 

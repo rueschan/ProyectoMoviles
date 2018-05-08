@@ -179,7 +179,7 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         DataBase dataBase = DataBase.getInstance(this);
         dataBase.outfitDAO().insert(guardable);
 
-        Log.i("SelectItemsActivity", "...................Guardado en BD: " + guardable.toString());
+        //Log.i("SelectItemsActivity", "...................Guardado en BD: " + guardable.toString());
 
         ClosetFragment.tempOutfit = null;
         DataBase.destroyInstance();
@@ -191,29 +191,29 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         DataBase dataBase = DataBase.getInstance(this);
 
         if (temp.getCoatID() != -1 && coat.getId() != temp.getCoatID()) {
-            Log.i("SelectItemsActivity", "Coat Selected");
+            //Log.i("SelectItemsActivity", "Coat Selected");
             coat = new Item();
             coat.setId(temp.getCoatID());
             coat.setFoto(dataBase.itemDAO().getItemById(coat.getId()).getFoto());
 
         }
         if (temp.getUpperID() != -1 && upper.getId() != temp.getUpperID()) {
-            Log.i("SelectItemsActivity", "Upper Selected");
+            //Log.i("SelectItemsActivity", "Upper Selected");
             upper = new Item();
             upper.setId(temp.getUpperID());
             upper.setFoto(dataBase.itemDAO().getItemById(upper.getId()).getFoto());
-            System.out.println(upper.toString());
+            //System.out.println(upper.toString());
 
         }
         if (temp.getBottomID() != -1 && lower.getId() != temp.getBottomID()) {
-            Log.i("SelectItemsActivity", "Bottom Selected");
+            //Log.i("SelectItemsActivity", "Bottom Selected");
             lower = new Item();
             lower.setId(temp.getBottomID());
             lower.setFoto(dataBase.itemDAO().getItemById(lower.getId()).getFoto());
 
         }
         if (temp.getShoesID() != -1 && shoes.getId() != temp.getShoesID()) {
-            Log.i("SelectItemsActivity", "Shoes Selected");
+            //Log.i("SelectItemsActivity", "Shoes Selected");
             shoes = new Item();
             shoes.setId(temp.getShoesID());
             shoes.setFoto(dataBase.itemDAO().getItemById(shoes.getId()).getFoto());
@@ -223,23 +223,23 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
 
     private void pasteImages() {
         if (coat != null && coat.getId() != -1) {
-            Log.i("SelectItemsActivity", "Coat Displayed");
+            //Log.i("SelectItemsActivity", "Coat Displayed");
             ImageView selectedCoat = findViewById(R.id.selectedCoat);
             selectedCoat.setImageBitmap(decodificarImagen(coat));
         }
-        System.out.println("-------------" + upper.toString());
+        //System.out.println("-------------" + upper.toString());
         if (upper != null && upper.getId() != -1) {
-            Log.i("SelectItemsActivity", "Upper Displayed");
+            //Log.i("SelectItemsActivity", "Upper Displayed");
             ImageView selectedUpper = findViewById(R.id.selectedUpper);
             selectedUpper.setImageBitmap(decodificarImagen(upper));
         }
         if (lower != null && lower.getId() != -1) {
-            Log.i("SelectItemsActivity", "Bottom Displayed");
+            //Log.i("SelectItemsActivity", "Bottom Displayed");
             ImageView selectedBottom = findViewById(R.id.selectedBottom);
             selectedBottom.setImageBitmap(decodificarImagen(lower));
         }
         if (shoes != null && shoes.getId() != -1) {
-            Log.i("SelectItemsActivity", "Shoes Displayed");
+            //Log.i("SelectItemsActivity", "Shoes Displayed");
             ImageView selectedShoes = findViewById(R.id.selectedShoes);
             selectedShoes.setImageBitmap(decodificarImagen(shoes));
         }
@@ -263,7 +263,7 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         ByteBuffer buffer = ByteBuffer.wrap(item.getFoto());
 
         bitmap_tmp.copyPixelsFromBuffer(buffer);
-        Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
+        //Log.i("FavoritosFragment", "Image Decoded: " + bitmap_tmp);
         return bitmap_tmp;
     }
 
@@ -353,7 +353,9 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
 
     @Override
     public void onBackPressed() {
-        ClosetFragment.origen = ClosetFragment.Origin.MAIN;
+
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
         disposeItems();
         finish();
     }
@@ -393,6 +395,7 @@ public class SelectItemsActivity extends AppCompatActivity implements Navigation
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             onBackPressed();
+            finish();
         }
     }
 }

@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -98,11 +100,11 @@ public class ImagesActivity extends AppCompatActivity implements NavigationView.
                     int id = ImagesFragment.selectedID;
 
                     String[] types = getApplicationContext().getResources().getStringArray(R.array.types);
+                    Log.i("TOUCH ",id + " " + selected);
 
                     if (id == -1) {
-                        Toast.makeText(ImagesActivity.this, "Select an item before saving.", Toast.LENGTH_LONG);
+                        Toast.makeText(ImagesActivity.this, "Select an item before saving", Toast.LENGTH_SHORT).show();
                     } else {
-
                         if (selected.equals(types[0])) {
                             ClosetFragment.tempOutfit.setUpperID(id);
                             ImagesFragment.selectedID = -1;
