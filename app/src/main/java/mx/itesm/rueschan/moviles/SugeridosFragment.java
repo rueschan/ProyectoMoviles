@@ -1,5 +1,6 @@
 package mx.itesm.rueschan.moviles;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -82,7 +84,7 @@ public class SugeridosFragment extends Fragment {
     private List<Outfit> outfits;
 
     private Spinner eventsList;
-    String events[] = {"Sports", "Streetwear", "Casual", "Business Casual", "Business", "Black Tie"};
+    String events[] = {"Casual", "Streetwear", "Sports", "Business Casual", "Business", "Black Tie"};
 
     private String event = "Casual";
 
@@ -150,7 +152,8 @@ public class SugeridosFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 event = eventsList.getSelectedItem().toString();
-                new SugeridosFragment.BDItem().execute();
+                onStart();
+                //new SugeridosFragment.BDItem().execute();
             }
         });
 
@@ -162,6 +165,7 @@ public class SugeridosFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        new SugeridosFragment.BDItem().execute();
         //new BDItem().execute();
 
     }
@@ -717,6 +721,17 @@ public class SugeridosFragment extends Fragment {
                 crearOutfits();
 
                 // Nuevos datos para el adaptador
+                SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
+                adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
+                adapt.notifyDataSetChanged();
+            }else{
+                arrIDs = new int[0];
+                arrNames = new String[0];
+                arrCoats = new Bitmap[0];
+                arrUppers = new Bitmap[0];
+                arrBottoms = new Bitmap[0];
+                arrShoes = new Bitmap[0];
+                arrOutfits = new Outfit[0];
                 SugeridosFragment.ControllerAdapter adapt = (SugeridosFragment.ControllerAdapter) recyclerView.getAdapter();
                 adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
                 adapt.notifyDataSetChanged();
