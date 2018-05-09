@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView error_tv;
     private int numOutfits;
 
+    public static int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fab.setClickable(true);
                         break;
                     case 1:
+                        pos=1;
                         ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                     /*fab.animate()
@@ -132,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case 2:
+
+                        pos = 2;
                         ClosetFragment.origen = ClosetFragment.Origin.SUGERIDOS;
                         fab.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_menu_add));
                         if (shoes.size() == 0 || bottom.size()  == 0 || top.size() == 0 || coats.size() == 0) {
@@ -145,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (coats.size() == 0)
                                 errorMsg += "- Coats";
 
-                            MyAlertDialog dialog = new MyAlertDialog(errorMsg);
-                            dialog.show(getSupportFragmentManager(), "Sample Fragment");
+                            /*MyAlertDialog dialog = new MyAlertDialog(errorMsg);
+                            dialog.show(getSupportFragmentManager(), "Sample Fragment");*/
                         }
 
                         ((SugeridosFragment)(((Adapter)viewPager.getAdapter()).getItem(2))).recargarDatos();

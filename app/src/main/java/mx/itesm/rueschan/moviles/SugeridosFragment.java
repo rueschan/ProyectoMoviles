@@ -90,6 +90,8 @@ public class SugeridosFragment extends Fragment {
 
     private Button button;
 
+    private String error;
+
 
     /*beige**
       negro = #000000
@@ -342,8 +344,8 @@ public class SugeridosFragment extends Fragment {
                         errorMsg += "- " + item[i] + "\n";
                 }*/
 
-
-            toast(errorMsg);
+            error = errorMsg;
+            //toast(errorMsg);
         }
 
         DataBase.destroyInstance();
@@ -725,6 +727,20 @@ public class SugeridosFragment extends Fragment {
                 adapt.setDatos(arrIDs, arrNames, arrCoats, arrUppers, arrBottoms, arrShoes, arrOutfits);
                 adapt.notifyDataSetChanged();
             }else{
+
+                if (MainActivity.pos == 2){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setMessage(error);
+
+                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                AlertDialog alert11 = builder1.create();
+                alert11.show();}
+
+
                 arrIDs = new int[0];
                 arrNames = new String[0];
                 arrCoats = new Bitmap[0];
