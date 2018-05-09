@@ -429,8 +429,8 @@ public class SugeridosFragment extends Fragment {
                 if(verificarCombinacionesContraste(top.get(i).getColor(), bottom.get(j).getColor()))
                     combinacionesBottom.add(bottom.get(j));
 
-                if(verificarMezclilla(bottom.get(j).getColor()))
-                    combinacionesBottom.add(bottom.get(j));
+                /*if(verificarMezclilla(bottom.get(j).getColor()))
+                    combinacionesBottom.add(bottom.get(j));*/
             }
 
             for (int j = 0; j < coats.size() ; j++) {
@@ -507,7 +507,7 @@ public class SugeridosFragment extends Fragment {
     private boolean verificarCombinacionesContinuo(String colorTop, String colorItem) {
 
         if (Arrays.toString(universales).contains(colorTop) || Arrays.toString(universales).contains(colorItem))
-            return true;
+            return false;
 
         int indexItem = getIndex(colorItem);
         int indexTop = getIndex(colorTop);

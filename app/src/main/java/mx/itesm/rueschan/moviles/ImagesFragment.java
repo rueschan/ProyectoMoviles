@@ -236,41 +236,41 @@ public class ImagesFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(getContext(),"click en la imagen " + ClosetFragment.origen,Toast.LENGTH_SHORT).show();
-                    if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
+                    /*if (ClosetFragment.origen == ClosetFragment.Origin.MAIN) {
                         setVisibility();
-                    }
+                    }*/
                     selectedID = holder.id;
                     notifyDataSetChanged();
                     //new BDItem().execute();
 //                    toast("click en la imagen " + selectedID + " y viene de " + ClosetFragment.origen.name());
                 }
 
-                private void setVisibility() {
+                /*private void setVisibility() {
 
                     //aumenta el tamaño del layout
-                    LinearLayout.LayoutParams parms;
+                    /*LinearLayout.LayoutParams parms;
                     //tamano del text view
                     LinearLayout.LayoutParams params;
 
                     //Aparecer la informacion del texto
-                    if (holder.edit_iv.getVisibility() == View.INVISIBLE) {
+                    /*if (holder.edit_iv.getVisibility() == View.INVISIBLE) {
                         //holder.info.setVisibility(View.VISIBLE);
                         holder.edit_iv.setVisibility(View.VISIBLE);
                         holder.delete_iv.setVisibility(View.VISIBLE);
                         /*parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), convertPxToDp(200));
-                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), convertPxToDp(400));*/
+                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), convertPxToDp(400));
                     }else {
                         //holder.info.setVisibility(View.INVISIBLE);
                         holder.edit_iv.setVisibility(View.INVISIBLE);
                         holder.delete_iv.setVisibility(View.INVISIBLE);
                         /*parms = new LinearLayout.LayoutParams(holder.layout_edit.getWidth(), 0);
-                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), 0);*/
+                        params = new LinearLayout.LayoutParams(holder.info.getWidth(), 0);
                     }
 
                     //holder.layout_edit.setLayoutParams(parms);
                     //holder.info.setLayoutParams(params);
 
-                }
+                }*/
             });
 
             //BORRAR OUTFIT

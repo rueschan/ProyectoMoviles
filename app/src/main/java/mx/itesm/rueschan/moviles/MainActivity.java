@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
                                 .setListener(null);*/
-                        fab.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.INVISIBLE);
                         //fab.setClickable(false);
                         error_tv.setVisibility(View.INVISIBLE);
                         break;

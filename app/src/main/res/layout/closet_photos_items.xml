@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tint="@color/colorAccent"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:srcCompat="@drawable/ic_delete" />
 
             <ImageView
@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tint="@color/colorPrimaryDark"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:srcCompat="@drawable/ic_edit" />
         </LinearLayout>
     </LinearLayout>
