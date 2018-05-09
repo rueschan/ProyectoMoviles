@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .alpha(1.0f)
                                 .setListener(null);*/
                         fab.setVisibility(View.VISIBLE);
-                        //fab.setClickable(false);
+                        fab.setClickable(true);
                         break;
                     case 1:
                         ClosetFragment.origen = ClosetFragment.Origin.FAVORITOS;
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .translationY(fab.getHeight())
                                 .alpha(1.0f)
                                 .setListener(null);*/
-                        fab.setVisibility(View.INVISIBLE);
+                        fab.setVisibility(View.VISIBLE);
                         //fab.setClickable(false);
                         error_tv.setVisibility(View.INVISIBLE);
                         break;
